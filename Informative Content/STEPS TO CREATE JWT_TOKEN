@@ -1,0 +1,33 @@
+step 5 - STEPS TO GENERATE  JWT TOKEN  AUTHENTICATION
+
+1 : Add the dependency of security-stater ;
+
+2 : create class JwtAuthenticationEntryPoint implement AuthenticationEntryPOint
+ 
+ Method of this class is called whenever an exception is thrown due to unauthorized  user trying to access the  resource that required authentication .
+ 
+ 
+3 : create JWTHELPER class .
+
+this class contain all the method like generateToken() .. etc.
+
+3.1 : paste all whole class from lcwd course electonic store 
+3.2 : add dependency of jjwt-api 
+
+
+4 : create JWTAUTHENTICATIONFILTER extends OnceRequestFilter 
+
+4.1 : getToken from Request 
+4.2 : validate Token 
+4.3 : get Username from Token 
+4.4 : load user associated with token 
+4.5 : set authentication 
+
+
+5 : create  JwtRequest and JwtResponse
+
+6 : configure JWT n spring-security-config
+
+7 : create a login api to create and return token if exist .
+
+8 : test our application  

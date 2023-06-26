@@ -1,0 +1,108 @@
+Form Base AUthentication Using JWT
+
+
+Steps 1 : Read the documentation by searching in web "Form Base AUthentication Using JWT"  
+
+Step 2 : Create a bean of name SecurityFilteChain in ConfigSecurityClass
+
+Step 3 : if you want to access any api then you need to send each and every time Name and password in header for verification  
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		
+		we set password and username in header
+		
+		http
+			.csrf()
+			.disable()
+			.cors()
+			.disable()
+			.authorizeRequests()
+			.anyRequest()
+			.authenticated()
+			.and()
+			.httpBasic();
+		
+		return http.build();
+		
+	}
+	
+	if you try to access any api then each and evry time you have to fill the details of username and password
+	
+Step 4 : CREATE JWT TOKEN 
+	1 - JWT follows stateless authentication .. means you don't need to put any data on server 
+	2 - JWT follows XYZ .. 
+					X means - Header (algo + type)
+					Y means - Payload (data)
+					Z means - Signature (encode header + encode payload + secret_Key)
+	3 - read the documentation jwt.io 
+	
+	A - we have to set authentication in securityCOntext.. 
+	B - filter is filtering the header , and otherthings also
+	C - ther are two cases for setting the token 
+		Case 1 : NO_TOKEN - then securtyContext is not able to set the token .
+		Case 2 : YES_TOKEN - then its send the request to filter and then filter send the 
+				request to  securityContext .
+				
+	D : First User is sending the request to the loginApi and sending username and 
+		password then that api send the response as a token .. with that token
+		if that token is valid or not expire then .. 
+		.. we can access all the api by setting in the header .. we can access all api
+		with the help of filter
+	
+	
+step 5 - STEPS TO GENERATE  JWT TOKEN  AUTHENTICATION
+
+1 : Add the dependency of security-stater ;
+
+2 : create class JwtAuthenticationEntryPoint implement AuthenticationEntryPOint
+ 
+ Method of this class is called whenever an exception is thrown due to unauthorized  user trying to access the  resource that required authentication .
+ 
+ 
+3 : create JWTHELPER class .
+
+this class contain all the method like generateToken() .. etc.
+
+3.1 : paste all whole class from lcwd course electonic store 
+3.2 : add dependency of jjwt-api 
+
+
+4 : create JWTAUTHENTICATIONFILTER extends OnceRequestFilter 
+
+4.1 : getToken from Request 
+4.2 : validate Token 
+4.3 : get Username from Token 
+4.4 : load user associated with token 
+4.5 : set authentication 
+
+
+5 : create  JwtRequest and JwtResponse
+
+6 : configure JWT n spring-security-config
+
+7 : create a login api to create and return token if exist .
+
+8 : test our application  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+	
+	
+	
+	
+	
+	

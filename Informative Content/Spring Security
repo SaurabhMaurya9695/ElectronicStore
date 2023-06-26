@@ -1,0 +1,88 @@
+1 - First add the dependency of spring security 
+
+2 - if you want to hardcode your userName and Password then :
+	in application.properties files :
+	spring.security.user.name = Saurabh
+	spring.security.user.password = 1234
+	
+3 - Using JavaBase Configuration 
+
+    step 1 : make a configuration class .. and declared the bean related to security and your need
+    don't forget to use annotation for the configuration class "@Configuration" and for beans "@bean"
+    
+    step 2 : create a class for generating role base authentication 
+    @Bean
+	public UserDetailsService userDetailsService(){}
+	
+	step 3 : create bean for encode the password 
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	step 4 : in UserDetailsService you can  create User like this .
+	UserDetails normalUser = User.builder()
+			.username("Yashu")
+			.password(passwordEncoder().encode("Yashu"))
+			.roles("NORMAL")
+			.build();
+	
+	return new InMemoryUserDetailsManager(normalUser .......);
+	
+	step 5 : in InMemoryUserDetailsManager we can pass as many return type 
+
+4 - We can fetch the current loginUser Details with the help of principle
+
+5 - UserServicedetils has a method by which we can fetch all the details of user 
+
+6 - check every api of security in web not on postman
+
+7 - if you want to login with db userName then
+
+	1 : we have to use UserDetails and UserDetails Interfaces ; 
+	
+	2 : In User Entity Implement the UserDetails and provide the necessary details ;
+	
+	3 : create the new CustomUserDetailsService which implements the UserDetailsService ;  
+	
+	4 : public class CustomUserDetailsService implements UserDetailsService {
+
+			@Autowired
+			private UserRepository userRepository;
+		
+			// This Class helps us to load the userName
+			@Override
+			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		
+				User user  = this.userRepository.findByEmail(username)
+						.orElseThrow(() -> new UsernameNotFoundException("User not Found with this emailId !!"));
+				return user;
+			}
+		}
+		
+	5 - this class is responsible for encoding a authentication 
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider() ;
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
+		return daoAuthenticationProvider;
+	}
+	
+	6 - must Sure your password is in encoded form;
+	
+	7- after setting password .. now start the application and try to login with your database credentials.
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
