@@ -3,12 +3,19 @@ package com.store.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.store.security.JwtAuthenticationEntryPoint;
+import com.store.security.JwtAuthenticationFilter;
 import com.store.service.impl.CustomUserDetailsService;
 
 // here we can create all security related beans .. after creating beans .. we can Autowired anywhere in project 
@@ -46,12 +53,25 @@ public class SecurityConfig {
 
 	@Autowired
 	private CustomUserDetailsService customUserDetailsService;
+	
+	@Autowired
+	private JwtAuthenticationFilter authenticationFilter ;
+	
+	@Autowired
+	private JwtAuthenticationEntryPoint authenticationEntryPoint ;
+	
+	
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
+	
 	// this is responsible for authentication the user
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
@@ -81,6 +101,7 @@ public class SecurityConfig {
 		return http.build();
 		*/
 		
+		/*   this is the basic configuration without JWT.
 		http
 			.csrf()
 			.disable()
@@ -91,6 +112,29 @@ public class SecurityConfig {
 			.authenticated()
 			.and()
 			.httpBasic();
+		*/
+		
+		// here we make login api public to user..order important
+		
+		http
+			.csrf()
+			.disable()
+			.cors()
+			.disable()
+			.authorizeRequests()
+			.requestMatchers("/auth/login")
+			.permitAll()
+			.requestMatchers(HttpMethod.POST , "/users/")
+			.permitAll()
+			.anyRequest()
+			.authenticated()
+			.and()
+			.exceptionHandling()
+			.authenticationEntryPoint(authenticationEntryPoint)
+			.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		return http.build();
 		

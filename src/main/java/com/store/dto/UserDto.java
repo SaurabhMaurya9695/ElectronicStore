@@ -1,5 +1,9 @@
 package com.store.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.store.entities.Role;
 import com.store.validate.ImageNameValid;
 
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +35,17 @@ public class UserDto {
 
 	@ImageNameValid
 	private String image;
+	
+	private Set<RoleDto> roles = new HashSet<>();
+	
+
+	public Set<RoleDto> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<RoleDto> roles) {
+		this.roles = roles;
+	}
 
 	public UserDto() {
 		super();

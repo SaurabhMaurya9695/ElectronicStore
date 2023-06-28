@@ -23,9 +23,11 @@ import org.springframework.stereotype.Service;
 
 import com.store.dto.PageableResponse;
 import com.store.dto.UserDto;
+import com.store.entities.Role;
 import com.store.entities.User;
 import com.store.exceptions.ResourceNotFoundException;
 import com.store.helper.Helper;
+import com.store.repository.RoleRepository;
 import com.store.repository.UserRepository;
 import com.store.service.UserService;
 
@@ -44,6 +46,16 @@ public class UserServiceImpl implements UserService {
 
 	@Value("${user.profile.image.path}")
 	private String imageUploadPath;
+	
+	@Value("${role.normal_role_id}")
+	private String normal_roleId;
+	
+	
+	@Value("${role.admin_role_id}")
+	private String admin_roleId;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -62,7 +74,14 @@ public class UserServiceImpl implements UserService {
 		User user = dtoToEntity(userDto);
 		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 		logger.info("password has been set in encoded form  {} " , user.getPassword());
-
+		
+		//before saving in db you have to add roles also 
+		
+		Role normalrole = this.roleRepository.findById(normal_roleId).orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+		
+		//now set role to user;
+		
+		user.getRoles().add(normalrole);
 		// now we can save our user Database ;
 		User savedUser = this.userRepository.save(user);
 

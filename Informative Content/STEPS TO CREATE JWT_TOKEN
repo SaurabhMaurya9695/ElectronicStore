@@ -26,8 +26,13 @@ this class contain all the method like generateToken() .. etc.
 
 5 : create  JwtRequest and JwtResponse
 
-6 : configure JWT n spring-security-config
+6 : configure JWT in spring-security-config
 
 7 : create a login api to create and return token if exist .
 
 8 : test our application  
+
+
+MOST IMPORTANT :
+
+You Have to add dependency of jjwt-impl , jjwt-jackson and jjwt-api
