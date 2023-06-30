@@ -1,0 +1,10 @@
+Sign in With Google
+
+step 1 : click on ui login with google. send email & pass to the google 
+step 2 : in response it will return the ID_TOKEN.
+step 3 : call the backend for loginWithGoogle with ID_TOKEN .
+step 4 : in response step 3 returns all the information of google.. if google returns the response the it means everything is true;
+step 5 : if user's data exist in db then do nothing ..directly do step 7. 
+step 6 : or else first create the user then do step 7.
+step 7 : generate the JWT_TOKEN .  
+step 8 : with this token , by passing in header you can access the all api's .

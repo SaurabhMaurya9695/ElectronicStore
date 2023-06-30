@@ -1,0 +1,16 @@
+ROLE BASE AUTHORIZATION 
+
+// we can do role base authorization by 2 ways :
+
+1 - you can write the code in securityConfig 
+
+.requestMatchers(HttpMethod.POST , "/users/")
+.permitAll()
+.requestMatchers(HttpMethod.DELETE , "/users/**")
+.hasRole("ADMIN")
+			
+			
+2 - or you can enable at the top of securityConfig class ..use annotation "@EnableGlobalMethodSecurity(prePostEnabled = true)  "
+now you can secure specific method now with annotation "@PreAuthorize("hasRole('ADMIN')")"
+			
+	

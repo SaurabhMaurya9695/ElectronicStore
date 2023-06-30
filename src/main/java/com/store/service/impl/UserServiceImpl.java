@@ -6,6 +6,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -180,6 +181,11 @@ public class UserServiceImpl implements UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("No User Contain this Keywords"));
 		List<UserDto> x = alluser.stream().map((user) -> entityToDto(user)).collect(Collectors.toList());
 		return x;
+	}
+	
+	@Override
+	public Optional<User> findUserForGoogle(String email){
+		return this.userRepository.findByEmail(email);
 	}
 
 	private User dtoToEntity(UserDto userDto) {

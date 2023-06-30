@@ -3,7 +3,6 @@ package com.store.dto;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.store.entities.Role;
 import com.store.validate.ImageNameValid;
 
 import jakarta.validation.constraints.NotBlank;

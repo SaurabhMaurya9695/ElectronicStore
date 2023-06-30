@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,6 +57,7 @@ public class ProductController {
 	}
 	
 	//Update
+//	@PreAuthorize("hasRole('ADMIN')")  // only admin can do this operation ... for that we use annotation at the top of security config
 	@PutMapping("/{pId}")
 	public ResponseEntity<?> UpdateProduct( @PathVariable String pId , @RequestBody ProductDto productDto)
 	{
@@ -64,6 +66,7 @@ public class ProductController {
 	}
 	
 	// delete
+//	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{pId}")
 	public ResponseEntity<ApiResponseMessage> delete(@PathVariable String pId){
 		this.productService.delete(pId);
@@ -124,6 +127,7 @@ public class ProductController {
 	
 	
 	// upload an Image
+//	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/image/{pId}")
 	public ResponseEntity<ImageResponse> uploadImage(@RequestParam("productImg") MultipartFile file , @PathVariable String pId) throws IOException{
 		
@@ -165,6 +169,7 @@ public class ProductController {
 	}
 		
 	//create Product with category
+//	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/addWithcategory/{categoryId}")
 	public ResponseEntity<ProductDto> InsertProductInCategory(@RequestBody ProductDto productDto , @PathVariable String categoryId){
 		logger.info("our cid is {} " , categoryId);

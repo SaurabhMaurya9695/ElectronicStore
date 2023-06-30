@@ -1,9 +1,11 @@
 package com.store.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.store.dto.PageableResponse;
 import com.store.dto.UserDto;
+import com.store.entities.User;
 
 public interface UserService {
 	
@@ -30,6 +32,8 @@ public interface UserService {
 	
 	//search user by keyword;
 	List<UserDto> searchUser(String Keyword);
+
+	Optional<User> findUserForGoogle(String email);
 	
 	//other SpecificUser;
 	

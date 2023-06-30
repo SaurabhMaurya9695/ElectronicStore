@@ -7,7 +7,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +24,9 @@ import com.store.service.impl.CustomUserDetailsService;
 // here we can create all security related beans .. after creating beans .. we can Autowired anywhere in project 
 //configuration class is handling for beans only
 @Configuration
+@EnableMethodSecurity(prePostEnabled = true)
+
+// this upper annotation means you can use the method level security.. you can secure any method by using annotation
 public class SecurityConfig {
 
 	/*
@@ -123,8 +129,6 @@ public class SecurityConfig {
 			.disable()
 			.authorizeRequests()
 			.requestMatchers("/auth/login")
-			.permitAll()
-			.requestMatchers(HttpMethod.POST , "/users/")
 			.permitAll()
 			.anyRequest()
 			.authenticated()
