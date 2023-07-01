@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+to configure google authentication you have to create a project in angular 
+then add the dependency of "npm i @abacritt/angularx-social-login --legacy-peer-deps" in your project
+and follow this link and read doc "https://github.com/abacritt/angularx-social-login"
+and add the imports in app.module file.. same as it is in document..
+but for client id you have to take it from backend .. app.properties.
+
+to create a button "<asl-google-signin-button type='icon' size='medium'></asl-google-signin-button>"
+and you also have to add the dependency for this button in app.module
