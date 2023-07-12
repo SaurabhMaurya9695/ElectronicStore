@@ -19,9 +19,10 @@ export class AppComponent implements OnInit {
         console.log("login successful");
         console.log(user);
         this.backendService.loginWithGoogle(user).subscribe({
-          next:(data)=>{
+          next:(data:any)=>{
             console.log("login successful & data from backend");
-            console.log(data);
+            console.log(data['jwttoken']);
+            this.token = data['jwttoken'];
           },
           error:(error)=>{
             console.log("request denied");
@@ -42,4 +43,17 @@ export class AppComponent implements OnInit {
     })
   }
   title = 'LoginWithGoogle';
+  token = '';
+
+  getUser(){
+    console.log("get users");
+    this.backendService.getAllUser(this.token).subscribe({
+      next:(data)=>{
+        console.log(data);
+      },
+      error:()=>{
+        console.log("error");
+      }
+    });
+  }
 }

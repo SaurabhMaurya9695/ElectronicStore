@@ -12,4 +12,16 @@ export class BackendServiceService {
   loginWithGoogle(user:SocialUser){
     return this.http.post(`http://localhost:2023/auth/google` , user);
   }
+
+  getAllUser(token : any){
+    console.log("Bearer " + token );
+    return this.http.get(`http://localhost:2023/users` ,{
+      headers : {
+        //added for cors policy 
+        key: "Cross-Origin-Opener-Policy",
+        value: "same-origin allow-popups",
+        "Authorization" : "Bearer " + token 
+      }
+    })
+  }
 }
