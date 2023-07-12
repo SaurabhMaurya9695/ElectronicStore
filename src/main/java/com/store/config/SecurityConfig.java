@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.store.security.JwtAuthenticationEntryPoint;
 import com.store.security.JwtAuthenticationFilter;
@@ -85,6 +86,19 @@ public class SecurityConfig {
 		return daoAuthenticationProvider;
 	}
 
+	
+//	private final String[] PUBLIC_URLS = {
+//		"/v2/api-docs",
+//	    "/swagger-resources",
+//	    "/swagger-resources/**",
+//	    "/configuration/ui",
+//	    "/configuration/security",
+//	    "/swagger-ui.html",
+//	    "/webjars/**",
+//	    "/v3/api-docs/**",
+//	    "/swagger-ui/**",
+//	};
+	
 	// create a bean which is responsible for filterChainMathods (FormBaseLogin)
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -125,7 +139,20 @@ public class SecurityConfig {
 			.disable()
 			.cors()
 			.and()
-			.authorizeRequests()
+			.authorizeHttpRequests()
+			.requestMatchers(
+					"/v2/api-docs",
+				    "/swagger-resources",
+				    "/swagger-resources/**",
+				    "/configuration/ui",
+				    "/configuration/security",
+				    "/swagger-ui.html",
+				    "/webjars/**",
+				    "/v3/api-docs/**",
+				    "/swagger-ui/**",
+				    "/api/v1/auth/**"
+				)
+			.permitAll()
 			.requestMatchers("/auth/login")
 			.permitAll()
 			.requestMatchers("/auth/google")
