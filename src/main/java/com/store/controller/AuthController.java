@@ -5,12 +5,12 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +18,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,27 +26,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Value;
 import com.store.dto.JwtRequest;
 import com.store.dto.JwtResponse;
 import com.store.dto.UserDto;
 import com.store.entities.User;
 import com.store.exceptions.BadApiRequestException;
 import com.store.security.JwtHelper;
+import com.store.service.FileService;
 import com.store.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
+
 public class AuthController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private FileService fileService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -59,13 +64,15 @@ public class AuthController {
 	@Autowired
 	private UserService userService;
 	
-	@Value("${newPassword}")
+	@Value("${google.newPassword}")
 	private String newPassword;
 	
-	@Value("${googleClientId}")
+	@Value("${google.googleClientId}")
 	private String googleClientId;
 	
+	@Autowired
 	private ModelMapper mapper;
+
 	
 
 	@PostMapping("/login")
@@ -136,9 +143,13 @@ public class AuthController {
 		user = this.userService.findUserForGoogle(userEmail).orElse(null);
 		
 		if(user == null) {
+			log.info("Creating new User because user is null");
 			//save user
 			user = this.saveUser(userEmail ,  data.get("name").toString() , data.get("photoUrl").toString());
 			
+		}
+		else {
+			log.info("User Already exist in db");
 		}
 		
 		JwtRequest jwtRequest = new JwtRequest();
@@ -152,12 +163,13 @@ public class AuthController {
 		UserDto dto = new UserDto();
 		dto.setName(name);
 		dto.setEmail(email);
-		dto.setPassword(newPassword);
+		dto.setPassword(this.newPassword);
+		log.info("setting new password in dto {} and {}" , dto.getPassword() , this.newPassword);
 		dto.setImage(image);
 		dto.setRoles(new HashSet<>());
-		
 		UserDto savedUserWithGoogle = userService.createUser(dto);
-		return mapper.map(savedUserWithGoogle, User.class);
+		log.info("User saved in db");
+		return this.mapper.map(savedUserWithGoogle, User.class);
 	}
 
 }

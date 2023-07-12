@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.store.entities.Role;
 import com.store.repository.RoleRepository;
@@ -49,6 +52,23 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 			e.printStackTrace();
 		}
 		
+	}
+	
+	
+	//globally Cors configuration .. to apply this you have to add @crossorigin to the controller  
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedHeaders("*")
+						.maxAge(3600L)
+						.allowCredentials(true)
+						.allowedMethods("*")
+						.allowedOriginPatterns("*");
+				
+			}
+		};
 	}
 
 }
