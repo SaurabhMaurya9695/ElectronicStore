@@ -23,17 +23,34 @@ import com.store.dto.UpdateOrder;
 import com.store.responsemsg.ApiResponseMessage;
 import com.store.service.impl.OrderServiceImpl;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/order")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class OrderController {
 
 	@Autowired
 	private OrderServiceImpl orderService;
 
 	// Create
+	@Operation(
+			summary = "create Order EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping
 	public ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
 		OrderDto order = this.orderService.createOrder(createOrderRequest);
@@ -41,7 +58,19 @@ public class OrderController {
 	}
 	
 	
-	
+	@Operation(
+			summary = "Update Order EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PutMapping("{orderId}")
 	public ResponseEntity<OrderDto> updateOrder(@RequestBody @Valid UpdateOrder req , @PathVariable String orderId) {
 		OrderDto order = this.orderService.updateOrder(req , orderId );
@@ -49,6 +78,19 @@ public class OrderController {
 	}
 
 	// remove Order
+	@Operation(
+			summary = "remove Order EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@DeleteMapping("/{orderId}")
 	public ResponseEntity<ApiResponseMessage> removeOrder(@PathVariable String orderId) {
 		this.orderService.removeOrder(orderId);
@@ -60,12 +102,38 @@ public class OrderController {
 		return new ResponseEntity<>(apiResponseMessage, apiResponseMessage.getCode());
 	}
 
+	@Operation(
+			summary = "get Order of user EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<List<OrderDto>> getOrdersofUser(@PathVariable("userId") String userId) {
 		List<OrderDto> orders = this.orderService.getOrdersofUser(userId);
 		return new ResponseEntity<List<OrderDto>>(orders, HttpStatus.OK);
 	}
 
+	@Operation(
+			summary = "get All Order EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping()
 	public ResponseEntity<PageableResponse<OrderDto>> getAllOrders(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,

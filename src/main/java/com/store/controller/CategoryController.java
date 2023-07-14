@@ -31,12 +31,16 @@ import com.store.service.CategoryService;
 import com.store.service.FileService;
 import com.store.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class CategoryController {
 
 	@Autowired
@@ -54,6 +58,19 @@ public class CategoryController {
 	private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 	// create categoryy
+	@Operation(
+			summary = "Careat Category EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/")
 	public ResponseEntity<CategoryDto> createCat(@Valid @RequestBody CategoryDto data) {
 
@@ -62,6 +79,19 @@ public class CategoryController {
 	}
 
 	// getSingleCat
+	@Operation(
+			summary = " get the category  EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/{categoryId}")
 	public ResponseEntity<CategoryDto> getSingleCat(@PathVariable String categoryId) {
 		CategoryDto singleCat = this.categoryService.getSingleCat(categoryId);
@@ -69,6 +99,19 @@ public class CategoryController {
 	}
 
 	// getAllCat
+	@Operation(
+			summary = "Get All category EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping()
 	public ResponseEntity<PageableResponse<CategoryDto>> getAllUser(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
@@ -81,6 +124,19 @@ public class CategoryController {
 	}
 
 	// updateCat
+	@Operation(
+			summary = "Update Category details of catId EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PutMapping("/{categoryId}")
 	public ResponseEntity<?> updateCat(@Valid @RequestBody CategoryDto data, @PathVariable String categoryId) {
 		CategoryDto updatedCat = this.categoryService.updatedCat(data, categoryId);
@@ -88,6 +144,19 @@ public class CategoryController {
 	}
 
 	// delete cat;
+	@Operation(
+			summary = "Delete category endpoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@DeleteMapping("/{categoryId}")
 	public ResponseEntity<ApiResponseMessage> deleteCat(@PathVariable String categoryId) {
 		this.categoryService.deleteCat(categoryId);
@@ -100,7 +169,19 @@ public class CategoryController {
 	}
 
 	// UploadImage
-
+	@Operation(
+			summary = "Upload the category image EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/image/{categoryId}")
 	public ResponseEntity<ImageResponse> uploadImage(@RequestParam("image") MultipartFile file,
 			@PathVariable String categoryId) throws IOException {
@@ -126,6 +207,19 @@ public class CategoryController {
 	}
 
 	// Serve Image
+	@Operation(
+			summary = "Serve the category image EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/image/{categoryId}")
 	public void serveImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
 
@@ -142,6 +236,19 @@ public class CategoryController {
 	}
 
 	//insert in category of particular category product
+	@Operation(
+			summary = "update Category of Product  EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PutMapping("/{categoryId}/product/{pId}")
 	public ResponseEntity<?> updateCategoryofProduct(@PathVariable String categoryId, @PathVariable String pId) {
 		ProductDto productDto = this.productService.updateCategory(pId, categoryId);
@@ -149,7 +256,21 @@ public class CategoryController {
 	}
 	
 	
+	
 	//getProduct of categories 
+	@Operation(
+			summary = "get All Products Of Category EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/{categoryId}/products")
 	public ResponseEntity<PageableResponse<ProductDto>> getAllProductsOfCategory(
 			@PathVariable String categoryId,

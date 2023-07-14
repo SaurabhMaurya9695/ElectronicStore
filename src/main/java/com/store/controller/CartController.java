@@ -17,15 +17,34 @@ import com.store.dto.CartDto;
 import com.store.responsemsg.ApiResponseMessage;
 import com.store.service.CartService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/carts")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class CartController {
 
 	@Autowired
 	private CartService cartService;
 
 	// 1 - AddItemtoCart
+	
+	@Operation(
+			summary = "Add item to cart EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/{userId}")
 	public ResponseEntity<CartDto> addItemToCart(@PathVariable String userId,
 			@RequestBody AddItemToCartRequest addItemToCartRequest) {
@@ -36,6 +55,19 @@ public class CartController {
 	}
 
 	// 2 - remove Items From The cart ;
+	@Operation(
+			summary = "Remove Item from cart for a user  EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@DeleteMapping("/{userId}/items/{cartItemId}")
 	public ResponseEntity<ApiResponseMessage> removeItemFromCart(@PathVariable String userId,
 			@PathVariable int cartItemId) {
@@ -48,6 +80,19 @@ public class CartController {
 	}
 
 	// 3 - clear the cart
+	@Operation(
+			summary = "clear cart for a user EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@DeleteMapping("/{userId}")
 	public ResponseEntity<ApiResponseMessage> clearCart(@PathVariable String userId) {
 		cartService.clearCart(userId);
@@ -59,6 +104,19 @@ public class CartController {
 	}
 
 	// 4 - get card;
+	@Operation(
+			summary = "get cart of single user EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/{userId}")
 	public ResponseEntity<CartDto> getCart(@PathVariable String userId) {
 

@@ -30,11 +30,15 @@ import com.store.responsemsg.ImageResponse;
 import com.store.service.FileService;
 import com.store.service.ProductService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/products")
 @CrossOrigin
+@SecurityRequirement(name = "bearerAuth")
 public class ProductController {
 
 	@Autowired
@@ -50,6 +54,19 @@ public class ProductController {
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 	
 	// create 
+	@Operation(
+			summary = "create product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/")
 	public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto)
 	{
@@ -59,6 +76,19 @@ public class ProductController {
 	
 	//Update
 //	@PreAuthorize("hasRole('ADMIN')")  // only admin can do this operation ... for that we use annotation at the top of security config
+	@Operation(
+			summary = "update product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PutMapping("/{pId}")
 	public ResponseEntity<?> UpdateProduct( @PathVariable String pId , @RequestBody ProductDto productDto)
 	{
@@ -68,6 +98,19 @@ public class ProductController {
 	
 	// delete
 //	@PreAuthorize("hasRole('ADMIN')")
+	@Operation(
+			summary = "delete product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@DeleteMapping("/{pId}")
 	public ResponseEntity<ApiResponseMessage> delete(@PathVariable String pId){
 		this.productService.delete(pId);
@@ -79,6 +122,19 @@ public class ProductController {
 	}
 	
 	//getBYId
+	@Operation(
+			summary = "get single product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/{pId}")
 	public ResponseEntity<ProductDto> getSingleProduct(@PathVariable String pId){
 		ProductDto singleProduct = this.productService.getById(pId) ;
@@ -87,6 +143,19 @@ public class ProductController {
 	
 	
 	//getAll
+	@Operation(
+			summary = "get all product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping
 	public ResponseEntity<PageableResponse<ProductDto>> getAllProduct(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
@@ -101,6 +170,19 @@ public class ProductController {
 	
 	
 	//GetALlLive
+	@Operation(
+			summary = "get Live  product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/live")
 	public ResponseEntity<PageableResponse<ProductDto>> getAllLive(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
@@ -114,6 +196,19 @@ public class ProductController {
 	
 	
 	//serachByTitle
+	@Operation(
+			summary = "Get/search product by title EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/search/{title}")
 	public ResponseEntity<PageableResponse<ProductDto>> getByTitle(
 			@PathVariable String title,
@@ -129,6 +224,19 @@ public class ProductController {
 	
 	// upload an Image
 //	@PreAuthorize("hasRole('ADMIN')")
+	@Operation(
+			summary = "upload product EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/image/{pId}")
 	public ResponseEntity<ImageResponse> uploadImage(@RequestParam("productImg") MultipartFile file , @PathVariable String pId) throws IOException{
 		
@@ -155,6 +263,19 @@ public class ProductController {
 		
 	}
 	
+	@Operation(
+			summary = "serve product image EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@GetMapping("/image/{pId}")
 	public void serveImage(@PathVariable String pId, HttpServletResponse response) throws IOException {
 
@@ -171,6 +292,20 @@ public class ProductController {
 		
 	//create Product with category
 //	@PreAuthorize("hasRole('ADMIN')")
+	@Operation(
+			summary = "insert product in category EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
+	
 	@PostMapping("/addWithcategory/{categoryId}")
 	public ResponseEntity<ProductDto> InsertProductInCategory(@RequestBody ProductDto productDto , @PathVariable String categoryId){
 		logger.info("our cid is {} " , categoryId);

@@ -38,10 +38,14 @@ import com.store.security.JwtHelper;
 import com.store.service.FileService;
 import com.store.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 @RestController
 @RequestMapping("/auth")
 @CrossOrigin
-
+@SecurityRequirement(name = "bearerAuth")
 public class AuthController {
 
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
@@ -75,6 +79,19 @@ public class AuthController {
 
 	
 
+	@Operation(
+			summary = "Get the Jwt Token by Entering the UserId and password",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/login")
 	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
 		// now we have username and password here from jwtrequest;
@@ -102,6 +119,20 @@ public class AuthController {
 		}
 
 	}
+	
+	@Operation(
+			summary = "Get the current Login User details  EndPoint",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 
 	@GetMapping("/currentUser")
 	public ResponseEntity<UserDto> getCurrentUser(Principal principal) {
@@ -114,6 +145,20 @@ public class AuthController {
 	}
 
 	/* Login with google */
+	@Operation(
+			summary = "Login with google EndPoint",
+			description = "here you have to pass the Data which is coming from google client",
+			responses = {
+					@ApiResponse(
+								responseCode = "200",
+								description = "Success"
+							),
+					@ApiResponse(
+							responseCode = "403",
+							description = "Unauthorized / Invalid Token"
+						),
+			}
+	)
 	@PostMapping("/google")
 	public ResponseEntity<JwtResponse> loginWithGoogle(@RequestBody Map<String, Object> data) throws IOException {
 
