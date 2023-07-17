@@ -55,7 +55,7 @@ public class ProductController {
 	
 	// create 
 	@Operation(
-			summary = "create product EndPoint",
+			summary = "create product without category EndPoint",
 			responses = {
 					@ApiResponse(
 								responseCode = "200",
