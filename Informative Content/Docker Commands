@@ -1,0 +1,33 @@
+1 : First Install the docker 
+2 : to check the version run "docker -v"
+3 : run "docker run hello-world"
+4 : "docker images" return the all the image present in container
+5 : "docker pull x:version" . it pulled the dependency from docker hub
+6 : "docker ps" show the current running container 
+7 : "docker ps -a " show the all the container which is closed 
+8 : "docker run --name TemparyName -it -d imageName" runs the container of 
+	this image of name TemparyName
+9 : "docker exec -it ID_OF_Container CommandToExecute" by doing this you
+	can go inside the container  
+10: "docker inspect  ID_OF_Container" you will get to know the all the
+information of the container 
+11: to configure Mysql in docker you have to first pull the mysql using 5 command
+	after this you can  run the container using command 
+	"docker exec --name TemparyName -e MYSQL_ROOT_PASSWORD=root -d mysql:tag"
+
+12 : "docker stop ID_OF_Container" to stop the container
+13 : "docker rm ID_OF_Container1 ID_OF_Container2" to remove the image from container
+14 : "docker login/push/commit/copy/logs/volume/logout"
+15 : "docker build -t "Imagename" to build the imgae
+
+
+------------------------------------
+1 : docker run -d --name mysqldb -p 3308:3306 -e MYSQL_ROOT_PASSWORD=Saurabh@123 -e MYSQL_DATABASE=electronicStore mysql
+2 : jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/electronicStore 
+3 : step 2 defines passing data from env varibles
+docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 electronic PORT=3306 electronic   
+
+//first build the project then generate the image 
+// using docker build imageName .
+// then push this image into container 
+with this docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 ImageName PORT=3306 ImageName   

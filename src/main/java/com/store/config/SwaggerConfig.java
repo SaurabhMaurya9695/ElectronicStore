@@ -22,9 +22,13 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				),
 		servers = {
 				@Server(
-						description = "Local Host",
+						description = "Local",
 						url = "http://localhost:2023"
-					)
+					),
+				@Server(
+					description = "DEV",
+					url = "http://localhost:2024"
+				)
 		}
 		
 )

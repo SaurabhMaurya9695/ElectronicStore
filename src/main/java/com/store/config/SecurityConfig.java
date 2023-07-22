@@ -150,14 +150,15 @@ public class SecurityConfig {
 				    "/webjars/**",
 				    "/v3/api-docs/**",
 				    "/swagger-ui/**",
-				    "/api/v1/auth/**"
+				    "/api/v1/auth/**",
+				    "/test"
 				)
 			.permitAll()
 			.requestMatchers("/auth/login")
 			.permitAll()
 			.requestMatchers("/auth/google")
 			.permitAll()
-			.requestMatchers(HttpMethod.POST , "/users")
+			.requestMatchers(HttpMethod.POST , "/users/")
 			.permitAll()
 			.requestMatchers(HttpMethod.DELETE , "/users/**")
 			.hasRole("ADMIN")
