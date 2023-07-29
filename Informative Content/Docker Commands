@@ -30,4 +30,13 @@ docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb
 //first build the project then generate the image 
 // using docker build imageName .
 // then push this image into container 
-with this docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 ImageName PORT=3306 ImageName   
+with this docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 ImageName PORT=3306 ImageName
+
+
+
+
+push into docker hub ..
+1 - login into docker hub 
+2 - login from terminal also using docker login 
+3 - docker tag newimage saurabh9695/newimage1.0 
+4 - docker push  saurabh9695/newimage1.0    

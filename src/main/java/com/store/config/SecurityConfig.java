@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import com.store.security.JwtAuthenticationEntryPoint;
 import com.store.security.JwtAuthenticationFilter;
 import com.store.service.impl.CustomUserDetailsService;
@@ -24,7 +22,7 @@ import com.store.service.impl.CustomUserDetailsService;
 //configuration class is handling for beans only
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
-
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 // this upper annotation means you can use the method level security.. you can secure any method by using annotation
 public class SecurityConfig {
 
@@ -160,8 +158,9 @@ public class SecurityConfig {
 			.permitAll()
 			.requestMatchers(HttpMethod.POST , "/users/")
 			.permitAll()
-			.requestMatchers(HttpMethod.DELETE , "/users/**")
-			.hasRole("ADMIN")
+//			.requestMatchers(HttpMethod.DELETE, "/categories/**").hasRole("ADMIN")
+			.requestMatchers(HttpMethod.GET)
+            .permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()

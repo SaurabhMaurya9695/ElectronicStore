@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,19 +59,9 @@ public class CategoryController {
 	private Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
 	// create categoryy
-	@Operation(
-			summary = "Careat Category EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Careat Category EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PostMapping("/")
 	public ResponseEntity<CategoryDto> createCat(@Valid @RequestBody CategoryDto data) {
 
@@ -79,19 +70,9 @@ public class CategoryController {
 	}
 
 	// getSingleCat
-	@Operation(
-			summary = " get the category  EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = " get the category  EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping("/{categoryId}")
 	public ResponseEntity<CategoryDto> getSingleCat(@PathVariable String categoryId) {
 		CategoryDto singleCat = this.categoryService.getSingleCat(categoryId);
@@ -99,20 +80,11 @@ public class CategoryController {
 	}
 
 	// getAllCat
-	@Operation(
-			summary = "Get All category EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Get All category EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping()
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<PageableResponse<CategoryDto>> getAllUser(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -124,19 +96,10 @@ public class CategoryController {
 	}
 
 	// updateCat
-	@Operation(
-			summary = "Update Category details of catId EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Update Category details of catId EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{categoryId}")
 	public ResponseEntity<?> updateCat(@Valid @RequestBody CategoryDto data, @PathVariable String categoryId) {
 		CategoryDto updatedCat = this.categoryService.updatedCat(data, categoryId);
@@ -144,19 +107,11 @@ public class CategoryController {
 	}
 
 	// delete cat;
-	@Operation(
-			summary = "Delete category endpoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Delete category endpoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{categoryId}")
 	public ResponseEntity<ApiResponseMessage> deleteCat(@PathVariable String categoryId) {
 		this.categoryService.deleteCat(categoryId);
@@ -169,19 +124,9 @@ public class CategoryController {
 	}
 
 	// UploadImage
-	@Operation(
-			summary = "Upload the category image EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Upload the category image EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PostMapping("/image/{categoryId}")
 	public ResponseEntity<ImageResponse> uploadImage(@RequestParam("image") MultipartFile file,
 			@PathVariable String categoryId) throws IOException {
@@ -207,19 +152,9 @@ public class CategoryController {
 	}
 
 	// Serve Image
-	@Operation(
-			summary = "Serve the category image EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Serve the category image EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping("/image/{categoryId}")
 	public void serveImage(@PathVariable String categoryId, HttpServletResponse response) throws IOException {
 
@@ -235,54 +170,33 @@ public class CategoryController {
 
 	}
 
-	//insert in category of particular category product
-	@Operation(
-			summary = "update Category of Product  EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	// insert in category of particular category product
+	@Operation(summary = "update Category of Product  EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PutMapping("/{categoryId}/product/{pId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateCategoryofProduct(@PathVariable String categoryId, @PathVariable String pId) {
 		ProductDto productDto = this.productService.updateCategory(pId, categoryId);
 		return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
 	}
-	
-	
-	
-	//getProduct of categories 
-	@Operation(
-			summary = "get All Products Of Category EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+
+	// getProduct of categories
+	@Operation(summary = "get All Products Of Category EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping("/{categoryId}/products")
-	public ResponseEntity<PageableResponse<ProductDto>> getAllProductsOfCategory(
-			@PathVariable String categoryId,
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<PageableResponse<ProductDto>> getAllProductsOfCategory(@PathVariable String categoryId,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
 			@RequestParam(value = "sortBy", defaultValue = "title", required = false) String sortBy,
 			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir) {
-		
-		PageableResponse<ProductDto> x = this.productService.getAllProductOfCategoryId(categoryId, pageNumber, pageSize, sortBy, sortDir);
-		
+
+		PageableResponse<ProductDto> x = this.productService.getAllProductOfCategoryId(categoryId, pageNumber, pageSize,
+				sortBy, sortDir);
+
 		return new ResponseEntity<PageableResponse<ProductDto>>(x, HttpStatus.OK);
 	}
-	
 
 }

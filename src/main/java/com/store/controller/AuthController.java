@@ -35,7 +35,6 @@ import com.store.dto.UserDto;
 import com.store.entities.User;
 import com.store.exceptions.BadApiRequestException;
 import com.store.security.JwtHelper;
-import com.store.service.FileService;
 import com.store.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,9 +52,6 @@ public class AuthController {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
-	@Autowired
-	private FileService fileService;
-
 	@Autowired
 	private ModelMapper modelMapper;
 

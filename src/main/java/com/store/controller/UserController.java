@@ -56,44 +56,24 @@ public class UserController {
 	// methods for all operation
 
 	// create User Methods
-	
-	@Operation(
-			description = "Get Endpoint for CreateUser",
-			summary = "This is a summary of CreateUser",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+
+	@Operation(description = "Get Endpoint for CreateUser", summary = "This is a summary of CreateUser", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
+
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto data) {
 		logger.error("data is {}", data.getName());
 		UserDto userDto = this.userService.createUser(data);
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
 	}
-	
 
 	// getallUser;
-	@Operation(
-			summary = "GetAllUser EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
-//	@PreAuthorize("hasRole('ADMIN')")
+	@Operation(summary = "GetAllUser EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping()
 	public ResponseEntity<PageableResponse<UserDto>> getAllUser(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
@@ -107,77 +87,38 @@ public class UserController {
 	}
 
 	// getSingleUser ;
-	@Operation(
-			summary = "Get Single User",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Get Single User", responses = { @ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserDto> getSingleUser(@PathVariable String userId) {
 		UserDto userDto = this.userService.getUserById(userId);
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
 
-	@Operation(
-			summary = "Update User by entering userId EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Update User by entering userId EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@PutMapping("/{userId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @Valid @RequestBody UserDto dataDto) {
 		UserDto updatedUser = this.userService.updateUser(dataDto, userId);
 		return new ResponseEntity<UserDto>(updatedUser, HttpStatus.ACCEPTED);
 	}
 
-	@Operation(
-			summary = "Delete User of userId EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Delete User of userId EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@DeleteMapping("/{userId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<ApiResponseMessage> deleteUser(@PathVariable String userId) {
 		this.userService.deleteUserById(userId);
 		ApiResponseMessage apiMessage = new ApiResponseMessage("User Deleted Successfully", true, HttpStatus.OK);
 		return new ResponseEntity<ApiResponseMessage>(apiMessage, HttpStatus.OK);
 	}
 
-	@Operation(
-			summary = "Get User of particular emailId",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Get User of particular emailId", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@GetMapping("/email/{email}")
 	public ResponseEntity<UserDto> getSingleByEmail(@PathVariable String email) {
 
@@ -186,19 +127,9 @@ public class UserController {
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 	}
 
-	@Operation(
-			summary = "Search User by any Key EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Search User by any Key EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@GetMapping("/searchKey/{value}")
 	public ResponseEntity<List<UserDto>> searchUser(@PathVariable String value) {
 		logger.info("Keyword  id is :{} ", value);
@@ -207,19 +138,9 @@ public class UserController {
 	}
 
 	// Upload User Image ;
-	@Operation(
-			summary = "Upload Image for a single User EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Upload Image for a single User EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@PostMapping("/image/{userId}")
 	public ResponseEntity<ImageResponse> uploadFile(@RequestParam("image") MultipartFile file,
 			@PathVariable("userId") String userId) throws IOException {
@@ -245,20 +166,9 @@ public class UserController {
 		return new ResponseEntity<ImageResponse>(imageResponse, HttpStatus.CREATED);
 	}
 
-	
-	@Operation(
-			summary = "Get Image of Particular User EndPoint",
-			responses = {
-					@ApiResponse(
-								responseCode = "200",
-								description = "Success"
-							),
-					@ApiResponse(
-							responseCode = "403",
-							description = "Unauthorized / Invalid Token"
-						),
-			}
-	)
+	@Operation(summary = "Get Image of Particular User EndPoint", responses = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@GetMapping("/image/{userId}")
 	public void serveImage(@PathVariable String userId, HttpServletResponse response) throws IOException {
 

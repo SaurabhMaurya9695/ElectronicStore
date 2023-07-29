@@ -1,24 +1,40 @@
 package com.store;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.store.controller.AuthController;
 import com.store.entities.Role;
+import com.store.entities.User;
 import com.store.repository.RoleRepository;
+import com.store.repository.UserRepository;
 
 @SpringBootApplication
 public class ElectronicStoreApplication implements CommandLineRunner{
 	
+	private static final Logger log = LoggerFactory.getLogger(ElectronicStoreApplication.class);
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private UserRepository userRepository ;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder ;
 	
 	@Value("${role.normal_role_id}")
 	private String normal_roleId;
@@ -41,15 +57,37 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 		try {
 			Role admin_role = new Role();
 			admin_role.setRoleId(admin_roleId);
-			admin_role.setRoleName("ADMIN");
+			admin_role.setRoleName("ROLE_ADMIN");
 			
 			Role normal_role = new Role();
 			normal_role.setRoleId(normal_roleId);
-			normal_role.setRoleName("NORMAL");
+			normal_role.setRoleName("ROLE_NORMAL");
+			
+			User user = new User();
+			user.setAbout("this is admin user");
+			user.setEmail("saurabhyash1707@gmail.com");
+			user.setGender("Male");
+			user.setImage("x.png");
+			user.setName("Saurabh Maurya");
+			user.setPassword(passwordEncoder.encode("Saurabh"));
+			user.setRoles(Set.of(admin_role ,normal_role));
+			user.setUserId(UUID.randomUUID().toString());
+			
+			User user1 = new User();
+			user1.setAbout("this is normal user");
+			user1.setEmail("yash@gmail.com");
+			user1.setGender("Male");
+			user1.setImage("x.png");
+			user1.setName("Yash Maurya");
+			user1.setPassword(passwordEncoder.encode("Yash"));
+			user1.setRoles(Set.of(normal_role));
+			user1.setUserId(UUID.randomUUID().toString());
 			
 			this.roleRepository.saveAll(Arrays.asList(admin_role , normal_role));
+			this.userRepository.save(user);
+			this.userRepository.save(user1);
 		}catch(Exception e) {
-			e.printStackTrace();
+			log.warn("Already Present In db");
 		}
 		
 	}

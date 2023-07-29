@@ -18,6 +18,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -50,14 +51,16 @@ public class User  implements UserDetails{
 	//one User have Many Orders;
 	//cascade = CascadeType.REMOVE -> if User removed then its orders removed ;
 	//fetch = FetchType.LAZY -> you can get all this except order details
-	@OneToMany(mappedBy = "user" , fetch = FetchType.LAZY , cascade = CascadeType.ALL) 
-	private List<Order> orders = new ArrayList<>() ;
 	
-	
-	@ManyToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-	private Set<Role> roles = new HashSet<>();
-	
-	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Order> orders = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Role> roles = new HashSet<>();
+
+
+    @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
+    private  Cart cart;
 
 	public Set<Role> getRoles() {
 		return roles;
