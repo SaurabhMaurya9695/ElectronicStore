@@ -16,7 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.store.controller.AuthController;
 import com.store.entities.Role;
 import com.store.entities.User;
 import com.store.repository.RoleRepository;
@@ -33,17 +32,16 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 	@Autowired
 	private UserRepository userRepository ;
 	
-	@Autowired
-	private PasswordEncoder passwordEncoder ;
 	
 	@Value("${role.normal_role_id}")
-	private String normal_roleId;
+	private String normalroleId;
 	
 	
 	@Value("${role.admin_role_id}")
-	private String admin_roleId;
+	private String adminroleId;
 
 	public static void main(String[] args) {
+//		System.out.println("jvm version " + System.getProperty("java.version"));  -> to know the jvm version
 		SpringApplication.run(ElectronicStoreApplication.class, args);
 	}
 
@@ -56,11 +54,11 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 		
 		try {
 			Role admin_role = new Role();
-			admin_role.setRoleId(admin_roleId);
+			admin_role.setRoleId(adminroleId);
 			admin_role.setRoleName("ROLE_ADMIN");
 			
 			Role normal_role = new Role();
-			normal_role.setRoleId(normal_roleId);
+			normal_role.setRoleId(normalroleId);
 			normal_role.setRoleName("ROLE_NORMAL");
 			
 			User user = new User();
@@ -69,7 +67,7 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 			user.setGender("Male");
 			user.setImage("x.png");
 			user.setName("Saurabh Maurya");
-			user.setPassword(passwordEncoder.encode("Saurabh"));
+			user.setPassword("263396e9-a95e-4fc7-a2f1-1b7f3d9c4880");
 			user.setRoles(Set.of(admin_role ,normal_role));
 			user.setUserId(UUID.randomUUID().toString());
 			
@@ -79,7 +77,7 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 			user1.setGender("Male");
 			user1.setImage("x.png");
 			user1.setName("Yash Maurya");
-			user1.setPassword(passwordEncoder.encode("Yash"));
+			user1.setPassword("53e3f852-5fa5-4cb2-8369-c77352a9e86a");
 			user1.setRoles(Set.of(normal_role));
 			user1.setUserId(UUID.randomUUID().toString());
 			

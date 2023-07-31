@@ -24,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-	private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
 	@Autowired
 	private JwtHelper jwtHelper;
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 		// Fetch the header from Authorization
 		String requestHeader = request.getHeader("Authorization");
-		logger.info("Header is {}", requestHeader);
+		log.info("Header is {}", requestHeader);
 
 		String username = null;
 		String token = null;
@@ -53,19 +53,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				username = this.jwtHelper.getUsernameFromToken(token);
 
 			} catch (IllegalArgumentException e) {
-				logger.info("IllegalArgument !!");
+				log.info("IllegalArgument !!");
 				e.printStackTrace();
 			} catch (ExpiredJwtException e) {
-				logger.info("ExpiredJwt Token!!");
+				log.info("ExpiredJwt Token!!");
 				e.printStackTrace();
 			} catch (MalformedJwtException e) {
-				logger.info("Changes occured in token!!");
+				log.info("Changes occured in token!!");
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			logger.info("Invalid Header Value !!..");
+			log.info("Invalid Header Value !!..");
 		}
 
 		// SecurityContextHolder.getContext().getAuthentication() == null --> this means
@@ -86,9 +86,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 
-				logger.info("Validation ok !!");
+				log.info("Validation ok !!");
 			} else {
-				logger.info("Validation failed !!");
+				log.info("Validation failed !!");
 			}
 
 		}
