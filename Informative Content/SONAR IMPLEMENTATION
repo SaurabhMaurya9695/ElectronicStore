@@ -1,0 +1,38 @@
+<!-- 1 - download it from chrome 
+2 - add the jdk 17 or jdk 11 path in your env variable with name SONAR_JAVA_PATH;
+3 - then run the ./sonar.sh to show to ui 
+4 - go to browser and check localhost:9000 
+5 - insert the username & password "admin" "admin"
+6 - then add dependency of sonar and jacoco in your pom file 
+<plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.8.0.2131</version>
+    </plugin>
+    <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.5</version>
+        <executions>
+            <execution>
+                <id>prepare-agent</id>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>report</id>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+            </execution>
+        </executions>
+</plugin>
+
+7 - then update your project 
+8 - build your code with 
+"clean org.jacoco:jacoco-maven-plugin:prepare-agent install "
+9 - run this command also with build 
+"sonar:sonar -Dsonar.login=sonarqube_token"
+
+10 - after running successfully check you ui ..sonar report is there  -->
