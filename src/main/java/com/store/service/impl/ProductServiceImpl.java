@@ -43,6 +43,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Value("${products.profile.image.path}")
 	private String productImagePath;
+	
+	private String PRODEXE = "Product With this id not exist" ; 
 
 	@SuppressWarnings("unused")
 	private Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
@@ -64,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductDto updateProduct(ProductDto data, String pid) {
 
 		Product product = this.productRepository.findById(pid)
-				.orElseThrow(() -> new ResourceNotFoundException("Product With this id not exist"));
+				.orElseThrow(() -> new ResourceNotFoundException(PRODEXE));
 
 		// we need to update data to product ;
 		product.setAddedDate(data.getAddedDate());
@@ -84,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void delete(String pid) {
 		Product product = this.productRepository.findById(pid)
-				.orElseThrow(() -> new ResourceNotFoundException("Product With this id not exist"));
+				.orElseThrow(() -> new ResourceNotFoundException(PRODEXE));
 
 		// before deleting we have to delete the image from db also and as well as from
 		// folder
@@ -106,7 +108,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductDto getById(String pid) {
 		Product product = this.productRepository.findById(pid)
-				.orElseThrow(() -> new ResourceNotFoundException("Product With this id not exist"));
+				.orElseThrow(() -> new ResourceNotFoundException(PRODEXE));
 		return modelMapper.map(product, ProductDto.class);
 	}
 

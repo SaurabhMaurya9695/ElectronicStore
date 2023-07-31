@@ -36,6 +36,8 @@ public class CatgoryServiceImpl implements CategoryService {
 
 	@Value("${categories.profile.image.path}")
 	private String imagePathForcat;
+	
+	private String CATEXE = "Category Not exist with this id";
 
 	private Logger logger = LoggerFactory.getLogger(CatgoryServiceImpl.class);
 
@@ -56,7 +58,7 @@ public class CatgoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCat(String catId) {
 		Category category = this.categoryRepository.findById(catId)
-				.orElseThrow(() -> new ResourceNotFoundException("Category Not exist with this id"));
+				.orElseThrow(() -> new ResourceNotFoundException(CATEXE));
 
 		// before deleteing the user we have to delete the imgage also
 		String fullPath = imagePathForcat + category.getCoverImage(); // image/user/abc.png
@@ -78,7 +80,7 @@ public class CatgoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto getSingleCat(String catId) {
 		Category cat = this.categoryRepository.findById(catId)
-				.orElseThrow(() -> new ResourceNotFoundException("Category Not exist with this id"));
+				.orElseThrow(() -> new ResourceNotFoundException(CATEXE));
 		return modelMapper.map(cat, CategoryDto.class);
 	}
 
@@ -95,7 +97,7 @@ public class CatgoryServiceImpl implements CategoryService {
 	@Override
 	public CategoryDto updatedCat(CategoryDto categoryDto, String catId) {
 		Category category = this.categoryRepository.findById(catId)
-				.orElseThrow(() -> new ResourceNotFoundException("Category Not exist with this id"));
+				.orElseThrow(() -> new ResourceNotFoundException(CATEXE));
 		// update cat details
 		category.setCoverImage(categoryDto.getCoverImage());
 		category.setDiscription(categoryDto.getDiscription());
