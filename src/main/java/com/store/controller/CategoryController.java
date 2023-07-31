@@ -101,7 +101,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{categoryId}")
-	public ResponseEntity<?> updateCat(@Valid @RequestBody CategoryDto data, @PathVariable String categoryId) {
+	public ResponseEntity<CategoryDto> updateCat(@Valid @RequestBody CategoryDto data, @PathVariable String categoryId) {
 		CategoryDto updatedCat = this.categoryService.updatedCat(data, categoryId);
 		return new ResponseEntity<CategoryDto>(updatedCat, HttpStatus.ACCEPTED);
 	}
@@ -176,7 +176,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PutMapping("/{categoryId}/product/{pId}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateCategoryofProduct(@PathVariable String categoryId, @PathVariable String pId) {
+	public ResponseEntity<ProductDto> updateCategoryofProduct(@PathVariable String categoryId, @PathVariable String pId) {
 		ProductDto productDto = this.productService.updateCategory(pId, categoryId);
 		return new ResponseEntity<ProductDto>(productDto, HttpStatus.OK);
 	}

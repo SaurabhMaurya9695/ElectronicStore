@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
 	//BadApiRequest;
 	
 	@ExceptionHandler(BadApiRequestException.class)
-	public ResponseEntity<?> badApiRequestHandler(BadApiRequestException ex){
+	public ResponseEntity<ApiResponseMessage> badApiRequestHandler(BadApiRequestException ex){
 		log.info("BadApiRequestException Handler Invoke!!!");
 		ApiResponseMessage apiResponseMessage = new ApiResponseMessage() ;
 		apiResponseMessage.setMessage(ex.getMessage());
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
 	
 	
 	@ExceptionHandler(FileNotFoundException.class)
-	public ResponseEntity<?> fileNotFoundExceptionhandler(FileNotFoundException ex){
+	public ResponseEntity<ApiResponseMessage> fileNotFoundExceptionhandler(FileNotFoundException ex){
 		log.info("FileNotFoundException Handler Invoke!!!");
 		ApiResponseMessage apiResponseMessage = new ApiResponseMessage() ;
 		apiResponseMessage.setMessage("File Not Found");
@@ -75,7 +75,7 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler(SizeLimitExceededException.class)
-	public ResponseEntity<?> sizeLimitExceededExceptionHandler(SizeLimitExceededException ex){
+	public ResponseEntity<ApiResponseMessage> sizeLimitExceededExceptionHandler(SizeLimitExceededException ex){
 		log.info("SizeLimitExceededException Handler Invoke!!!");
 		ApiResponseMessage apiResponseMessage = new ApiResponseMessage() ;
 		apiResponseMessage.setMessage("You Uploded File which is greator then file Limit");

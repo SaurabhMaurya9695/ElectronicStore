@@ -57,7 +57,7 @@ public class ProductController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@PostMapping("/")
-	public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto) {
+	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
 		ProductDto createdData = this.productService.create(productDto);
 		return new ResponseEntity<ProductDto>(createdData, HttpStatus.CREATED);
 	}
@@ -67,7 +67,7 @@ public class ProductController {
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@PreAuthorize("hasRole('ADMIN')") // only admin can do this operation ... for that we use annotation at the top of
 	@PutMapping("/{pId}")
-	public ResponseEntity<?> UpdateProduct(@PathVariable String pId, @RequestBody ProductDto productDto) {
+	public ResponseEntity<ProductDto> UpdateProduct(@PathVariable String pId, @RequestBody ProductDto productDto) {
 		ProductDto updatedData = this.productService.updateProduct(productDto, pId);
 		return new ResponseEntity<ProductDto>(updatedData, HttpStatus.OK);
 	}
