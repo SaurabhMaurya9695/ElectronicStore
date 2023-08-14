@@ -1,0 +1,7 @@
+1 - package.json contain all the metadeta of the project
+2 - our code is running from index.html
+3 - maifest.json is mainly used for different-different sizes images is there
+4 - inside src we have to create component / pages and all the things .
+5 - <React.StrictMode> helps us to enable warning's and check's
+6 - we are returning jsx from return statement from app.js component 
+7 - reportWebVitals this file help us to experience user experience 
