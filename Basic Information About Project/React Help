@@ -3,5 +3,21 @@
 3 - maifest.json is mainly used for different-different sizes images is there
 4 - inside src we have to create component / pages and all the things .
 5 - <React.StrictMode> helps us to enable warning's and check's
-6 - we are returning jsx from return statement from app.js component 
-7 - reportWebVitals this file help us to experience user experience 
+6 - we are returning jsx from return statement from app.js component
+7 - reportWebVitals this file help us to experience user experience
+8 - insted of use of class we have to use className
+9 - you can put your static files in public and src but the main differnce is if you put your
+files in public folder then you can access directly but if you want to access the static files from src folder then you have to import first then use
+10 - under src files , all the files is optimized while making bundle
+11 - if any files by mistake deleted then your code not build and it is showing error also
+12 - there are two types of component we use 1 - class base component ,2 - function base component
+13 - Mainly we are using function base component
+14 - you can pass anyting to the component like this <About title="testing" phone = "phonenumber" func = {sum}/> and receive in About.js with the help of props
+
+function About(props){
+return (
+    JSON.stringify(props)  
+ );
+}
+
+15 -

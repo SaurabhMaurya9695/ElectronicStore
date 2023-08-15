@@ -1,0 +1,19 @@
+1 - install react bootstrap npm install react-bootstrap bootstrap
+2 -  add css in index.js 
+                "import 'bootstrap/dist/css/bootstrap.min.css';"
+3 -                    Not a good Method to use
+ function App() {
+   return (
+     <div>
+       <button className="btn btn-primary">Click Me</button>
+     </div>
+   );
+ }
+             with the help of react-bootstrap
+ function App() {
+   return (
+     <div>
+         <Button variant="success"> Click me </Button>
+     </div>
+   );
+ }

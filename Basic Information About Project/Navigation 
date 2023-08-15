@@ -1,0 +1,12 @@
+1 - if you want to work with react then install react-router-dom
+2 - npm i react-router-dom
+3 - 
+<BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/user" element={< Dashboards/>} >
+            <Route path="profile" element={<Profile/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+4 - and wherever you want to use this use outlet there
