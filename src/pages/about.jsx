@@ -1,5 +1,11 @@
+import Base from "../components/user/Base";
+
 function About(){
-    return (<div>"this is about page"</div>);
+    return (
+        <Base>
+            <div>This is about inside base</div>
+        </Base>
+    );
 }
 
 export default About;

@@ -20,4 +20,13 @@ return (
  );
 }
 
-15 -
+15 -direct styling is not possible so you have to create a object for styling the it is possible
+
+let StyleBase = {
+    background:"red"
+}
+
+<Container fluid style={StyleBase}>
+        <h3 className="text-center">{title}</h3>
+        <p className="text-center" >{discription}</p>
+</Container>

@@ -1,0 +1,39 @@
+1 - this is base for all 
+
+
+import {Container} from "react-bootstrap";
+import Footer from "./Footer"
+
+const Base =({title ="title" , discription = "this is desc" , children })=>{
+    return (
+        <div>
+            <Container fluid>
+                <h3 className="text-center">{title}</h3>
+                <p className="text-center" >{discription}</p>
+            </Container>
+            {children}
+            <Footer/>
+        </div>
+
+        
+    );
+}
+
+export default Base;
+
+2 - first it is showing props then its children then footer 
+3 - index.jsx
+import Base from "../components/user/Base";
+
+function Index() {
+  return (
+    <Base>
+      <h3>This is base</h3>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut, deserunt!
+      </p>
+    </Base>
+  );
+}
+
+export default Index;

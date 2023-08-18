@@ -10,3 +10,5 @@
       </Routes>
     </BrowserRouter>
 4 - and wherever you want to use this use outlet there
+5 - without reloading you can navigate with the help of 
+  " as={NavLink} to="/cart" "

@@ -1,0 +1,8 @@
+1 -  you have two method to serve 
+2 - from public folder and from src 
+3 - from public folder you can use directly like :
+<img src="/assest/Logo.jpeg"  alt="logo" height={30} width={30}></img>
+4 - from src folder 
+
+    import logo from "./../../assest/logo.png"
+    <img src={logo}  alt="logo" height={30} width={30}></img>

@@ -1,5 +1,11 @@
+import Base from "../components/user/Base";
+
 function Store(){
-    return "this is Store page";
+    return (
+        <Base>
+            <div>This is store inside base</div>
+        </Base>
+    );
 }
 
 export default Store;

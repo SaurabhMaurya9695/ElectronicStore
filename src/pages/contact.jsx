@@ -1,11 +1,11 @@
 import Base from "../components/user/Base";
 
-function Service(){
+const Contact = ()=>{
     return (
         <Base>
-            <div>This is service inside base</div>
+            <div>This is contact inside base</div>
         </Base>
     );
 }
 
-export default Service;
+export default Contact;
