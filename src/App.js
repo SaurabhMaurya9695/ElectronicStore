@@ -9,10 +9,12 @@ import "./App.css";
 import Dashboards from "./pages/user/dashboards";
 import Profile from "./pages/user/profile";
 import CustomNavbar from "./components/user/Navbar";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
     <BrowserRouter>
+    <ToastContainer />
       <CustomNavbar />
       <Routes>
         <Route path="/" element={<Index />} />

@@ -2,7 +2,7 @@ import Base from "../components/user/Base";
 
 function Cart(){
     return (
-        <Base>
+        <Base title="Electronic Store / Cart " discription={null}>
             <div>This is cart inside base</div>
         </Base>
     );
