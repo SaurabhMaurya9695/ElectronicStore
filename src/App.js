@@ -10,6 +10,8 @@ import Dashboards from "./pages/user/dashboards";
 import Profile from "./pages/user/profile";
 import CustomNavbar from "./components/user/Navbar";
 import { ToastContainer } from 'react-toastify';
+import Login from "./pages/login";
+import Register from "./pages/register";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/store" element={<Store />} />
         <Route path="/service" element={<Service />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/user" element={<Dashboards />}>
           <Route path="profile" element={<Profile />} />
           <Route path="about" element={<About />} />
