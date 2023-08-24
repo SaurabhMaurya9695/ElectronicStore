@@ -13,14 +13,14 @@ const Base =({title ="title" , discription = "this is desc" , children
     }
 
     let styleTitle = {
-        "font-size": "40px",
-        "text-transform": "uppercase",
-        "font-family": "monospace"
+        "fontSize": "40px",
+        "textTransform": "uppercase",
+        "fontFamily": "monospace"
     }
 
     let styleButton ={
-        "background-color": "#0B0C10 !important",
-        "border-color": "#66fcf1 !important",
+        "backgroundColor": "#0B0C10 !important",
+        "borderColor": "#66fcf1 !important",
         "color" : "#C5C6C7"
     }
 
