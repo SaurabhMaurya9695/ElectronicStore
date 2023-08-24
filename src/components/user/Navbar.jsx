@@ -6,22 +6,22 @@ import { NavLink } from "react-router-dom";
 
 const CustomNavbar = () => {
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-navbar-color" variant="dark">
+    <Navbar collapseOnSelect expand="lg" className="bg-navbar-color" >
       <Container>
-        <Navbar.Brand as={NavLink} to="/">
+        <Navbar.Brand as={NavLink} to="/" className="text-cyan nav-link">
           <img src="/assest/Logo.jpeg" alt="logo" height={32} width={35}></img>
           ElectronicStore
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="m-auto">
-            <Nav.Link as={NavLink} to="/service">Features</Nav.Link>
-            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
-            <NavDropdown title="Categories" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Tv</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Sports</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Phones</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">
+          <Nav className="m-auto" >
+            <Nav.Link as={NavLink} to="/service" className="text-cyan">Features</Nav.Link>
+            <Nav.Link as={NavLink} to="/about" className="text-cyan">About</Nav.Link>
+            <NavDropdown title="Categories" className="text-cyan" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1" >Tv</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2" >Sports</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3" >Phones</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4" >
                 Best Sellers
               </NavDropdown.Item>
               <NavDropdown.Divider />

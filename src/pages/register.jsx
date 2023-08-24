@@ -6,6 +6,7 @@ import {
   Form,
   FormLabel,
   FloatingLabel,
+  Button,
 } from "react-bootstrap";
 import Base from "../components/user/Base";
 
@@ -15,7 +16,7 @@ const Register = () => {
       <Container>
         <Row>
           <Col sm={{ span: 6, offset: 3 }}>
-            <Card>
+            <Card className="my-2 border-0 shadow" >
               <Card.Body>
                 <h3 className="text-muted text-center">ELectronic Store Signup here</h3>
                 <Form>
@@ -32,6 +33,13 @@ const Register = () => {
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formPassword">
                     <Form.Label>Enter New Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Enter New password"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formPassword">
+                    <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="Enter New password"
@@ -66,8 +74,12 @@ const Register = () => {
                   </FloatingLabel>
                 </Form>
                 <Container>
-                    <p>Already register </p> <a href="/login">Login Here!!</a>
-                  </Container>
+                    <p>Already register  <a href="/login">Login Here!!</a> </p>
+                </Container>
+                <Container className="text-center">
+                  <Button variant="success"> Register</Button>
+                  <Button variant="danger" className="ms-2">Login</Button>
+                </Container>
               </Card.Body>
             </Card>
           </Col>

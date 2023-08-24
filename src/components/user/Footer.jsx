@@ -18,7 +18,7 @@ const Footer = ()=>{
 
     return (
 
-        <Container fluid className="text-white  p-5 text-center bg-navbar-color" >
+        <Container fluid className="text-cyan nav-link  p-5 text-center bg-navbar-color" >
             <h3> We provides Best Products </h3>
             <h5>All rightsReserved : saurabhyash1707@gmail.com</h5>
             <Button variant="success" onClick={datafromServer}>Getting data from server</Button>
