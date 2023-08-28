@@ -41,7 +41,7 @@ const Register = () => {
     });
   };
 
-  const [errorDate, setErrorData] = useState({
+  const [errorData, setErrorData] = useState({
     isError: false,
     errorData: null,
   });
@@ -80,10 +80,16 @@ const Register = () => {
     registerUser(data)
       .then((userData) => {
         console.log(userData);
-        toast.success("Registered Successfully");
+        toast.success("Registered Successfully with id :" + userData.userId);
       })
       .catch((error) => {
+        //it means error comes ;
         console.log(error);
+        setErrorData({
+          isError:true ,
+          errorData : error
+        })
+        //console.log(errorData.errorData?.response?.data)
         toast.error("Error in creating user !! Try Again  ");
       });
   };
@@ -105,7 +111,7 @@ const Register = () => {
                 <h3 className="text-muted text-center">
                   ELectronic Store Signup here
                 </h3>
-                <Form onSubmit={submitForm}>
+                <Form noValidate onSubmit={submitForm}>
                   {/* Name Field */}
                   <Form.Group className="mb-3" controlId="formName">
                     <Form.Label>Enter Your Name</Form.Label>
@@ -114,9 +120,11 @@ const Register = () => {
                       placeholder="Enter Your Name"
                       onChange={(event) => handleChange(event, "name")}
                       value={data.name}
+                      isInvalid={errorData.errorData?.response?.data?.name}
                     />
+                    <Form.Control.Feedback type="invalid">{errorData.errorData?.response?.data?.name}</Form.Control.Feedback>
                   </Form.Group>
-
+                  
                   {/* Email Field */}
                   <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label>Enter Your Email</Form.Label>
@@ -125,7 +133,9 @@ const Register = () => {
                       placeholder="Enter Your Email"
                       onChange={(event) => handleChange(event, "email")}
                       value={data.email}
+                      isInvalid={errorData.errorData?.response?.data?.email}
                     />
+                    <Form.Control.Feedback type="invalid">{errorData.errorData?.response?.data?.email}</Form.Control.Feedback>
                     <Form.Text className="text-muted">
                       We'll never share your email with anyone else.
                     </Form.Text>
@@ -139,8 +149,10 @@ const Register = () => {
                       placeholder="Enter New password"
                       onChange={(event) => handleChange(event, "password")}
                       value={data.password}
+                      isInvalid={errorData.errorData?.response?.data?.password}
                     />
                   </Form.Group>
+                  <Form.Control.Feedback type="invalid">{errorData.errorData?.response?.data?.email}</Form.Control.Feedback>
                   <Form.Group className="mb-3" controlId="formPassword2">
                     <Form.Label>Confirm Password</Form.Label>
                     <Form.Control
@@ -188,10 +200,13 @@ const Register = () => {
                       style={{ height: "100px" }}
                       onChange={(event) => handleChange(event, "about")}
                       value={data.about}
+                      isInvalid={errorData.errorData?.response?.data?.about}
+                      
                     />
+                     <Form.Control.Feedback type="invalid">{errorData.errorData?.response?.data?.about}</Form.Control.Feedback>
                   </FloatingLabel>
-
-                  <Container>
+                 
+                  <Container className="mt-2">
                     <p>
                       Already register <a href="/login">Login Here!!</a>{" "}
                     </p>
