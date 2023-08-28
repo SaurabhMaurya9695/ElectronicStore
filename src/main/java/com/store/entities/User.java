@@ -53,14 +53,14 @@ public class User  implements UserDetails{
 	//fetch = FetchType.LAZY -> you can get all this except order details
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private transient List<Order> orders = new ArrayList<>();
+    private  List<Order> orders = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private transient Set<Role> roles = new HashSet<>();
+    private  Set<Role> roles = new HashSet<>();
 
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.REMOVE)
-    private transient Cart cart;
+    private Cart cart;
 
 	public Set<Role> getRoles() {
 		return roles;

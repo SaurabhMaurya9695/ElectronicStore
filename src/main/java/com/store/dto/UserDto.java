@@ -32,7 +32,7 @@ public class UserDto {
 	@NotBlank(message = "Please Write Something about Yourself")
 	private String about;
 
-	@ImageNameValid
+//	@ImageNameValid
 	private String image;
 	
 	private Set<RoleDto> roles = new HashSet<>();

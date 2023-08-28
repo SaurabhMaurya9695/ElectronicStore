@@ -84,7 +84,7 @@ public class CategoryController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping()
-	@PreAuthorize("hasRole('ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<PageableResponse<CategoryDto>> getAllUser(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,

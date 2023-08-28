@@ -73,7 +73,7 @@ public class UserController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 
-	@PreAuthorize("hasRole('ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping()
 	public ResponseEntity<PageableResponse<UserDto>> getAllUser(
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
