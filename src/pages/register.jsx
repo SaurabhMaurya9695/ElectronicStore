@@ -8,6 +8,7 @@ import {
   FormLabel,
   FloatingLabel,
   Button,
+  Spinner,
 } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Base from "../components/user/Base";
@@ -22,6 +23,15 @@ const Register = () => {
     gender: '',
     about: '',
   });
+
+  const [errorData, setErrorData] = useState({
+    isError: false,
+    errorData: null,
+  });
+
+
+  const[loading , setLoading] = useState(false);
+
 
   const handleChange = (event, property) => {
     setdata({
@@ -39,12 +49,12 @@ const Register = () => {
       gender: '',
       about: '',
     });
+    setErrorData({
+      isError:false,
+      errorData:null
+    })
   };
 
-  const [errorData, setErrorData] = useState({
-    isError: false,
-    errorData: null,
-  });
 
   const submitForm = (event) => {
     event.preventDefault(); //Mandatory hai..otherwise after submitting your data will be clear
@@ -76,7 +86,7 @@ const Register = () => {
       return;
     }
 
-    console.log("line 79")
+    setLoading(true);
     registerUser(data)
       .then((userData) => {
         console.log(userData);
@@ -91,7 +101,10 @@ const Register = () => {
         })
         //console.log(errorData.errorData?.response?.data)
         toast.error("Error in creating user !! Try Again  ");
-      });
+      })
+      .finally(() => {
+        setLoading(false);
+      })
   };
 
   const registerForm = () => {
@@ -106,10 +119,11 @@ const Register = () => {
                 top: "-30px",
               }}
             >
-              {/* {JSON.stringify(data)} */}
+              
               <Card.Body>
+              <div className="text-center mb-2"><img src="/assest/Logo.jpeg"  alt="logo" height={80} width={80}></img></div>
                 <h3 className="text-muted text-center">
-                  ELectronic Store Signup here
+                  Electronic Store Signup here
                 </h3>
                 <Form noValidate onSubmit={submitForm}>
                   {/* Name Field */}
@@ -212,9 +226,10 @@ const Register = () => {
                     </p>
                   </Container>
                   <Container className="text-center">
-                    <Button variant="success" type="submit">
-                      {" "}
-                      Register
+                    <Button variant="success" type="submit" disabled={loading}>
+                      <Spinner animation="grow" size="sm" className="me-2" hidden={!loading}/>
+                      <span hidden={!loading} >Wait..</span>
+                      <span hidden={loading}>Register</span>
                     </Button>
                     <Button
                       variant="danger"
