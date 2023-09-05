@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -7,26 +8,29 @@ import {
   Form,
   Row,
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Base from "../components/user/Base";
 import { LoginUser } from "../service/user.service";
-
+import UserContext from "../context/user.context"
 const Login = () => {
 
-let [data, setdata] = useState({
-    email: '',
-    password: '',
-});
+  const userContext = useContext(UserContext);
 
-let [error ,setError] = useState({
-    errorData : null ,
-    isError : false
-})
+  const redirect =useNavigate();
+  let [data, setdata] = useState({
+    email: "",
+    password: "",
+  });
 
-let [loading , setLoading ] = useState(false);
+  let [error, setError] = useState({
+    errorData: null,
+    isError: false,
+  });
 
-const handleChange = (event, property) => {
+  let [loading, setLoading] = useState(false);
+
+  const handleChange = (event, property) => {
     setdata({
       ...data,
       [property]: event.target.value,
@@ -35,47 +39,54 @@ const handleChange = (event, property) => {
 
   const cleardata = () => {
     setdata({
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     });
   };
 
-  const submitForm = (event)=>{
+  const submitForm = (event) => {
     event.preventDefault();
     console.log(data);
 
-    if (!data.email  || data.email.trim() === '') {
-        toast.error("Email is Required");
-        return;
+    if (!data.email || data.email.trim() === "") {
+      toast.error("Email is Required");
+      return;
     }
 
-    if (!data.password  || data.password.trim() === '') {
-        toast.error("Password is Required");
-        return;
+    if (!data.password || data.password.trim() === "") {
+      toast.error("Password is Required");
+      return;
     }
 
-    // if everything is correct then submit form 
+    // if everything is correct then submit form
     setLoading(true);
-    LoginUser(data).
-    then((userData)=>{
+    LoginUser(data)
+      .then((userData) => {
         console.log(userData);
         toast.success("Logged in Successfully");
         setError({
-            errorData:null,
-            isError:false
-        })
-    }).catch((error)=>{
-        console.log(error);
-        toast.error("Something error occeured")
-        setError({
-            errorData:error,
-            isError:true
-        })
-    }).finally(()=>{
-        setLoading(false);
-    })
+          errorData: null,
+          isError: false,
+        });
 
-  }
+        // if successfully login then redirect to the page of admin or normal user
+        // before redirecting assign data to context ;
+        userContext.setUserData(userData);
+        userContext.setIsLogin(true);
+        redirect("/users/home");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data.message);
+        setError({
+          errorData: error,
+          isError: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   let loginPage = () => {
     return (
       <Container>
@@ -100,8 +111,23 @@ const handleChange = (event, property) => {
                 <h3 className="text-muted text-center">
                   Electronic Store Login here
                 </h3>
+                {JSON.stringify(userContext)}
+                <Alert
+                  onClose={() =>
+                    setError({
+                      isError: false,
+                      errorData: null,
+                    })
+                  }
+                  dismissible
+                  variant="danger"
+                  show={error.isError}
+                >
+                  {" "}
+                  {error.errorData?.response?.data?.message}{" "}
+                </Alert>
                 <Form noValidate onSubmit={submitForm}>
-                    {JSON.stringify(data)}
+                  {/* {JSON.stringify(data)} */}
                   <Form.Group className="mb-3" controlId="formName">
                     <Form.Label>Enter Your Email</Form.Label>
                     <Form.Control
@@ -109,7 +135,7 @@ const handleChange = (event, property) => {
                       placeholder="Enter Your Email"
                       onChange={(event) => handleChange(event, "email")}
                       value={data.email}
-                    //   isInvalid={errorData.errorData?.response?.data?.email}
+                      //   isInvalid={errorData.errorData?.response?.data?.email}
                     />
                     {/* <Form.Control.Feedback type="invalid">
                       {errorData.errorData?.response?.data?.email}
@@ -122,7 +148,7 @@ const handleChange = (event, property) => {
                       placeholder="Enter Your password"
                       onChange={(event) => handleChange(event, "password")}
                       value={data.password}
-                    //   isInvalid={errorData.errorData?.response?.data?.password}
+                      //   isInvalid={errorData.errorData?.response?.data?.password}
                     />
                     {/* <Form.Control.Feedback type="invalid">
                       {errorData.errorData?.response?.data?.password}
@@ -130,14 +156,16 @@ const handleChange = (event, property) => {
                   </Form.Group>
                   <Container className="text-center">
                     <p>
-                      Create Account !!  <NavLink to="/register"> Register Here!!</NavLink>
+                      Create Account !!{" "}
+                      <NavLink to="/register"> Register Here!!</NavLink>
                     </p>
                     <p>
-                      Forget password !!  <NavLink to="/forget"> Click Here!!</NavLink>
+                      Forget password !!{" "}
+                      <NavLink to="/forget"> Click Here!!</NavLink>
                     </p>
                   </Container>
                   <Container className="text-center">
-                    <Button variant="success" type="submit" >
+                    <Button variant="success" type="submit">
                       <span>Login Here</span>
                     </Button>
                     <Button

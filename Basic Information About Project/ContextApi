@@ -1,0 +1,8 @@
+<!-- 1 : if we want the data to be trasnfer to different component then it can be transferred to
+a->b->c->d .. in a sequence or if we want to share the data to c from a then we have to share 
+first a->b->c .. via sending props .
+
+2 : so we solve this problem with taking the help of contextApi.. this is the method where we
+store all the necessery information and on a single oper we can fetch the data from there -->
+
+<!-- 3 : or we can use redux also -->
