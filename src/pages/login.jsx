@@ -71,8 +71,12 @@ const Login = () => {
 
         // if successfully login then redirect to the page of admin or normal user
         // before redirecting assign data to context ;
+        /*
         userContext.setUserData(userData);
         userContext.setIsLogin(true);
+        */
+
+        userContext.login(userData);
         redirect("/users/home");
       })
       .catch((error) => {

@@ -11,8 +11,7 @@ const CustomNavbar = () => {
 
   const doLogout = () =>{
     console.log("logout")
-    userContext.setUserData(null);
-    userContext.setIsLogin(false);
+    userContext.logout();
   }
 
   return (
