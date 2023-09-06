@@ -60,6 +60,9 @@ const CustomNavbar = () => {
                 <Nav.Link onClick={doLogout}>
                   Logout
                 </Nav.Link>
+                <Nav.Link as={NavLink} to="/users/orders">
+                  Orders
+                </Nav.Link>
               </>
             ) : (
               <>
