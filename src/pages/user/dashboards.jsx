@@ -10,7 +10,7 @@ const Dashboards = () => {
   
   const dashboardView = () => {
     return (<div>
-      <h1>this is Dashboard</h1>
+      {/* <h1>this is Dashboard</h1> */}
       <Outlet />
     </div>)
   };

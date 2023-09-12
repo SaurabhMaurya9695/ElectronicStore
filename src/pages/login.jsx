@@ -7,6 +7,7 @@ import {
   Container,
   Form,
   Row,
+  Spinner,
 } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -115,7 +116,7 @@ const Login = () => {
                 <h3 className="text-muted text-center">
                   Electronic Store Login here
                 </h3>
-                {JSON.stringify(userContext)}
+                {/* {JSON.stringify(userContext)} */}
                 <Alert
                   onClose={() =>
                     setError({
@@ -170,7 +171,9 @@ const Login = () => {
                   </Container>
                   <Container className="text-center">
                     <Button variant="success" type="submit">
-                      <span>Login Here</span>
+                    <Spinner animation="grow" size="sm" className="me-2" hidden={!loading}/>
+                      <span hidden={loading}>Login Here</span>
+                      <span hidden={!loading} >Wait..</span>
                     </Button>
                     <Button
                       variant="danger"
