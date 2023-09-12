@@ -6,6 +6,8 @@ import userContext from '../../context/user.context'
 const Dashboards = () => {
 
   const context = useContext(userContext);
+
+  
   const dashboardView = () => {
     return (<div>
       <h1>this is Dashboard</h1>

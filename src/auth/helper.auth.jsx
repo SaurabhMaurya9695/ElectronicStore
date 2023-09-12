@@ -31,3 +31,19 @@ export const getDataFromLocalStorage=()=>{
     }
     return null;
 }
+
+export const isAdminUser = ()=>{
+    if(isLoggedIn()){
+        const user = getDataFromLocalStorage();
+        const role = user.userDto.roles;
+        if(role.find((role) => role.roleId === '234ADMINUSER')){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
+}
