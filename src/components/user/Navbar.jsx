@@ -59,7 +59,7 @@ const CustomNavbar = () => {
                     AdminHome
                   </Nav.Link></>) :''
                 })
-                <Nav.Link  as={NavLink} to="/users/profile">
+                <Nav.Link  as={NavLink} to={`/users/profile/${userContext?.userData?.userDto?.userId}`}>
                   {userContext?.userData?.userDto?.name}
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/login" onClick={doLogout}>

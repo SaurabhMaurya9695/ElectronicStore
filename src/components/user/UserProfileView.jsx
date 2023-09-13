@@ -2,14 +2,14 @@ import { Button, Card, Container, Table } from "react-bootstrap";
 import { BASE_URL } from "../../service/helper.service";
 import { serveImage}  from "../../service/user.service";
 import {  useState } from "react";
-import { toast } from "react-toastify";
 const UserProfileView = ({user = null}) => {
 
   const profileStyle = {
     height:"170px",
     width:"140px",
     borderRadius:"50%",
-    border:"2px solid white"
+    border:"2px solid white",
+    objectFit:"cover"
   }
 
   let [IMAGE , setIMAGE] = useState(null);
@@ -17,6 +17,7 @@ const UserProfileView = ({user = null}) => {
   serveImage(user.userId).then((data)=>{
     setIMAGE(BASE_URL+'/users/image/' + user.userId);
   }).catch((error)=>{
+    console.log(error.response.data.message)
     setIMAGE(null);
   })
 
