@@ -11,3 +11,12 @@ export const LoginUser = (userData) => {
     .post(`/auth/login`, userData)
     .then((response) => response.data);
 };
+
+
+export const getSingleUserData = (userId) =>{
+  return publicAxios.get(`/users/${userId}`).then((response) => response.data);
+}
+
+export const serveImage = (userId) =>{
+  return publicAxios.get(`/users/image/${userId}`).then((response) => response.data);
+}
