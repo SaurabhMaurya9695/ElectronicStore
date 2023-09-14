@@ -1,44 +1,171 @@
 import { useEffect } from "react";
 import { useState } from "react";
-// import { useContext } from "react";
-import { Container } from "react-bootstrap";
+import { Button, Card, Container, Form, Modal, Spinner, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserProfileView from "../../components/user/UserProfileView";
-// import UserContext from "../../context/user.context";
-import { getSingleUserData } from "../../service/user.service";
+import { getSingleUserData, updateUser } from "../../service/user.service";
 const Profile = () => {
   // const userContext = useContext(UserContext);
   const [user, setUser] = useState(null);
 
-  const {userId} = useParams(); // whatever you are passing in url as a param it will catch that params
-  // write same as that you passed in url 
+  const { userId } = useParams(); // whatever you are passing in url as a param it will catch that params
+  // write same as that you passed in url
 
-  
+  const [loading , setLoading] = useState(false);
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    // console.log("handlwwhow")
+    setShow(true);
+  };
+
   useEffect(() => {
     // this function is same as onInit in angular
     // console.log("userIfFromUrl " + userId)
-    
-      const getDataFromServer = () => {
-          // const userId = userContext?.userData?.userDto?.userId;
-          getSingleUserData(userId)
-            .then((data) => {
-              setUser(data);
-            })
-            .catch((error) => {
-              toast.error("error in loading user Information");
-            });
-        };
+
+    const getDataFromServer = () => {
+      // const userId = userContext?.userData?.userDto?.userId;
+      getSingleUserData(userId)
+        .then((data) => {
+          setUser(data);
+        })
+        .catch((error) => {
+          toast.error("error in loading user Information");
+        });
+    };
     getDataFromServer();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  },[])// eslint-disable-line react-hooks/exhaustive-deps
+  const updateFiledHandler = (event, property) => {
+    setUser({
+      ...user, //load the full data
+      [property]: event.target.value, // update this filed of property
+    });
+  };
 
-  
+  const updateUserData = (event) => {
+    event.cancelable && event.preventDefault();
+    console.log("inside updateUser");
+    console.log(user);
+    if (user.name === undefined || user.name.trim() === "") {
+      toast.error("Name field can't be empty");
+      return;
+    }
+
+    if (user.about === undefined || user.about.trim() === "") {
+      toast.error("about field can't be empty");
+      return;
+    }
+    setLoading(true);
+    updateUser(user)
+      .then((data) => {
+        console.log("userUpdated");
+        toast.success("user updated successfully");
+        return;
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("user not updated successfully");
+        return;
+      }).finally(()=>{
+        setLoading(false);
+      })
+  };
+
+  const updateModel = () => {
+    return (
+      <div>
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update the Information!!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Card>
+              <Card.Body className=" text-center fw-bold text-primary ">
+                <div className="mt-3">
+                  <Table responsive striped bordered hover>
+                    <tbody>
+                      <tr>
+                        <td>Name</td>
+                        <td>
+                          <Form.Control
+                            type="text"
+                            value={user.name}
+                            onChange={(event) =>
+                              updateFiledHandler(event, "name")
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td>{user.email}</td>
+                      </tr>
+                      <tr>
+                        <td>New Password</td>
+                        <td>
+                          <Form.Control
+                            placeholder="Enter New Password"
+                            type="text"
+                            value={user.password}
+                            onChange={(event) =>
+                              updateFiledHandler(event, "password")
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Gender</td>
+                        <td>{user.gender}</td>
+                      </tr>
+                      <tr>
+                        <td>About</td>
+                        <td>
+                          <Form.Control
+                            type="text-area"
+                            value={user.about}
+                            onChange={(event) =>
+                              updateFiledHandler(event, "about")
+                            }
+                          />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Role</td>
+                        <td>
+                          {user.roles.map((role) => role.roleName + "  ")}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+              </Card.Body>
+            </Card>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={updateUserData}>
+              <Spinner animation="border" size="sm" className="mr-2" hidden={!loading} />
+              <span hidden={loading}>Update Details</span>
+              <span hidden={!loading}>Please Wait </span>
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  };
 
   return (
     <Container className="rounded mt-3">
       {user ? (
-        <UserProfileView user={user} />
+        <>
+          <UserProfileView user={user} handleShowModel={handleShow} />
+          {updateModel()}
+        </>
       ) : (
         <h1 className="text-center"> User Not Loaded from server !! </h1>
       )}

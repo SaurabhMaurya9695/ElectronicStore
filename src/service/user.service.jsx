@@ -1,4 +1,4 @@
-import { publicAxios } from "./axios.service";
+import { privateAxios, publicAxios } from "./axios.service";
 
 export const registerUser = (userData) => {
   return publicAxios
@@ -19,4 +19,9 @@ export const getSingleUserData = (userId) =>{
 
 export const serveImage = (userId) =>{
   return publicAxios.get(`/users/image/${userId}`).then((response) => response.data);
+}
+
+
+export const updateUser =(user) =>{
+  return privateAxios.put(`/users/${user.userId}` , user).then((response) => response.data);
 }
