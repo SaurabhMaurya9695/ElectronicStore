@@ -131,7 +131,9 @@ public class UserServiceImpl implements UserService {
 		xUser.setGender(userDto.getGender());
 		xUser.setImage(userDto.getImage());
 		xUser.setName(userDto.getName());
-		xUser.setPassword(userDto.getPassword());
+		if(!userDto.getPassword().equalsIgnoreCase(xUser.getPassword())) {
+			xUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+		}
 
 		// now user has updated data , now we can saved data in userRepository;
 

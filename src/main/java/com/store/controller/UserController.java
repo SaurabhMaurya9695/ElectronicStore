@@ -99,7 +99,7 @@ public class UserController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 	@PutMapping("/{userId}")
-	@PreAuthorize("hasRole('ADMIN')")
+//	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @Valid @RequestBody UserDto dataDto) {
 		UserDto updatedUser = this.userService.updateUser(dataDto, userId);
 		return new ResponseEntity<UserDto>(updatedUser, HttpStatus.ACCEPTED);

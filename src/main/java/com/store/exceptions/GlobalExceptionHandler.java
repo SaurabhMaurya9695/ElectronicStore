@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 		   allErrors.stream().forEach(e -> {
 			String errorMsg = e.getDefaultMessage() ;
 			String field = ((FieldError)e).getField() ;
-			mp.put(errorMsg, field);
+			mp.put(field, errorMsg);
 		});
 		   
 		 return new ResponseEntity<Map<String,Object>>(mp, HttpStatus.BAD_REQUEST);

@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public class ApiResponseMessage {
 	// here we have to define which type of message we are showing on console 
-	private String  message ;
 	private boolean success ;
+	private String  message ;
 	private HttpStatus code;
 	public ApiResponseMessage() {
 		super();
