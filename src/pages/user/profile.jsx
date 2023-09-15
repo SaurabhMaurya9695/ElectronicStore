@@ -73,14 +73,16 @@ const Profile = () => {
       .then((data) => {
         // console.log("userUpdated");
         //before showing success message update image as well 
-        updateImage(filePath , user.userId).then((data)=>{
-          console.log("File Uploaded");
-          toast.success("Image Uploaded Successfully");
-          handleClose();
-        }).catch((error)=>{
-          console.log("file not Updated")
-          toast.error("Image Not Uploaded !!")
-        });
+        if(filePath != null){
+          updateImage(filePath , user.userId).then((data)=>{
+            console.log("File Uploaded");
+            toast.success("Image Uploaded Successfully");
+            handleClose();
+          }).catch((error)=>{
+            console.log("file not Updated")
+            toast.error("Image Not Uploaded !!")
+          });
+        }
         toast.success("user updated successfully");
         return;
       })

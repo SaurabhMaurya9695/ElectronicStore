@@ -18,6 +18,11 @@ import Order from "./pages/user/orders";
 import AdminDashboard from "./pages/admin/admin.dashboard";
 import AddProduct from "./pages/admin/add.product";
 import AdminHome from "./pages/admin/admin.home";
+import ViewCategory from "./pages/admin/view.category"
+import AddCategory from "./pages/admin/add.category"
+import ViewProduct from "./pages/admin/view.product"
+import ViewOrders from "./pages/admin/view.orders";
+import AdminUsers from "./pages/admin/admin.users";
 
 function App() {
   return (
@@ -42,8 +47,13 @@ function App() {
             <Route path="orders" element={<Order />} />
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="add-product" element={<AddProduct />}></Route>
-            <Route path="home" element={<AdminHome />}></Route>
+            <Route path="add-product" element={<AddProduct />} />
+            <Route path="home" element={<AdminHome />} />
+            <Route path="add-category" element={<AddCategory/>} />
+            <Route path="users" element={<AdminUsers/>} />
+            <Route path="categories" element={<ViewCategory/>} />
+            <Route path="orders" element={<ViewOrders/>} />
+            <Route path="products" element={<ViewProduct/>} />
           </Route>
         </Routes>
       </BrowserRouter>

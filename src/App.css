@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.list-group-item.active{
+  background: #e2e2e2!important;
+  color:black!important;
+  border: none!important;
+}

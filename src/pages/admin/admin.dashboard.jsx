@@ -1,13 +1,26 @@
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { NavLink, Outlet } from "react-router-dom";
 import { isAdminUser } from "../../auth/helper.auth";
+import SideMenu from "../../components/admin/SideMenu";
 
 const AdminDashboard = () => {
   const dashView = () => {
     return (
       <div>
-        <h1>this is admin dashboard</h1>
-        <Outlet></Outlet>
+        {/* <Outlet></Outlet> */}
+        <Container className="p-4">
+          <Row>
+            <Col md={{
+              span:2,
+              offset:1
+            }} >
+            <SideMenu/>
+            </Col>
+            <Col md={8} className="bg-success">
+            <Outlet/>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   };
