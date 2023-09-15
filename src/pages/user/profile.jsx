@@ -1,10 +1,19 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Card, Container, Form, Modal, Spinner, Table } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Container,
+  Form,
+  InputGroup,
+  Modal,
+  Spinner,
+  Table,
+} from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import UserProfileView from "../../components/user/UserProfileView";
-import { getSingleUserData, updateUser } from "../../service/user.service";
+import { getSingleUserData, updateImage, updateUser } from "../../service/user.service";
 const Profile = () => {
   // const userContext = useContext(UserContext);
   const [user, setUser] = useState(null);
@@ -12,8 +21,9 @@ const Profile = () => {
   const { userId } = useParams(); // whatever you are passing in url as a param it will catch that params
   // write same as that you passed in url
 
-  const [loading , setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [imageName , setImageName] = useState("/assest/defaultProfile.avif");
+  const [filePath , setFilePath] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -61,7 +71,16 @@ const Profile = () => {
     setLoading(true);
     updateUser(user)
       .then((data) => {
-        console.log("userUpdated");
+        // console.log("userUpdated");
+        //before showing success message update image as well 
+        updateImage(filePath , user.userId).then((data)=>{
+          console.log("File Uploaded");
+          toast.success("Image Uploaded Successfully");
+          handleClose();
+        }).catch((error)=>{
+          console.log("file not Updated")
+          toast.error("Image Not Uploaded !!")
+        });
         toast.success("user updated successfully");
         return;
       })
@@ -69,10 +88,41 @@ const Profile = () => {
         console.log(error);
         toast.error("user not updated successfully");
         return;
-      }).finally(()=>{
-        setLoading(false);
       })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  const handleImageChange = (event)=>{
+    console.log(event.target.files[0])
+    if(event.target.files[0].type === "image/png" || event.target.files[0].type === "image/jpg" || 
+    event.target.files[0].type === "image/jpeg"){
+      const reader = new FileReader();
+      reader.onload=(e)=>{
+        setImageName(e.target.result)
+        setFilePath(event.target.files[0]);
+        // console.log(event.target.files[0]);
+      }
+      reader.readAsDataURL(event.target.files[0])
+      
+    }
+    else{
+      toast.error("File Type Is Invalid ")
+    }
+  }
+  const profileStyle = {
+    height: "170px",
+    width: "140px",
+    borderRadius: "50%",
+    border: "2px solid white",
+    objectFit: "cover",
+  };
+
+  const clearImage = (event)=>{
+    setImageName("/assest/defaultProfile.avif");
+    setFilePath(null);
+  }
 
   const updateModel = () => {
     return (
@@ -87,6 +137,22 @@ const Profile = () => {
                 <div className="mt-3">
                   <Table responsive striped bordered hover>
                     <tbody>
+                      <tr>
+                        <td>Profile</td>
+                        <td>
+                          <Container className="text-center">
+                            <img
+                              src={imageName}
+                              alt="Profile"
+                              style={profileStyle}
+                            />
+                          </Container>
+                          <InputGroup>
+                          <Form.Control type="file" onChange={handleImageChange} />
+                          <Button onClick={clearImage} variant="outline-secondary">Clear</Button>
+                          </InputGroup>
+                        </td>
+                      </tr>
                       <tr>
                         <td>Name</td>
                         <td>
@@ -149,7 +215,12 @@ const Profile = () => {
               Close
             </Button>
             <Button variant="primary" onClick={updateUserData}>
-              <Spinner animation="border" size="sm" className="mr-2" hidden={!loading} />
+              <Spinner
+                animation="border"
+                size="sm"
+                className="mr-2"
+                hidden={!loading}
+              />
               <span hidden={loading}>Update Details</span>
               <span hidden={!loading}>Please Wait </span>
             </Button>

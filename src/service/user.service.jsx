@@ -25,3 +25,12 @@ export const serveImage = (userId) =>{
 export const updateUser =(user) =>{
   return privateAxios.put(`/users/${user.userId}` , user).then((response) => response.data);
 }
+
+//update user Image
+export const updateImage = (file , userId) =>{
+  if(file == null) return ;
+  // we can't send directy as a json ..we have to send as a multipart
+  const multiPartData = new FormData();
+  multiPartData.append("image" , file);
+  return privateAxios.post(`/users/image/${userId}` , multiPartData).then((resp)=>resp.data)
+}
