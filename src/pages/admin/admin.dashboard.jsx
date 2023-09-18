@@ -16,7 +16,7 @@ const AdminDashboard = () => {
             }} >
             <SideMenu/>
             </Col>
-            <Col md={8} className="bg-success">
+            <Col md={8} >
             <Outlet/>
             </Col>
           </Row>
