@@ -12,7 +12,7 @@ import { IoLogOut } from "react-icons/io5";
 const SideMenu = () => {
   return (
     <>
-      <ListGroup>
+      <ListGroup className="sticky-top">
         <ListGroupItem as={NavLink} to="/admin/home" action>
           <FcHome size={20} className="me-2" />
           Home

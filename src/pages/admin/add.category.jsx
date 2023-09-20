@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Button, Card, Container, Form, FormControl } from "react-bootstrap";
+import { Button, Card, Container, Form, FormControl, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { addCategory } from "../../service/category.service";
 
 const AddCategory = () => {
+
+  const [loading , setLoading] = useState(false);
+
   let [data, setdata] = useState({
     title: "",
     discription: "",
@@ -27,19 +30,27 @@ const AddCategory = () => {
         return ;
     }
     if(data.discription === undefined || data.discription.trim() === ''){
-        toast.error("Title can't be empty");
+        toast.error("discription can't be empty");
         return ;
     }
-    // if(data.title === undefined || data.title.trim() == ''){
-    //     toast.error("Title can't be empty");
+    // if(data.url === undefined || data.url.trim() === ''){
+    //     toast.error("Image Url can't be empty");
     //     return ;
     // }
-
+    setLoading(true);
     addCategory(data).then((response)=>{
         console.log(response);
         toast.success("Category Addedd Successfully.");
+        setdata({
+          title: "",
+          discription: "",
+          coverImage: "",
+        })
     }).catch((error)=>{
-        toast.error(error);
+      console.log(error);
+        toast.error(error.response.data.title);
+    }).finally(()=>{
+      setLoading(false);
     })
 
 
@@ -86,7 +97,9 @@ const AddCategory = () => {
               </Form.Group>
               <Container className="mt-4 text-center">
               <Button variant="success" size="sm" type="submit">
-                Add Category
+                <Spinner animation="border" size="sm" className="me-2" hidden={!loading}/>
+                <span hidden={loading}>Add Category</span>
+                <span hidden={!loading}>Please Wait</span>
               </Button>
               <Button onClick={reset} variant="danger" size="sm" className="ms-2">
                 Reset

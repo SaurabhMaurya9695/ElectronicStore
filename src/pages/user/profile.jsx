@@ -15,6 +15,9 @@ import { toast } from "react-toastify";
 import UserProfileView from "../../components/user/UserProfileView";
 import { getSingleUserData, updateImage, updateUser } from "../../service/user.service";
 const Profile = () => {
+
+  // const navigate =useNavigate();
+
   // const userContext = useContext(UserContext);
   const [user, setUser] = useState(null);
 
@@ -84,6 +87,7 @@ const Profile = () => {
           });
         }
         toast.success("user updated successfully");
+
         return;
       })
       .catch((error) => {
@@ -93,7 +97,10 @@ const Profile = () => {
       })
       .finally(() => {
         setLoading(false);
+        // navigate(`/users/profile/:${user.userId}`)
       });
+      handleClose()
+      
   };
 
   const handleImageChange = (event)=>{
