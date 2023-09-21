@@ -27,6 +27,7 @@ const CategoryView = (props) => {
                     'Your category has been deleted.',
                     'success'
                   )
+            window.location.reload(); 
             }).catch((error)=>{
                 console.log(error);
                 Swal.fire({
@@ -54,7 +55,7 @@ const CategoryView = (props) => {
                 style={imageStyle}
               />
             </Col>
-            <Col md={8} className="mt-2">
+            <Col md={7} className="mt-2">
               <h5>{props.passCategories.title}</h5>
               <p>{props.passCategories.discription}</p>
             </Col>
@@ -63,12 +64,13 @@ const CategoryView = (props) => {
                 <Button className="mt-2" size="sm" variant="danger" onClick={deleteCat}>
                   Delete
                 </Button>
-                <Button className="mt-2" size="sm" variant="info">
-                  Update
+                <Button className="mt-2" size="sm" variant="warning" onClick={(event)=> props.updateCategory(props.passCategories)}>
+                  update
                 </Button>
-                <Button className="mt-2" size="sm" variant="warning">
-                  View
+                <Button className="mt-2" size="sm" variant="info" onClick={(event)=> props.viewCategory(props.passCategories)}>
+                  view
                 </Button>
+                
               </Container>
             </Col>
           </Row>

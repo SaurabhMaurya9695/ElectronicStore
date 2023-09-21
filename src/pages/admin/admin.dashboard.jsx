@@ -11,12 +11,12 @@ const AdminDashboard = () => {
         <Container className="p-4">
           <Row>
             <Col md={{
-              span:2,
+              span:3,
               offset:1
             }} >
             <SideMenu/>
             </Col>
-            <Col md={8} >
+            <Col md={7} >
             <Outlet/>
             </Col>
           </Row>

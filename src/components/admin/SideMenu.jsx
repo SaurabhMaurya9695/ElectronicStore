@@ -9,9 +9,10 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import { IoLogOut } from "react-icons/io5";
 
-const SideMenu = () => {
+const SideMenu = (props) => {
   return (
     <>
+    {console.log(props.notification)}
       <ListGroup className="sticky-top">
         <ListGroupItem as={NavLink} to="/admin/home" action>
           <FcHome size={20} className="me-2" />
@@ -21,9 +22,12 @@ const SideMenu = () => {
           <BiSolidCategoryAlt size={20} className="me-2" />
           Add Categories
         </ListGroupItem>
-        <ListGroupItem as={NavLink} to="/admin/categories" action>
+        <ListGroupItem as={NavLink} to="/admin/categories" action className="d-flex justify-content-between align-items-start">
+          <div>
           <MdCategory size={20} className="me-2" />
           View Categories
+          </div>
+          <Badge bg="danger" hidden={!props.notification }>New</Badge>
         </ListGroupItem>
         <ListGroupItem as={NavLink} to="/admin/add-product" action>
             <IoIosAddCircle size={20} className="me-2"/>

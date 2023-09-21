@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button, Card, Container, Form, FormControl, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
+import SideMenu from "../../components/admin/SideMenu";
 import { addCategory } from "../../service/category.service";
 
 const AddCategory = () => {
 
   const [loading , setLoading] = useState(false);
+  const [ok , setOk] = useState(false);
 
   let [data, setdata] = useState({
     title: "",
@@ -38,6 +40,7 @@ const AddCategory = () => {
     //     return ;
     // }
     setLoading(true);
+    
     addCategory(data).then((response)=>{
         console.log(response);
         toast.success("Category Addedd Successfully.");
@@ -45,16 +48,18 @@ const AddCategory = () => {
           title: "",
           discription: "",
           coverImage: "",
-        })
+        });
+        setOk(true);
+        <SideMenu notification = {ok}/>
     }).catch((error)=>{
       console.log(error);
         toast.error(error.response.data.title);
     }).finally(()=>{
       setLoading(false);
     })
-
-
-  }
+    
+   
+}
 
   const reset = ()=>{
     setdata({
