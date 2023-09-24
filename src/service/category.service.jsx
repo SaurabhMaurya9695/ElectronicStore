@@ -11,3 +11,7 @@ export const getAllCategory = ()=>{
 export const deleteCategory = (userId) =>{
     return privateAxios.delete(`/categories/${userId}`).then((response) => response.data);
 }
+
+export const updateCategories = (category) =>{
+    return privateAxios.put(`/categories/${category.categoryId}` , category).then((response) => response.data);
+}
