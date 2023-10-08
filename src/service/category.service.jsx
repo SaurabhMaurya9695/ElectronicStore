@@ -4,8 +4,8 @@ export const addCategory = (categories)=>{
     return privateAxios.post(`/categories/` , categories).then((response) => response.data);
 }
 
-export const getAllCategory = ()=>{
-    return privateAxios.get(`/categories`).then((response) => response.data);
+export const getAllCategory = (currentPage = 0)=>{ // if we want pass currPge it is taking zero 
+    return privateAxios.get(`/categories?pageNumber=${currentPage}&&pageSize=6`).then((response) => response.data);
 }
 
 export const deleteCategory = (userId) =>{
