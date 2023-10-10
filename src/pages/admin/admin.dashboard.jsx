@@ -8,15 +8,15 @@ const AdminDashboard = () => {
     return (
       <div>
         {/* <Outlet></Outlet> */}
-        <Container className="p-4">
+        <Container  className="p-4">
           <Row>
             <Col md={{
               span:3,
-              offset:1
+              // offset:1
             }} >
             <SideMenu/>
             </Col>
-            <Col md={7} >
+            <Col  >
             <Outlet/>
             </Col>
           </Row>
