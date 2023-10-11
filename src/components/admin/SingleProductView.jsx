@@ -46,7 +46,7 @@ const SingleProductView = ({
         <td className="px-3 small">{product.stock ? 'True' :'False'}</td>
         <td className="px-3 small">{product.category ? product.category.title : "NULL"}</td>
         <td className="px-3 small">{formatDate(product.addedDate)}</td>
-        <td className="d-flex small">
+        <td className="d-flex small table-light">
           <Button variant="danger" size="sm">
             {" "}
             <RiDeleteBin2Fill/>

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
 import SingleProductView from "../../components/admin/SingleProductView";
+import { PRODUCT_PAGE_SIZE } from "../../service/helper.service";
 import { getAllproduct } from "../../service/product.service";
 
 const ViewProduct = () => {
@@ -14,7 +15,7 @@ const ViewProduct = () => {
 
     const getAllProducts=(
         pageNumber = 0,
-        pageSize = 10,
+        pageSize = PRODUCT_PAGE_SIZE,
         sortBy = "addedDate",
         sortDir = "asc"
     )=>{
@@ -71,10 +72,30 @@ const ViewProduct = () => {
                 {/* Implement Pagination here */}
                 <Container className="d-flex justify-content-center" >
                     <Pagination>
-                        <Pagination.Prev></Pagination.Prev>
+                        {/* <Pagination.Prev></Pagination.Prev>
                         <Pagination.Item>2</Pagination.Item>
                         <Pagination.Item>3</Pagination.Item>
-                        <Pagination.Next/>
+                        <Pagination.Next/> */}
+
+                        {/* implement pagination with the help of for loop */}
+                        <Pagination.First onClick={(event)=>{
+                            if(product.pageNumber - 1 < 0) return ;
+                              getAllProducts(0 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                        <Pagination.Prev  onClick={(event)=>{
+                            if(product.pageNumber - 1 < 0) return ;
+                              getAllProducts(product.pageNumber - 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                        {
+                          [...Array(product.totalPages)].map((obj, i) => i).map((item)=> {
+                            return (product.pageNumber === item) ? <Pagination.Item active key={item}>{item + 1 }</Pagination.Item> : <Pagination.Item onClick={(event)=>{
+                              getAllProducts(item , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')
+                            }} key={item}>{item + 1 }</Pagination.Item>
+                          })
+                        }
+                        <Pagination.Next onClick={(event)=>{
+                          if(product.lastPage) return
+                              getAllProducts(product.pageNumber + 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                        <Pagination.Last  onClick={(event)=>{
+                              getAllProducts(product.totalPages - 1, PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
                     </Pagination>
                 </Container>
               </Card.Body>
