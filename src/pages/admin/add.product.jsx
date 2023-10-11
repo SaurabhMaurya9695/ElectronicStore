@@ -36,7 +36,7 @@ const AddProduct = () => {
   const [selectedCategorieId , setSelectedCategorieId] = useState("none");
 
   useEffect(()=>{
-    getAllCategory(0 , 1000).then((data)=>{
+    getAllCategory().then((data)=>{
       console.log(data);
       setCategories(data);
     }).catch((error)=>{

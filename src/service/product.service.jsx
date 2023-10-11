@@ -30,3 +30,8 @@ export const getAllproduct = (
     )
     .then((response) => response.data);
 };
+
+
+export const deleteSingleProduct = (productId) =>{
+  return privateAxios.delete(`/products/${productId}`).then((response)=> response.data);
+}

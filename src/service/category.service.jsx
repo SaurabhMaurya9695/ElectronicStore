@@ -5,7 +5,7 @@ export const addCategory = (categories)=>{
 }
 
 export const getAllCategory = (currentPage = 0)=>{ // if we want pass currPge it is taking zero 
-    return privateAxios.get(`/categories?pageNumber=${currentPage}&&pageSize=6`).then((response) => response.data);
+    return privateAxios.get(`/categories?pageNumber=${currentPage}`).then((response) => response.data);
 }
 
 export const deleteCategory = (userId) =>{

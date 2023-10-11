@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Card, Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, Modal, Pagination, Row, Table } from "react-bootstrap";
 import SingleProductView from "../../components/admin/SingleProductView";
 import { PRODUCT_PAGE_SIZE } from "../../service/helper.service";
 import { getAllproduct } from "../../service/product.service";
@@ -8,6 +8,19 @@ import { getAllproduct } from "../../service/product.service";
 const ViewProduct = () => {
 
     const [product , setProduct] = useState(undefined);
+    //modal states start
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+      setShow(false)
+    };
+    const modalShow = (event) => { // pass this as reference to other component to open the view
+      console.log("open model")
+      setProduct({
+        ...product
+      })
+      setShow(true)
+    };
+    //modal states ends
 
     useEffect(()=>{
         getAllProducts()
@@ -29,6 +42,37 @@ const ViewProduct = () => {
             console.log("error");
             console.log(error);
         })
+    }
+
+    const updateProductList = (productId)=>{
+      const newArray = product.content.filter((p)=> p.pId !== productId); 
+      setProduct({
+        ...product,
+        content:newArray
+      });
+    }
+
+    // modelView
+
+    const openModelView = () =>{
+      
+      return (<>
+      {modalShow}
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{product.pId}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>)
     }
 
     const productView = ()=>{
@@ -64,8 +108,7 @@ const ViewProduct = () => {
                   </thead>
                   <tbody>
                     {
-                        product.content.map((e,index) => <SingleProductView key={index} index={index}
-                                                         product={e}   />)
+                         product.content.map((e,index) => <SingleProductView key={index} index={index} updateProductList={updateProductList} product={e}  openModelView = {modalShow} />) 
                     }
                   </tbody>
                 </Table>
@@ -118,6 +161,9 @@ const ViewProduct = () => {
           </Col>
         </Row>
       </Container>
+      {
+        openModelView()
+      }
     </>
   );
 };
