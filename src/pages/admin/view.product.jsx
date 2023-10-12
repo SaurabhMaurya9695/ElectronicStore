@@ -2,26 +2,27 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Card, Col, Container, Form, Modal, Pagination, Row, Table } from "react-bootstrap";
 import SingleProductView from "../../components/admin/SingleProductView";
-import { PRODUCT_PAGE_SIZE } from "../../service/helper.service";
+import {getProductImage, PRODUCT_PAGE_SIZE } from "../../service/helper.service";
 import { getAllproduct } from "../../service/product.service";
 
 const ViewProduct = () => {
 
-    const [product , setProduct] = useState(undefined);
+    const [products , setProducts] = useState(undefined);
+    const [currentModelProduct , setCurrentModelProduct] = useState(undefined);
     //modal states start
     const [show, setShow] = useState(false);
     const handleClose = () => {
       setShow(false)
     };
-    const modalShow = (event) => { // pass this as reference to other component to open the view
-      console.log("open model")
-      setProduct({
-        ...product
-      })
+
+    const modalShow = (event , product) => { // pass this as reference to other component to open the view
+      console.log("this is product" ,  product);
+      setCurrentModelProduct(product)
       setShow(true)
     };
     //modal states ends
 
+    //imgae condition
     useEffect(()=>{
         getAllProducts()
     },[]) ;
@@ -35,7 +36,7 @@ const ViewProduct = () => {
         getAllproduct(pageNumber , pageSize , sortBy , sortDir).then((resp)=>{
             console.log("product loaded successfully");
             console.log(resp);
-            setProduct({
+            setProducts({
                 ...resp
             });
         }).catch((error)=>{
@@ -45,9 +46,9 @@ const ViewProduct = () => {
     }
 
     const updateProductList = (productId)=>{
-      const newArray = product.content.filter((p)=> p.pId !== productId); 
-      setProduct({
-        ...product,
+      const newArray = products.content.filter((p)=> p.pId !== productId); 
+      setProducts({
+        ...products,
         content:newArray
       });
     }
@@ -56,13 +57,64 @@ const ViewProduct = () => {
 
     const openModelView = () =>{
       
-      return (<>
-      {modalShow}
-        <Modal show={show} onHide={handleClose}>
+      return currentModelProduct && (<>
+        <Modal size="xl" centered show={show} onHide={handleClose}>
+          {/* {JSON.stringify(currentModelProduct.pId)} */}
+          {/* {currentModelProduct.pId} */}
           <Modal.Header closeButton>
-            <Modal.Title>{product.pId}</Modal.Title>
+            <Modal.Title>{currentModelProduct.title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <Card className="shadow">
+              <Card.Body>
+                {/* product profile */}
+            <Container className="text-center">
+              <img style={{
+                height : '300px'
+              }} src={currentModelProduct.productImageName != null ?  getProductImage(currentModelProduct.pId) : "/assest/noProductImage.png"} alt="No_Image_Found" />
+            </Container>
+            {/* Information table  */}
+          <Table striped bordered responsive className="text-center mt-2">
+            <thead>
+              <tr>
+                <th>Info</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Quantity</td>
+                <td>{currentModelProduct.quantity}</td>
+              </tr>
+              <tr>
+                <td>Price</td>
+                <td>{currentModelProduct.price}</td>
+              </tr>
+              <tr>
+                <td>Discount</td>
+                <td>{currentModelProduct.discounted_price}</td>
+              </tr>
+              <tr>
+                <td>Live</td>
+                <td>{currentModelProduct.live ? 'True':'False'}</td>
+              </tr>
+              <tr>
+                <td>Stock</td>
+                <td>{currentModelProduct.stock ? 'InStock':'Out Of Stock'}</td>
+              </tr>
+              <tr>
+                <td>Category </td>
+                <td>{currentModelProduct.category?.title}</td>
+              </tr>
+            </tbody>
+          </Table>
+            {/* description */}
+            <div className="p-3 border border-1" dangerouslySetInnerHTML={{__html : currentModelProduct.discription}}></div>
+              </Card.Body>
+            </Card>
+          </Modal.Body>
+
+          
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Close
@@ -108,7 +160,7 @@ const ViewProduct = () => {
                   </thead>
                   <tbody>
                     {
-                         product.content.map((e,index) => <SingleProductView key={index} index={index} updateProductList={updateProductList} product={e}  openModelView = {modalShow} />) 
+                         products.content.map((e,index) => <SingleProductView key={index} index={index} updateProductList={updateProductList} product={e}  openModelView = {modalShow} />) 
                     }
                   </tbody>
                 </Table>
@@ -122,23 +174,23 @@ const ViewProduct = () => {
 
                         {/* implement pagination with the help of for loop */}
                         <Pagination.First onClick={(event)=>{
-                            if(product.pageNumber - 1 < 0) return ;
+                            if(products.pageNumber - 1 < 0) return ;
                               getAllProducts(0 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
                         <Pagination.Prev  onClick={(event)=>{
-                            if(product.pageNumber - 1 < 0) return ;
-                              getAllProducts(product.pageNumber - 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                            if(products.pageNumber - 1 < 0) return ;
+                              getAllProducts(products.pageNumber - 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
                         {
-                          [...Array(product.totalPages)].map((obj, i) => i).map((item)=> {
-                            return (product.pageNumber === item) ? <Pagination.Item active key={item}>{item + 1 }</Pagination.Item> : <Pagination.Item onClick={(event)=>{
+                          [...Array(products.totalPages)].map((obj, i) => i).map((item)=> {
+                            return (products.pageNumber === item) ? <Pagination.Item active key={item}>{item + 1 }</Pagination.Item> : <Pagination.Item onClick={(event)=>{
                               getAllProducts(item , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')
                             }} key={item}>{item + 1 }</Pagination.Item>
                           })
                         }
                         <Pagination.Next onClick={(event)=>{
-                          if(product.lastPage) return
-                              getAllProducts(product.pageNumber + 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                          if(products.lastPage) return
+                              getAllProducts(products.pageNumber + 1 , PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
                         <Pagination.Last  onClick={(event)=>{
-                              getAllProducts(product.totalPages - 1, PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
+                              getAllProducts(products.totalPages - 1, PRODUCT_PAGE_SIZE , 'addedDate' , 'asc')}}/>
                     </Pagination>
                 </Container>
               </Card.Body>
@@ -156,7 +208,7 @@ const ViewProduct = () => {
             {/* add responsive for make table resposnive */}
             {/* {JSON.stringify(product)} */}
             {
-                product ?  productView() : ''
+                products ?  productView() : ''
             }
           </Col>
         </Row>

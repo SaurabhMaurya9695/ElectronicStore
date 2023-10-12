@@ -84,7 +84,7 @@ const SingleProductView = ({
             {" "}
             <PiPencilSimpleFill/>
           </Button>
-          <Button className="ms-2" variant="info" size="sm" onClick={openModelView}>
+          <Button className="ms-2" variant="info" size="sm" onClick={(event) => openModelView(event , product)}>
             {" "}
             <GrFormView/>
           </Button>
