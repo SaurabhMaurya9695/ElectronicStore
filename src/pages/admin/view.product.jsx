@@ -4,7 +4,7 @@ import { Button, Card, Col, Container, Form, Modal, Pagination, Row, Table } fro
 import SingleProductView from "../../components/admin/SingleProductView";
 import {getProductImage, PRODUCT_PAGE_SIZE } from "../../service/helper.service";
 import { getAllproduct } from "../../service/product.service";
-
+import ShowHtmlParse from "../../components/ShowHtmlParse"
 const ViewProduct = () => {
 
     const [products , setProducts] = useState(undefined);
@@ -88,11 +88,11 @@ const ViewProduct = () => {
               </tr>
               <tr>
                 <td>Price</td>
-                <td>{currentModelProduct.price}</td>
+                <td>₹{currentModelProduct.price}</td>
               </tr>
               <tr>
                 <td>Discount</td>
-                <td>{currentModelProduct.discounted_price}</td>
+                <td>₹{currentModelProduct.discounted_price}</td>
               </tr>
               <tr>
                 <td>Live</td>
@@ -109,7 +109,9 @@ const ViewProduct = () => {
             </tbody>
           </Table>
             {/* description */}
-            <div className="p-3 border border-1" dangerouslySetInnerHTML={{__html : currentModelProduct.discription}}></div>
+            <div className="p-3 border border-1" >
+            <ShowHtmlParse htmltext={currentModelProduct.discription}/>
+            </div>
               </Card.Body>
             </Card>
           </Modal.Body>
