@@ -35,3 +35,7 @@ export const getAllproduct = (
 export const deleteSingleProduct = (productId) =>{
   return privateAxios.delete(`/products/${productId}`).then((response)=> response.data);
 }
+
+export const updateProduct = (data , productId) =>{
+  return privateAxios.put(`/products/${productId}`, data).then((response)=> response.data);
+}

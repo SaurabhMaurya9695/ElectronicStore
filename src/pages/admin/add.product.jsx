@@ -316,15 +316,14 @@ const AddProduct = () => {
 
               {/* ProductImage */}
               <Form.Group className="mt-3">
-                <Container hidden={!product.image}>
+                <Container className="text-center py-4 border border-3" hidden={!product.image}>
                   <p className="text-muted">Image Preview</p>
-                  <img
+                  <img 
                     src={product.imagePreview}
                     alt=""
                     className="img-fluid"
                     style={{
-                      height: "100px",
-                      width: "100px",
+                      maxHeight: "250px",
                     }}
                   ></img>
                 </Container>

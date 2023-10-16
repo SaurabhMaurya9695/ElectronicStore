@@ -7,7 +7,7 @@ import { deleteSingleProduct } from "../../service/product.service";
 import { toast } from "react-toastify";
 
 const SingleProductView = ({
-    product , index , updateProductList ,openModelView
+    product , index , updateProductList ,openModelView , UpdateProduct
 }) => {
 
     const formatDate = (time) =>{
@@ -80,7 +80,7 @@ const SingleProductView = ({
             {" "}
             <RiDeleteBin2Fill/>
           </Button>
-          <Button className="ms-2" variant="dark" size="sm">
+          <Button className="ms-2" variant="dark" size="sm" onClick={(event) => UpdateProduct(event , product)}>
             {" "}
             <PiPencilSimpleFill/>
           </Button>
