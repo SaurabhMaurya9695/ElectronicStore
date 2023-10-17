@@ -39,3 +39,11 @@ export const deleteSingleProduct = (productId) =>{
 export const updateProduct = (data , productId) =>{
   return privateAxios.put(`/products/${productId}`, data).then((response)=> response.data);
 }
+
+export const updateCategoryOfProduct = (categoryId ,pId )=>{
+  return privateAxios.put(`/categories/${categoryId}/product/${pId}`).then((response)=> response.data) ;
+}
+
+export const searchProducts = (query)=>{
+  return privateAxios.get(`/products/search/${query}`).then((response)=> response.data);
+}

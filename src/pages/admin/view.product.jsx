@@ -19,7 +19,7 @@ import {
   getProductImage,
   PRODUCT_PAGE_SIZE,
 } from "../../service/helper.service";
-import { AddProductImage, getAllproduct, updateProduct } from "../../service/product.service";
+import { AddProductImage, getAllproduct, searchProducts, updateCategoryOfProduct, updateProduct } from "../../service/product.service";
 import ShowHtmlParse from "../../components/ShowHtmlParse";
 import { Editor } from "@tinymce/tinymce-react";
 import { getAllCategory } from "../../service/category.service";
@@ -28,6 +28,7 @@ import Swal from "sweetalert2";
 const ViewProduct = () => {
   const [products, setProducts] = useState(undefined);
   const [currentModelProduct, setCurrentModelProduct] = useState(undefined);
+  const [searchText , setSearchText] = useState();
   //for richTextEditior
   const editorRef = useRef(null);
 
@@ -37,7 +38,7 @@ const ViewProduct = () => {
     image : undefined
   })
 
-  const [categoryUpdatedId , setCategoryUpdatedId] = useState();
+  const [categoryUpdatedId , setCategoryUpdatedId] = useState(undefined);
   //imageUpdate fields end
 
   const [loadedCategories, setLoadedCategories] = useState(undefined);
@@ -264,6 +265,36 @@ const ViewProduct = () => {
             })
           }
 
+          // if we select the same id again or we select none
+          if(categoryUpdatedId === 'none' || categoryUpdatedId ===currentModelProduct.category?.categoryId ){
+            
+          }
+          else{
+            updateCategoryOfProduct(categoryUpdatedId , currentModelProduct.pId)
+            .then((catData)=>{
+              console.log('catageory Updated');
+              toast.success('Category Updated Successfully');
+              setCurrentModelProduct({
+                ...currentModelProduct,
+                category:catData.category
+              })
+              const newArray = products.content.map(p=>{
+                if(p.pId === currentModelProduct.pId){
+                  return catData;
+                }
+                return p;
+              })
+    
+              setProducts({
+                ...products, // we want all things
+                content:newArray //only to change its content
+              })
+            })
+            .catch((error)=>{
+              console.log(error);
+              toast.error('some error occured while updating the category');
+            })
+          }
           const newArray = products.content.map(p=>{
             if(p.pId === currentModelProduct.pId){
               return data;
@@ -339,7 +370,7 @@ const ViewProduct = () => {
               <Modal.Title>{currentModelProduct.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              {JSON.stringify(currentModelProduct)}
+              {/* {JSON.stringify(currentModelProduct)} */}
               <Card className="border border-0 shadow-sm">
                 <Card.Body>
                   <h5 className="text-center">Add Product Here</h5>
@@ -508,10 +539,12 @@ const ViewProduct = () => {
                     </Form.Group>
 
                     {/* Add In category */}
-                    {/* {JSON.stringify(selectedCategorieId)} */}
+                    {/* {JSON.stringify(categoryUpdatedId)} */}
                     <Form.Group className="mt-3">
                       <Form.Label>Select Category</Form.Label>
-                      <Form.Select >
+                      <Form.Select  onChange={(event)=>{
+                        setCategoryUpdatedId(event.target.value)
+                      }}>
                         <option value="none">None</option>
                         {loadedCategories &&
                           loadedCategories.content.map((e) => {
@@ -522,6 +555,7 @@ const ViewProduct = () => {
                                   currentModelProduct.category?.categoryId
                                 }
                                 key={e.categoryId}
+                                value={e.categoryId}
                                 
                               >
                                 {e.title}
@@ -551,18 +585,48 @@ const ViewProduct = () => {
     );
   };
 
+  const searchProduct =()=>{
+    console.log("searchProduct")
+    if(searchText?.trim() === '' || searchText===undefined){
+      return;
+    }
+    searchProducts(searchText).then((data)=>{
+      console.log(data);
+      if(data.content.length <= 0){
+        toast.info("No Result Found");
+        return;
+      }
+      setProducts(data);
+      setSearchText('');
+    }).catch((error)=>{
+      console.log(error);
+      toast.error('Error In Searching Product ')
+    })
+  }
+
   const productView = () => {
     return (
       <>
+      {/* {JSON.stringify(searchText)} */}
         <Card className="shadow-sm">
           <Card.Body>
             <h5 className="mb-3">View Products</h5>
             <Form.Group className="mb-3">
               <Form.Label>Search Product </Form.Label>
-              <Form.Control
+              <InputGroup>
+              <Form.Control 
+                onChange={(event) => {
+                  if(event.target.value.trim() === '' || event.target.value === undefined){
+                    setProducts(products)
+                  }else{
+                    setSearchText(event.target.value)
+                  }
+                }}
                 type="text"
-                placeholder="Write Keywords to Search the text"
+                placeholder="Write Title Keywords to Search the text"
               ></Form.Control>
+              <Button onClick={searchProduct} variant="outline-secondary">Search</Button>
+              </InputGroup>
             </Form.Group>
             <Table
               className="text-center"
