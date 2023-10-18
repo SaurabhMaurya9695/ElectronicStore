@@ -174,7 +174,7 @@ const ViewProduct = () => {
                         <td>Live</td>
                         <td>{currentModelProduct.live ? "True" : "False"}</td>
                       </tr>
-                      <tr>
+                      <tr className={!currentModelProduct.stock ?  'table-danger px-3 small' :'table-success px-3 small'}>
                         <td>Stock</td>
                         <td>
                           {currentModelProduct.stock
