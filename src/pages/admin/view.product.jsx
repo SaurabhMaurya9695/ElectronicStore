@@ -29,6 +29,7 @@ const ViewProduct = () => {
   const [products, setProducts] = useState(undefined);
   const [currentModelProduct, setCurrentModelProduct] = useState(undefined);
   const [searchText , setSearchText] = useState();
+  const [prevProductState , setPrevProductState] = useState(undefined);
   //for richTextEditior
   const editorRef = useRef(null);
 
@@ -592,6 +593,7 @@ const ViewProduct = () => {
     }
     searchProducts(searchText).then((data)=>{
       console.log(data);
+      setPrevProductState(data);
       if(data.content.length <= 0){
         toast.info("No Result Found");
         return;
@@ -616,8 +618,10 @@ const ViewProduct = () => {
               <InputGroup>
               <Form.Control 
                 onChange={(event) => {
-                  if(event.target.value.trim() === '' || event.target.value === undefined){
-                    setProducts(products)
+                  if(event.target.value === ''){
+                    if(prevProductState){
+                      setProducts(prevProductState)
+                    }
                   }else{
                     setSearchText(event.target.value)
                   }
