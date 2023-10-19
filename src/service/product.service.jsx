@@ -47,3 +47,7 @@ export const updateCategoryOfProduct = (categoryId ,pId )=>{
 export const searchProducts = (query)=>{
   return privateAxios.get(`/products/search/${query}`).then((response)=> response.data);
 }
+
+export const getSingleProduct = (pId)=>{
+  return privateAxios.get(`/products/${pId}`).then((response)=> response.data);
+}
