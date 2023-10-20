@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Badge, Button, Card, Col, Container, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
+import InfiniteScroll from "react-infinite-scroll-component";
 import SingleOrderView from "../../components/admin/SingleOrderView";
 import { ADMIN_ORDER_PAGE_SIZE, getProductImage } from "../../service/helper.service";
 import { getAllOrders } from "../../service/order.service";
@@ -9,6 +10,7 @@ import { getAllOrders } from "../../service/order.service";
 const ViewOrders = () => {
   const [ordersData, setOrdersData] = useState(undefined);
   const [selectedOrdersData, setSelectedOrdersData] = useState(undefined);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -22,17 +24,36 @@ const ViewOrders = () => {
     getAllOrdersLocally();
   }, []);
 
+  useEffect(() => {
+    if (currentPage > 0 && currentPage !== undefined) {
+      getAllOrdersLocally()
+    }
+  }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const getAllOrdersLocally = async () => {
     try {
       let data = await getAllOrders(
-        0,
+        currentPage === undefined ? 0 : currentPage,
         ADMIN_ORDER_PAGE_SIZE,
         "orderedDate",
         "asc"
       );
       // we used async-awit function so we have to handle with the help of try and catch
       console.log(data);
-      setOrdersData(data);
+      // if it is the first page then load the first page data and set it
+      if(currentPage === 0){
+        setOrdersData(data);
+      }
+      else{
+        setOrdersData({
+          content: [...ordersData.content , ...data.content], // first added orders then coming data we added after that 
+          lastPage: data.lastPage,
+          pageNumber: data.pageNumber,
+          pageSize: data.pageSize,
+          totalElement: data.totalElement,
+          totalPages: data.totalPages,
+        });
+      }
     } catch (e) {
       console.log("error occured");
       console.log(e);
@@ -166,14 +187,31 @@ const ViewOrders = () => {
       </>
     );
   }
+
+  const loadNextPage = () => {
+    console.log("loading next page");
+    setCurrentPage(currentPage + 1);
+  };
+
   const orderView = () => {
-    return (
+    return ordersData && (
       <>
         <Card className="shadow-sm">
           <CardHeader>
             <h3 className="text-center my-4">All Orders is here</h3>
           </CardHeader>
           <Card.Body >
+            <InfiniteScroll
+            dataLength={ordersData.content.length}
+            next={loadNextPage}
+            hasMore={!ordersData.lastPage}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+            >
             {
                 ordersData?.content.map((e)=>{
                     return (
@@ -182,6 +220,7 @@ const ViewOrders = () => {
                     
                 })
             }
+            </InfiniteScroll>
           </Card.Body>
         </Card>
       </>
