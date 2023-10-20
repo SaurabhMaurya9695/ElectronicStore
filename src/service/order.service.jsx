@@ -13,8 +13,9 @@ export const deleteOrder = (orderId) => {
 };
 
 // UpdateOrder
-export const updateOrder = (orderId, data) => {
-  return privateAxios.put(`/order/${orderId}`, data).then((resp) => resp.data);
+export const updateOrder = async(orderId, orderData) => {
+  let response = await privateAxios.put(`/order/${orderId}`, orderData);
+  return response.data;
 };
 
 // createOrder

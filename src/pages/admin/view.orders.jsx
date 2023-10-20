@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Badge, Button, Card, Col, Container, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Form, FormControl, FormLabel, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { toast } from "react-toastify";
 import SingleOrderView from "../../components/admin/SingleOrderView";
 import { ADMIN_ORDER_PAGE_SIZE, getProductImage } from "../../service/helper.service";
-import { getAllOrders } from "../../service/order.service";
+import { getAllOrders, updateOrder } from "../../service/order.service";
 
 const ViewOrders = () => {
   const [ordersData, setOrdersData] = useState(undefined);
   const [selectedOrdersData, setSelectedOrdersData] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(0);
+  const [updateOrderData, setUpdateOrderData] = useState(undefined);
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -20,12 +22,22 @@ const ViewOrders = () => {
     handleshow();
   }
 
-  useEffect(() => {
-    getAllOrdersLocally();
-  }, []);
+  //UpdateOrderDetails 
+  const [showUpdateModel, setShowUpdateModel] = useState(false);
+  const handleUpdateModelClose = () => setShowUpdateModel(false);
+  const handleUpdateModelshow= () => setShowUpdateModel(true);
+  const openEditOrderModel = (event , order) => {
+    setUpdateOrderData({...order})
+    handleUpdateModelshow();
+  }
+  //UpdateOrderDetails closed
 
   useEffect(() => {
-    if (currentPage > 0 && currentPage !== undefined) {
+    getAllOrdersLocally();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (currentPage > 0) {
       getAllOrdersLocally()
     }
   }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -58,9 +70,9 @@ const ViewOrders = () => {
       console.log("error occured");
       console.log(e);
     }
-  };
+  }; // eslint-disable-line react-hooks/exhaustive-deps
 
-  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const formatDate = (time) =>{
         // let todaydate =  new Date(time).toLocaleDateString();
@@ -179,7 +191,119 @@ const ViewOrders = () => {
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+          </Modal.Footer>
+        </Modal>
+      </>
+    );
+  }
+
+  const updateOrderForm= async (event)=>{
+    event.preventDefault();
+    console.log(updateOrderData);
+    try{
+      let data = await updateOrder(updateOrderData.orderId ,updateOrderData);
+      console.log(data);
+      let newArray = ordersData.content.filter((p) => p.pId !== data.orderId);
+      setOrdersData({
+        ...ordersData,
+        content: newArray,
+      });
+      handleUpdateModelClose();
+      toast.success("Order Updated Successfully");
+      
+    }
+    catch(e){
+      console.log(e);
+    }
+  }
+
+  const updateOrders = ()=>{
+    return updateOrderData && (
+      <>
+        <Modal animation={false} size="lg" show={showUpdateModel} onHide={handleUpdateModelClose}>
+          <Modal.Header closeButton>
+            <Modal.Title><h5 className="text-center">Update Your Order Details</h5></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Card>
+              <Card.Body>
+                <Form>
+                <Form.Group>
+                        <FormLabel >Billing Name</FormLabel>
+                        <FormControl
+                        type="text"
+                        value={updateOrderData.billingName}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          billingName:event.target.value
+                        })}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <FormLabel>Billing Phone</FormLabel>
+                        <FormControl
+                        type="text"
+                        value={updateOrderData.billingPhone}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          billingPhone:event.target.value
+                        })}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <FormLabel>Billing Address</FormLabel>
+                        <FormControl
+                        type="text"
+                        value={updateOrderData.billingAddress}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          billingAddress:event.target.value
+                        })}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <FormLabel>Payement Status</FormLabel>
+                        <FormControl
+                        type="text"
+                        value={updateOrderData.payementStatus}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          payementStatus:event.target.value
+                        })}
+                        />
+                    </Form.Group>
+                    <Form.Group className="mt-3">
+                        <FormLabel>Order Status</FormLabel>
+                        <FormControl
+                        type="text"
+                        value={updateOrderData.orderStatus}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          orderStatus:event.target.value
+                        })}
+                        />
+                    </Form.Group>
+                    {/* <Form.Group className="mt-3">
+                        <FormLabel>Deliverd Date</FormLabel>
+                        <FormControl
+                        type="date"
+                        value={formatDate(updateOrderData.deliveredDate)}
+                        onChange={(event)=> setUpdateOrderData({
+                          ...updateOrderData,
+                          deliveredDate:event.target.value
+                        })}
+                        />
+                    </Form.Group> */}
+
+                </Form>
+              </Card.Body>
+            </Card>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleUpdateModelClose}>
+              Close
+            </Button>
+            <Button  onClick={updateOrderForm} variant="primary" >
               Save Changes
             </Button>
           </Modal.Footer>
@@ -215,7 +339,7 @@ const ViewOrders = () => {
             {
                 ordersData?.content.map((e)=>{
                     return (
-                        <SingleOrderView key={e.orderId} order={e} openOrderViewModel = {openOrderViewModel}/>
+                        <SingleOrderView key={e.orderId} order={e} openOrderViewModel = {openOrderViewModel} openEditOrderModel = {openEditOrderModel}/>
                     )
                     
                 })
@@ -226,6 +350,8 @@ const ViewOrders = () => {
       </>
     );
   };
+
+
   return (
     <>
       <Container>
@@ -233,6 +359,9 @@ const ViewOrders = () => {
           <Col>{ordersData && orderView()}</Col>
           {
               showOrders()
+          }
+          {
+            updateOrders()
           }
         </Row>
       </Container>

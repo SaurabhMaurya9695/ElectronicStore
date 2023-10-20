@@ -1,6 +1,6 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 
-const SingleOrderView =({order , openOrderViewModel})=>{
+const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const formatDate = (time) =>{
@@ -79,7 +79,10 @@ const SingleOrderView =({order , openOrderViewModel})=>{
                 <Container className="text-center">
                     <Button onClick={(event)=>{
                         openOrderViewModel(event,order)
-                    }} size="sm" variant="info">View Order Details</Button>
+                    }} size="sm" variant="info">Order Details</Button>
+                    <Button className="ms-2" onClick={(event)=>{
+                        openEditOrderModel(event,order)
+                    }} size="sm" variant="warning">Update Order</Button>
                 </Container>
             </Card.Body>
         </Card>
