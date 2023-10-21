@@ -8,8 +8,23 @@ import { GrFormView } from "react-icons/gr";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import { ImUsers } from "react-icons/im";
 import { IoLogOut } from "react-icons/io5";
+import { useEffect } from "react";
+import { useState } from "react";
+import { getAllUser } from "../../service/user.service";
 
 const SideMenu = (props) => {
+
+  const [totalUser , setTotalUser]= useState(0);
+
+  useEffect(()=>{
+    loadAllUser();
+  },[])
+
+  const loadAllUser = async()=>{
+     const data = await getAllUser(0, 100000 ,'name','asc');
+     setTotalUser(data.content.length);
+  }
+
   return (
     <>
     {console.log(props.notification)}
@@ -51,7 +66,7 @@ const SideMenu = (props) => {
         <ImUsers size={20} className="me-2"/>
           Users
         </div>
-          <Badge bg="danger">9</Badge>
+          <Badge bg="danger">{totalUser}</Badge>
         </ListGroupItem>
         <ListGroupItem as={NavLink} to="/logout" action>
           <IoLogOut size={20} className="me-2"/> Logout

@@ -25,7 +25,7 @@ const Profile = () => {
   // write same as that you passed in url
 
   const [loading, setLoading] = useState(false);
-  const [imageName , setImageName] = useState("/assest/defaultProfile.avif");
+  const [imageName , setImageName] = useState("/assest/defaultProfile.jpeg");
   const [filePath , setFilePath] = useState(null);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -129,7 +129,7 @@ const Profile = () => {
   };
 
   const clearImage = (event)=>{
-    setImageName("/assest/defaultProfile.avif");
+    setImageName("/assest/defaultProfile.jpeg");
     setFilePath(null);
   }
 
