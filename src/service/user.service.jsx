@@ -34,3 +34,8 @@ export const updateImage = (file , userId) =>{
   multiPartData.append("image" , file);
   return privateAxios.post(`/users/image/${userId}` , multiPartData).then((resp)=>resp.data)
 }
+
+export const getAllUser = async(pageNumber , pageSize , sortBy , sortDir) =>{
+    let response = await privateAxios.get(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`);
+    return response.data;
+}
