@@ -240,7 +240,9 @@ const Profile = () => {
   };
 
   return (
-    <Container className="rounded mt-3">
+    <Container className=" mt-3" style={{
+      maxWidth:"70%"
+    }}>
       {user ? (
         <>
           <UserProfileView user={user} handleShowModel={handleShow} />

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Badge, Button, Card, Col, Container, Form, FormControl, FormLabel, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Form, FormControl, FormLabel, FormSelect, ListGroup, ListGroupItem, Modal, Row, Table } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
@@ -79,6 +79,9 @@ const ViewOrders = () => {
         return today.toLocaleDateString("hi-IN", options)
     }
 
+    const formatDate1 = (time) =>{
+      return new Date(time).toLocaleDateString();
+    }
   const showOrders = ()=>{
     return selectedOrdersData && (
       <>
@@ -93,13 +96,21 @@ const ViewOrders = () => {
                     <b>Order id : </b> {selectedOrdersData.orderId}
                 </Col>
                 <Col >
-                    <b>Billing Name : </b> {selectedOrdersData.billingName}
+                    <b>Order By : </b> {selectedOrdersData.user.name}
                 </Col>
           </Row>
           <Row className="mt-4">
                     <Col>
                         <Table bordered striped>
                             <tbody>
+                              <tr>
+                                    <td>
+                                    Billing Name
+                                    </td>
+                                    <td className="fw-bold">
+                                    {selectedOrdersData.billingName}
+                                    </td>
+                                </tr>
                                 <tr>
                                     <td>
                                         Billing Phone
@@ -146,6 +157,14 @@ const ViewOrders = () => {
                                     </td>
                                     <td className="fw-bold">
                                         {formatDate(selectedOrdersData.orderedDate)}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Deliverd Date
+                                    </td>
+                                    <td className="fw-bold">
+                                        {formatDate1(selectedOrdersData.deliveredDate)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -200,10 +219,31 @@ const ViewOrders = () => {
   const updateOrderForm= async (event)=>{
     event.preventDefault();
     console.log(updateOrderData);
+    if(updateOrderData.billingName.trim() === '' || updateOrderData.billingName === undefined){
+      toast.error("Billing Name Required");
+      return ;
+    }
+    if(updateOrderData.billingAddress.trim() === '' || updateOrderData.billingAddress === undefined){
+      toast.error("Billing Address Required");
+      return ;
+    }
+    if(updateOrderData.billingPhone.trim() === '' || updateOrderData.billingPhone === undefined ){
+      toast.error("Billing Address Required");
+      return ;
+    }
+    if(updateOrderData.billingPhone.length < 10){
+      toast.error("Phone Number Must Be of Length 10");
+      return ;
+    }
     try{
-      let data = await updateOrder(updateOrderData.orderId ,updateOrderData);
+      const data = await updateOrder(updateOrderData.orderId ,updateOrderData);
       console.log(data);
-      let newArray = ordersData.content.filter((p) => p.pId !== data.orderId);
+      let newArray = ordersData.content.map((p) => {
+        if(p.orderId === data.orderId) return data;
+        else{
+          return p;
+        }
+      });
       setOrdersData({
         ...ordersData,
         content: newArray,
@@ -214,6 +254,7 @@ const ViewOrders = () => {
     }
     catch(e){
       console.log(e);
+      toast.error("Some Error Occured");
     }
   }
 
@@ -225,7 +266,7 @@ const ViewOrders = () => {
             <Modal.Title><h5 className="text-center">Update Your Order Details</h5></Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Card>
+            <Card className="border border-0 shadow">
               <Card.Body>
                 <Form>
                 <Form.Group>
@@ -253,6 +294,8 @@ const ViewOrders = () => {
                     <Form.Group className="mt-3">
                         <FormLabel>Billing Address</FormLabel>
                         <FormControl
+                        as={'textarea'}
+                        rows={3}
                         type="text"
                         value={updateOrderData.billingAddress}
                         onChange={(event)=> setUpdateOrderData({
@@ -263,37 +306,35 @@ const ViewOrders = () => {
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <FormLabel>Payement Status</FormLabel>
-                        <FormControl
-                        type="text"
-                        value={updateOrderData.payementStatus}
-                        onChange={(event)=> setUpdateOrderData({
+                        <FormSelect onChange={(event)=> setUpdateOrderData({
                           ...updateOrderData,
                           payementStatus:event.target.value
-                        })}
-                        />
+                        })}>
+                            <option selected={updateOrderData.payementStatus !== 'PAID' } value="NOT PAID">NOT PAID</option>
+                            <option selected={updateOrderData.payementStatus === 'PAID'} value="PAID">PAID</option>
+                        </FormSelect>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <FormLabel>Order Status</FormLabel>
-                        <FormControl
-                        type="text"
-                        value={updateOrderData.orderStatus}
-                        onChange={(event)=> setUpdateOrderData({
+                        <FormSelect onChange={(event)=> setUpdateOrderData({
                           ...updateOrderData,
                           orderStatus:event.target.value
-                        })}
-                        />
+                        })}>
+                            <option selected={updateOrderData.orderStatus === 'PENDING'} value="PENDING">PENDING</option>
+                            <option selected={updateOrderData.orderStatus === 'DISPATCHED'} value="DISPATCHED">DISPATCHED</option>
+                            <option selected={updateOrderData.orderStatus === 'ACCEPTED'} value="DELIVERED">DELIVERED</option>
+                            <option selected={updateOrderData.orderStatus === "NOT_ACCEPTED" } value="ONTHEWAY">ONTHEWAY</option>
+                        </FormSelect>
                     </Form.Group>
-                    {/* <Form.Group className="mt-3">
-                        <FormLabel>Deliverd Date</FormLabel>
-                        <FormControl
-                        type="date"
-                        value={formatDate(updateOrderData.deliveredDate)}
-                        onChange={(event)=> setUpdateOrderData({
-                          ...updateOrderData,
-                          deliveredDate:event.target.value
-                        })}
-                        />
-                    </Form.Group> */}
+                    <Form.Group className="mt-3">
+                      <Form.Label  >Select Date</Form.Label>
+                      <Form.Control type="text"  value={updateOrderData.deliveredDate} 
+                      onChange={(event)=> setUpdateOrderData({
+                        ...updateOrderData,
+                        deliveredDate:event.target.value
+                      })} />
+                      <p className="text-muted">Format Date : YYYY-MM-DD</p>
+                    </Form.Group>
 
                 </Form>
               </Card.Body>
