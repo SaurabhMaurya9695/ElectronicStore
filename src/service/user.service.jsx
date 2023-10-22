@@ -37,5 +37,15 @@ export const updateImage = (file , userId) =>{
 
 export const getAllUser = async(pageNumber , pageSize , sortBy , sortDir) =>{
     let response = await privateAxios.get(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`);
-    return response.data;
-}
+  return response.data;
+};
+
+export const searchUser = (keyWord) => {
+  return privateAxios
+    .get(`/users/searchKey/${keyWord}`)
+    .then((resp) => resp.data);
+};
+
+export const searchUserWithEmail = (email) => {
+  return privateAxios.get(`/users/email/${email}`).then((resp) => resp.data);
+};

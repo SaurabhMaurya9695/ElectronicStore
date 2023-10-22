@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { ADMIN_USER_PAGE_SIZE } from "../../service/helper.service";
-import { getAllUser } from "../../service/user.service";
+import { getAllUser, searchUserWithEmail  , searchUser} from "../../service/user.service";
 import SingleUserView from "../../components/SingleUserView";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";
@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 const Users = () => {
   const [userData, setUserData] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(0);
+  const [keyword, setKeyword] = useState(undefined);
+  const [overallData , setOverallData] = useState(undefined);
 
   useEffect(() => {
     getAllUserLocal(currentPage, ADMIN_USER_PAGE_SIZE, "name", "asc");
@@ -35,8 +37,19 @@ const Users = () => {
           totalElement: data.totalElement,
           totalPages: data.totalPages,
         });
+        setOverallData({
+          content: [...userData.content, ...data.content], // first added categ then coming data we added after that
+          lastPage: data.lastPage,
+          pageNumber: data.pageNumber,
+          pageSize: data.pageSize,
+          totalElement: data.totalElement,
+          totalPages: data.totalPages,
+        });
       } else {
         setUserData({
+          ...data,
+        });
+        setOverallData({
           ...data,
         });
       }
@@ -51,6 +64,35 @@ const Users = () => {
     setCurrentPage(currentPage + 1);
   };
 
+  const findUser = ()=>{
+    console.log(keyword.endsWith('com') );
+    if(keyword.trim() === '' || keyword === undefined){
+      setUserData(overallData);
+      return ;
+    }
+    if(keyword.endsWith('com')){
+        toast.info("Search Based on Name")
+        return;
+    }
+    else{
+      // calling api of search with keyword
+      searchUser(keyword).then((resp)=>{
+        console.log(resp);
+        setUserData({
+          ...userData,
+          content:resp
+        })
+        setKeyword('');
+        return ;
+      }).catch((error)=>{
+        console.log(error);
+        toast.error(error.response.data.message)
+        return ;
+      })
+    }
+    
+  }
+
   const userView = () => {
     return (
       <Container>
@@ -61,8 +103,20 @@ const Users = () => {
                 <b>User's List</b>
               </Card.Header>
               <Card.Body>
+              <InputGroup className="mb-3">
+                    <Form.Control
+                      placeholder="Write any Keyword to Search here"
+                      aria-label="Write any Keyword to Search here"
+                      onChange={(event)=>{
+                        setKeyword(event.target.value);
+                      }}
+                    />
+                    <Button variant="outline-secondary" onClick={findUser}>
+                      Button
+                    </Button>
+                  </InputGroup>
                 <InfiniteScroll
-                  dataLength={userData.content.length}
+                  dataLength={userData.content?.length}
                   next={loadNextPage}
                   hasMore={!userData.lastPage}
                   loader={<h4>Loading...</h4>}
