@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 const Users = () => {
   const [userData, setUserData] = useState(undefined);
   const [currentPage, setCurrentPage] = useState(0);
-  const [keyword, setKeyword] = useState(undefined);
+  const [keyword, setKeyword] = useState('');
   const [overallData , setOverallData] = useState(undefined);
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const Users = () => {
                       }}
                     />
                     <Button variant="outline-secondary" onClick={findUser}>
-                      Button
+                      Search
                     </Button>
                   </InputGroup>
                 <InfiniteScroll
