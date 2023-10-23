@@ -14,7 +14,6 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/user/Home";
 import UserProvider from "./context/user.provider";
-import Order from "./pages/user/orders";
 import AdminDashboard from "./pages/admin/admin.dashboard";
 import AddProduct from "./pages/admin/add.product";
 import AdminHome from "./pages/admin/admin.home";
@@ -24,6 +23,7 @@ import ViewProduct from "./pages/admin/view.product"
 import ViewOrders from "./pages/admin/view.orders";
 import AdminUsers from "./pages/admin/admin.users";
 import Logout from "./pages/logout";
+import StorePage from "./pages/user/storePage";
 
 function App() {
   return (
@@ -46,7 +46,7 @@ function App() {
             <Route path="profile/:userId" element={<Profile />} />
             <Route path="about" element={<About />} />
             <Route path="home" element={<Home />} />
-            <Route path="orders" element={<Order />} />
+            <Route path="store" element={<StorePage />} />
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="add-product" element={<AddProduct />} />

@@ -60,8 +60,8 @@ const CustomNavbar = () => {
                 <Nav.Link as={NavLink} to="/logout" >
                   Logout
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/users/orders">
-                  Orders
+                <Nav.Link as={NavLink} to="/users/store">
+                  Store
                 </Nav.Link>
               </>
             ) : (
