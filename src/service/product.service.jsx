@@ -20,7 +20,7 @@ export const AddProductImage = (productId, file) => {
 
 export const getAllproduct = (
   pageNumber = 0,
-  pageSize = 10,
+  pageSize = 10000,
   sortBy = "addedDate",
   sortDir = "asc"
 ) => {
