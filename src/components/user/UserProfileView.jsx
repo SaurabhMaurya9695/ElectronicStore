@@ -39,7 +39,7 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
       : IMAGE;
   return (
     <>
-      <Card>
+      <Card className="shadow-lg border-0">
         <Card.Body className=" text-center fw-bold text-primary ">
           <Container className="mb-3">
             <img src={imageName} alt="Profile" style={profileStyle}></img>

@@ -13,9 +13,10 @@ const Base =({title ="title" , discription = "this is desc" , children
     }
 
     let styleTitle = {
-        "fontSize": "40px",
+        "fontSize": "30px",
         "textTransform": "uppercase",
-        "fontFamily": "monospace"
+        "fontFamily": "monospace",
+        "color":"white"
     }
 
     let styleButton ={
@@ -28,7 +29,7 @@ const Base =({title ="title" , discription = "this is desc" , children
         <div>
             <Container fluid style={StyleBase} className="text-center p-5 text-white d-flex justify-content-center align-items-center" >
                 <div>
-                    <h3 className="text-center text-cyan" style={styleTitle}>{title}</h3>
+                    <h3 className="text-center" style={styleTitle}>{title}</h3>
                     <p className="text-center text-desc" >{discription && discription}</p>
                     {buttonEnable && <Button as={NavLink} to="/" style={styleButton}>{buttonText}</Button>}
                 </div>
