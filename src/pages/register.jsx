@@ -107,6 +107,11 @@ const Register = () => {
       })
   };
 
+  let styleButton ={
+    backgroundColor: "#0B0C10 !important",
+    borderColor: "#66fcf1 !important",
+    color : "#C5C6C7 !important",
+}
   const registerForm = () => {
     return (
       <Container>
@@ -226,13 +231,13 @@ const Register = () => {
                     </p>
                   </Container>
                   <Container className="text-center">
-                    <Button variant="success" type="submit" disabled={loading}>
+                    <Button style={styleButton} type="submit" disabled={loading}>
                       <Spinner animation="grow" size="sm" className="me-2" hidden={!loading}/>
                       <span hidden={!loading} >Wait..</span>
                       <span hidden={loading}>Register</span>
                     </Button>
                     <Button
-                      variant="danger"
+                      style={styleButton}
                       className="ms-2"
                       onClick={clearData}
                     >

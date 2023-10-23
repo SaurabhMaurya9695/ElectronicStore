@@ -23,6 +23,7 @@ import AddCategory from "./pages/admin/add.category"
 import ViewProduct from "./pages/admin/view.product"
 import ViewOrders from "./pages/admin/view.orders";
 import AdminUsers from "./pages/admin/admin.users";
+import Logout from "./pages/logout";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <CustomNavbar />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/about" element={<About />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/store" element={<Store />} />

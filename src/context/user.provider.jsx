@@ -28,6 +28,7 @@ const UserProvider = ({ children }) => {
     setIsLogin(false);
     setIsAdminUser(false);
     setUserData(null);
+    return true;
   }
 
   return (

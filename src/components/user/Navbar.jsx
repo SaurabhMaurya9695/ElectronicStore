@@ -9,11 +9,6 @@ import UserContext from "../../context/user.context";
 const CustomNavbar = () => {
   const userContext = useContext(UserContext);
 
-  const doLogout = () =>{
-    console.log("logout")
-    userContext.logout();
-  }
-
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-navbar-color">
       <Container>
@@ -62,7 +57,7 @@ const CustomNavbar = () => {
                 <Nav.Link  as={NavLink} to={`/users/profile/${userContext?.userData?.userDto?.userId}`}>
                   {userContext?.userData?.userDto?.name}
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/login" onClick={doLogout}>
+                <Nav.Link as={NavLink} to="/logout" >
                   Logout
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/users/orders">

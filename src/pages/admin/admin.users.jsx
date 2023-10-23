@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Button, Card, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { ADMIN_USER_PAGE_SIZE } from "../../service/helper.service";
-import { getAllUser, searchUserWithEmail  , searchUser} from "../../service/user.service";
+import { getAllUser  , searchUser} from "../../service/user.service";
 import SingleUserView from "../../components/SingleUserView";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { toast } from "react-toastify";

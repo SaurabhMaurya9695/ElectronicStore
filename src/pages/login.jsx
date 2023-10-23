@@ -92,6 +92,12 @@ const Login = () => {
         setLoading(false);
       });
   };
+
+  let styleButton ={
+    backgroundColor: "#0B0C10 !important",
+    borderColor: "#66fcf1 !important",
+    color : "#C5C6C7 !important",
+}
   let loginPage = () => {
     return (
       <Container>
@@ -170,13 +176,13 @@ const Login = () => {
                     </p>
                   </Container>
                   <Container className="text-center">
-                    <Button variant="success" type="submit">
+                    <Button style={styleButton} type="submit">
                     <Spinner animation="grow" size="sm" className="me-2" hidden={!loading}/>
-                      <span hidden={loading}>Login Here</span>
+                      <span hidden={loading} >Login Here</span>
                       <span hidden={!loading} >Wait..</span>
                     </Button>
                     <Button
-                      variant="danger"
+                      style={styleButton}
                       className="ms-2"
                       onClick={cleardata}
                     >
