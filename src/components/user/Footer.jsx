@@ -1,29 +1,37 @@
-import axios from "axios";
-import { Button, Container } from "react-bootstrap";
-import { toast } from 'react-toastify';
+import {  Col, Container, Row } from "react-bootstrap";
+import {MdLocationOn} from "react-icons/md"
+import {BiSolidPhoneCall} from "react-icons/bi"
+import {IoIosMail} from "react-icons/io"
 
-const Footer = ()=>{
-
-    function datafromServer(){
-        toast.info("this is toast");
-        let p = axios.get("http://localhost:2023/users");
-        p.then((response)=>{
-            console.log(response.data);
-            toast.success("Complete request");
-        }).catch((error)=>{
-            console.log("error");
-            toast.error("something went wrong");
-        })
-    }
-
-    return (
-
-        <Container fluid className="text-cyan nav-link  p-5 text-center bg-navbar-color" >
-            <h3> We provides Best Products </h3>
-            <h5>All rightsReserved : saurabhyash1707@gmail.com</h5>
-            <Button variant="success" onClick={datafromServer}>Getting data from server</Button>
-        </Container>
-    );
+const Footer = () => {
+  return (<>
+    <Container
+      fluid
+      className="text-cyan nav-link  p-5 text-center bg-navbar-color"
+    >
+        <div>
+        <Row>
+            <Col md={4}>
+                <MdLocationOn size={40}/>
+                <h4>Find Us Here</h4>
+                <p  style={{color:"white"}}>Lucknow , Uttar Pradesh , India </p></Col>
+            <Col md={4}>
+                <BiSolidPhoneCall size={40}/>
+                <h4>Call Us</h4>
+                <p style={{color:"white"}}>+916392272716</p>
+            </Col>
+            <Col md={4}>
+                <IoIosMail size={40}/>
+                <h4>Mail Us</h4>
+                <p style={{color:"white"}}>saurabhyash1707@gmail.com</p>
+            </Col>
+        </Row>
+    </div>
+      <h4> We provides Best Products </h4>
+      <h4>All rightsReserved : saurabhyash1707@gmail.com</h4>
+    </Container>
+    </>
+  );
 }
 
 export default Footer;
