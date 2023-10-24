@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import { Col, Container, ListGroup, ListGroupItem, Row } from "react-bootstrap";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { toast } from "react-toastify";
 import { getAllCategory } from "../../service/category.service";
-import { getAllproduct } from "../../service/product.service";
+import { getAllLive } from "../../service/product.service";
+import SingleProductCard from "./SingleProductCard";
 
 const Store = () => {
   const [totalProduct, setTotalProduct] = useState(null);
   const [totalCategories, setTotalCategories] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const getAllCategoryLocal = (pageNumber, pageSize) => {
     return getAllCategory(pageNumber, pageSize)
@@ -18,26 +22,75 @@ const Store = () => {
       });
   };
 
-  const getAllProductLocal = () => {
-    getAllproduct()
+  const getAllProductLocal = (pageNumber , pageSize , sortBy , sortDir) => {
+    getAllLive(pageNumber , pageSize , sortBy , sortDir)
       .then((e) => {
-        setTotalProduct({ ...e });
+        console.log(e);
+        if(currentPage === 0){
+          setTotalProduct({ ...e });
+        }else{
+          setTotalProduct({
+            content: [...totalProduct.content, ...e.content], // first added categ then coming data we added after that
+            lastPage: e.lastPage,
+            pageNumber: e.pageNumber,
+            pageSize: e.pageSize,
+            totalElement: e.totalElement,
+            totalPages: e.totalPages,
+          });
+        }
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Error in Loading Products");
       });
   };
 
   useEffect(() => {
     getAllCategoryLocal(0, 100000);
-    getAllProductLocal();
+    getAllProductLocal(currentPage ,9,'addedDate' , 'desc');
   }, []);
+
+  useEffect(() => {
+    if(currentPage > 0 ){
+      getAllProductLocal(currentPage ,9,'addedDate' , 'desc');
+    }
+  }, [currentPage]);
+
+
+  const loadNextPage = () => {
+    console.log("loading next page");
+    setCurrentPage(currentPage + 1);
+  };
 
   const productView = () => {
     return (
+      
       totalProduct && (
         <>
-          <h4>productView</h4>
+          {/* using pagination */}
+          <InfiniteScroll 
+          dataLength={totalProduct.content?.length}
+          next={loadNextPage}
+          hasMore={!totalProduct.lastPage}
+          loader={<h4>Loading More Products For You ..Please Wait!!...</h4>}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+          >
+            <Container fluid>
+              <Row>
+                {
+                  totalProduct.content.map(p=>{
+                    return (<Col md={4} key={p.pId}>
+                            <SingleProductCard product ={p} />
+                            </Col>)
+                  })
+                }
+              </Row>
+            </Container>
+          </InfiniteScroll>
         </>
       )
     );
