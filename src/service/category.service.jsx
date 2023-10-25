@@ -19,3 +19,7 @@ export const updateCategories = (category) =>{
 export const serveCategoryImage = (categoryId) =>{
     return privateAxios.get(`/categories/image/${categoryId}`).then((response) => response.data);
 }
+
+export const getProductsOfCategory = (categoryId,pageNumber , pageSize , sortBy , sortDir) =>{
+    return privateAxios.get(`/categories/${categoryId}/products?pageNumber=${pageNumber}&pageSize=${pageSize}&sortBy=${sortBy}&sortDir=${sortDir}`).then((response) => response.data);
+}

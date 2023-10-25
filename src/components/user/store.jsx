@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Col, Container, ListGroup, ListGroupItem, Row } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getAllCategory } from "../../service/category.service";
 import { getAllLive } from "../../service/product.service";
@@ -48,13 +49,13 @@ const Store = () => {
   useEffect(() => {
     getAllCategoryLocal(0, 100000);
     getAllProductLocal(currentPage ,9,'addedDate' , 'desc');
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if(currentPage > 0 ){
       getAllProductLocal(currentPage ,9,'addedDate' , 'desc');
     }
-  }, [currentPage]);
+  }, [currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const loadNextPage = () => {
@@ -107,7 +108,7 @@ const Store = () => {
             {totalCategories.content.map((c) => {
               return (
                 <>
-                  <ListGroupItem key={c.categoryId} defaultValue="">
+                  <ListGroupItem as={Link} to={`/users/store/${c.categoryId}/${c.title}`} key={c.categoryId} defaultValue="">
                     <img
                       src={
                         c.coverImage

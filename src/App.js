@@ -25,6 +25,7 @@ import AdminUsers from "./pages/admin/admin.users";
 import Logout from "./pages/logout";
 import StorePage from "./pages/user/storePage";
 import ProductView from "./pages/user/productView";
+import CategoryViewUser from "./pages/user/categoryView";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="store" element={<StorePage />} />
             <Route path="store/product/:pId" element={<ProductView />} />
+            <Route path="store/:categoryId/:title" element={<CategoryViewUser />} />
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="add-product" element={<AddProduct />} />
