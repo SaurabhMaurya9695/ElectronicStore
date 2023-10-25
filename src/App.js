@@ -24,6 +24,7 @@ import ViewOrders from "./pages/admin/view.orders";
 import AdminUsers from "./pages/admin/admin.users";
 import Logout from "./pages/logout";
 import StorePage from "./pages/user/storePage";
+import ProductView from "./pages/user/productView";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="home" element={<Home />} />
             <Route path="store" element={<StorePage />} />
+            <Route path="store/product/:pId" element={<ProductView />} />
           </Route>
           <Route path="/admin" element={<AdminDashboard />}>
             <Route path="add-product" element={<AddProduct />} />
