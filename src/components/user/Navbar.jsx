@@ -1,13 +1,30 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import UserContext from "../../context/user.context";
+import { getAllCategory } from "../../service/category.service";
 
 const CustomNavbar = () => {
   const userContext = useContext(UserContext);
+  const [totalCategories, setTotalCategories] = useState(null);
+
+  const getAllCategoryLocal = (pageNumber, pageSize) => {
+    return getAllCategory(pageNumber, pageSize)
+      .then((resp) => {
+        // console.log(resp);
+        setTotalCategories({ ...resp });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getAllCategoryLocal(0, 100000);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-navbar-color">
@@ -30,12 +47,9 @@ const CustomNavbar = () => {
               className="text-cyan"
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item href="#action/3.1">Tv</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Sports</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Phones</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">
-                Best Sellers
-              </NavDropdown.Item>
+              {totalCategories?.content?.map((c) => {
+                return <NavDropdown.Item as={Link} to={`/users/store/${c.categoryId}/${c.title}`} key={c.categoryId} >{c.title}</NavDropdown.Item>
+              })}
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">More</NavDropdown.Item>
             </NavDropdown>
