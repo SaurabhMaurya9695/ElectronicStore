@@ -4,11 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Link, NavLink } from "react-router-dom";
+import CartContext from "../../context/cart.context";
 import UserContext from "../../context/user.context";
 import { getAllCategory } from "../../service/category.service";
 
 const CustomNavbar = () => {
   const userContext = useContext(UserContext);
+  const {cart } = useContext(CartContext);
   const [totalCategories, setTotalCategories] = useState(null);
 
   const getAllCategoryLocal = (pageNumber, pageSize) => {
@@ -59,7 +61,7 @@ const CustomNavbar = () => {
           </Nav>
           <Nav>
             <Nav.Link as={NavLink} to="/cart">
-              Cart(40)
+              Cart({cart && cart.cartItems.length})
             </Nav.Link>
             {userContext.isLogin ? (
               <>

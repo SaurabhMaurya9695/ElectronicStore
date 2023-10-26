@@ -1,0 +1,38 @@
+1 - cart can be managed by both serverSide and clientSide as well .
+2 - so we want to access this cart every where for user so storing all the data of cart in contextApi
+so from there we can access anyWhere . 
+3 - create a cart context 
+<!-- const { createContext } = require("react");
+
+const CartContext = createContext(null); // two things CartContext has provider and consumer
+
+export default CartContext; -->
+
+4 - create a cart provider 
+<!-- import React from 'react'
+
+const CartProvider = () => {
+  return (
+    <div>
+        
+    </div>
+  )
+}
+
+export default CartProvider
+ -->
+
+5 -  add children in provider
+<!-- import React from 'react'
+
+const CartProvider = ({children}) => {
+  return (
+    <CartContext.Provider>{children}</CartContext.Provider>
+  )
+}
+
+export default CartProvider
+ -->
+
+6 - it means if CartProvidef provide any data then it will send all the data to the childrens
+7 - wrap all the modules of app.js inside CartProvider

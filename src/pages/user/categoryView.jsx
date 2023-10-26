@@ -6,7 +6,7 @@ import { getProductsOfCategory } from "../../service/category.service";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
 import SingleProductCard from "../../components/user/SingleProductCard";
-import { toast } from "react-toastify";
+
 
 function CategoryViewUser() {
   const paramObj = useParams(); // capture whatever you pass im parameter

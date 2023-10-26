@@ -26,43 +26,49 @@ import Logout from "./pages/logout";
 import StorePage from "./pages/user/storePage";
 import ProductView from "./pages/user/productView";
 import CategoryViewUser from "./pages/user/categoryView";
+import CartProvider from "./context/cart.provider";
 
 function App() {
   return (
     <UserProvider>
       {/* below this all are the childrens of userprovider */}
-      <BrowserRouter>
-        <ToastContainer />
-        <CustomNavbar />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/service" element={<Service />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/users" element={<Dashboards />}>
-            <Route path="profile/:userId" element={<Profile />} />
-            <Route path="about" element={<About />} />
-            <Route path="home" element={<Home />} />
-            <Route path="store" element={<StorePage />} />
-            <Route path="store/product/:pId" element={<ProductView />} />
-            <Route path="store/:categoryId/:title" element={<CategoryViewUser />} />
-          </Route>
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route path="add-product" element={<AddProduct />} />
-            <Route path="home" element={<AdminHome />} />
+      <CartProvider>
+        <BrowserRouter>
+          <ToastContainer />
+          <CustomNavbar />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/service" element={<Service />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/users" element={<Dashboards />}>
+              <Route path="profile/:userId" element={<Profile />} />
+              <Route path="about" element={<About />} />
+              <Route path="home" element={<Home />} />
+              <Route path="store" element={<StorePage />} />
+              <Route path="store/product/:pId" element={<ProductView />} />
+              <Route
+                path="store/:categoryId/:title"
+                element={<CategoryViewUser />}
+              />
+            </Route>
+            <Route path="/admin" element={<AdminDashboard />}>
+              <Route path="add-product" element={<AddProduct />} />
+              <Route path="home" element={<AdminHome />} />
             <Route path="add-category" element={<AddCategory/>} />
             <Route path="users" element={<AdminUsers/>} />
             <Route path="categories" element={<ViewCategory/>} />
             <Route path="orders" element={<ViewOrders/>} />
             <Route path="products" element={<ViewProduct/>} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </UserProvider>
   );
 }
