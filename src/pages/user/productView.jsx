@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -8,11 +8,13 @@ import { getProductImage } from "../../service/helper.service";
 import { getSingleProduct } from "../../service/product.service";
 import {BsCartPlusFill} from "react-icons/bs"
 import {MdOutlineFlashOn} from "react-icons/md"
+import CartContext from "../../context/cart.context";
 
 const ProductView = () => {
   const pId = useParams(); // it will return an object
   const productId = pId.pId;
   const [product, setProduct] = useState(undefined);
+  const {addItemToCartLocally} = useContext(CartContext)
   useEffect(() => {
     getSingleProductLocally(productId);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -28,6 +30,10 @@ const ProductView = () => {
       });
   };
 
+  const handleToCart = (quantity, productId)=>{
+    console.log(quantity , productId);
+    addItemToCartLocally(quantity , productId);
+  }
   const userProductView = () => {
     return (
       <>
@@ -56,7 +62,7 @@ const ProductView = () => {
                     alt=""
                   ></img>
                   <div className="mt-3 text-center">
-                  <Button variant="danger"  size="sm"> <BsCartPlusFill/> Add To Cart </Button>
+                  <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId)}> <BsCartPlusFill/> Add To Cart </Button>
                   <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                   </div>
                     </Card.Body>
@@ -86,6 +92,10 @@ const ProductView = () => {
                         <p className="text-muted">Delivery by After 5 days of Order |<strong>Free <s>₹40</s></strong></p>
                         <div>
                           <ShowHtmlParse  htmltext={product.discription}/>
+                        </div>
+                        <div className="mt-3 text-center">
+                          <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId)}> <BsCartPlusFill/> Add To Cart </Button>
+                          <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                         </div>
                       </div>
                     </Card.Body>
