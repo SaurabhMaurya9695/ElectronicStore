@@ -25,10 +25,10 @@ const CartProvider = ({ children }) => {
 
   const addItemToCartLocally = async (quantity, productId) => {
     try {
+      console.log(ID + " " +  quantity + " " +  productId)
       let data = await addItemsToCart(ID, quantity, productId);
       console.log(data);
       setCart({ ...data });
-      toast.success("Items Added Successfully");
     } catch (error) {
       console.log(error);
       toast.error("Error In Adding Items To Cart");

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { getProductImage } from "../../service/helper.service";
 import CartContext from "../../context/cart.context";
+import { toast } from "react-toastify";
 
 const SingleCartItemView = ({ items }) => {
   const styleImage = {
@@ -11,7 +12,7 @@ const SingleCartItemView = ({ items }) => {
     marginBottom: "20px",
   };
 
-  const {removeItemsfromUserCartLocally} = useContext(CartContext);
+  const {removeItemsfromUserCartLocally , addItemToCartLocally} = useContext(CartContext);
   
   return (
     <div>
@@ -42,14 +43,14 @@ const SingleCartItemView = ({ items }) => {
               <div className="mb-2">
                 <Row>
                   <Col>
-                    <b>Quanity : </b> {items.product.quantity}
+                    <b>Quanity : </b> {items.quantity}
                   </Col>
                   <Col>
                     <b>Price : </b> ₹{items.product.price}
                   </Col>
                   <Col>
                     <b>Total Price : </b>
-                    {items.product.quantity * items.product.price}{" "}
+                    {items.quantity * items.product.price}{" "}
                   </Col>
                 </Row>
               </div>
@@ -91,13 +92,31 @@ const SingleCartItemView = ({ items }) => {
                 <div className="mt-2">
                   <Row>
                     <Col className="d-grid">
-                      <Button size="sm" variant="info">
+                      <Button size="sm" variant="info" onClick={(event) => {
+                        let decreaseQuantity = items.quantity - 1;
+                        if(decreaseQuantity <= 0){
+                          toast.warning("Quantity can't be less than 1");
+                          return ;
+                        }else{
+                          toast.info('Quantity Decreased' ,{position:"bottom-center" , closeOnClick:true});
+                          addItemToCartLocally(decreaseQuantity , items.product.pId );
+                        }
+                      }}>
                         {" "}
                         -{" "}
                       </Button>
                     </Col>
                     <Col className="d-grid">
-                      <Button size="sm" variant="warning">
+                      <Button size="sm" variant="warning" onClick={(event) => {
+                        let increaseQuantity = items.quantity + 1;
+                        if(increaseQuantity >= 5){
+                          toast.info("Can't order more than 5");
+                          return ;
+                        }else{
+                          toast.info('Quantity Increased' ,{position:"bottom-center" , closeOnClick:true});
+                          addItemToCartLocally(increaseQuantity , items.product.pId );
+                        }
+                      }}>
                         {" "}
                         +{" "}
                       </Button>
