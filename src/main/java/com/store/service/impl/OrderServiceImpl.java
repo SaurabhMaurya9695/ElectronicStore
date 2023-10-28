@@ -120,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setBillingPhone(newOrder.getBillingPhone());
 		order.setOrderStatus(newOrder.getOrderStatus());
 		order.setPayementStatus(newOrder.getPayementStatus());
-		order.setDeliveredDate(new Date());
+		order.setDeliveredDate(newOrder.getDeliveredDate());
 		
 		
 		Order savedOrder = this.orderRepository.save(order);

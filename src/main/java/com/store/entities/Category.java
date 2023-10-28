@@ -17,9 +17,9 @@ public class Category {
 	@Id
 	@Column(name = "cId")
 	private String categoryId;
-	@Column(name = "category_title", length = 60, nullable = false)
+	@Column(name = "category_title", length = 1000, nullable = false)
 	private String title;
-	@Column(name = "category_desc", length = 50)
+	@Column(name = "category_desc", length = 5000)
 	private String discription;
 	private String coverImage;
 

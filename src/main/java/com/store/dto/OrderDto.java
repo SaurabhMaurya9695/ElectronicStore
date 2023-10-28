@@ -15,7 +15,15 @@ public class OrderDto {
 	private String billingName;
 	private Date orderedDate = new Date() ;
 	private Date deliveredDate;
-//	private UserDto user;
+	private UserDto user;
+	public UserDto getUser() {
+		return user;
+	}
+
+	public void setUser(UserDto user) {
+		this.user = user;
+	}
+
 	private List<OrderItemsDto> orderItems = new ArrayList<>();
 
 	public OrderDto(String orderId, String orderStatus, String payementStatus, int orderAmount, String billingAddress,

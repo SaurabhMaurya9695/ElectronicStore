@@ -16,7 +16,7 @@ public class CartItem {
 
 	// it help us to manage relationship betweeen cart and product
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cartItemId;
 
 	// now doing mapping with product

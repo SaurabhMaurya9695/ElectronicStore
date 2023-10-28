@@ -9,7 +9,7 @@ public class CategoryDto {
 	
 	@NotBlank
 	@NotNull
-	@Size(min = 4 , max = 10 , message = "Minimum 4 char required and max 10 required")
+	@Size(min = 4 , max = 10 , message = "Minimum 4 char required and max 10 required in title ")
 	private String title;
 	
 	@NotBlank(message = "Desc Can't be Null")

@@ -104,18 +104,20 @@ public class CartServiceImpl implements CartService {
 			cartItem.setTotalPrice(quantity * fetchedProduct.getDiscounted_price());
 			cartItem.setCart(cart);
 			cartItem.setProduct(fetchedProduct);
-
-		}
-
-		if (isCartUpdated.get() == true) {
-			// means we updated the cartItems
-			// if we updated then add the new updated List
-			cart.setCartItems(updatedItems);
-		} else {
-			// we created a new cart .. then add in its cart list
 			cart.getCartItems().add(cartItem);
 		}
 
+//		logger.info("Working");
+//		if (isCartUpdated.get() == true) {
+//			// means we updated the cartItems
+//			// if we updated then add the new updated List
+//			cart.setCartItems(updatedItems);
+//		} else {
+//			// we created a new cart .. then add in its cart list
+//			cart.getCartItems().add(cartItem);
+//		}
+//		
+		
 		cart.setUser(fetchedUser);
 		// now we are ready to save in db
 		Cart savedCartinDb = this.cartRepository.save(cart);

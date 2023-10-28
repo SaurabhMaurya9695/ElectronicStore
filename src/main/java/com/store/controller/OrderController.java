@@ -42,8 +42,9 @@ public class OrderController {
 	@Operation(summary = "create Order EndPoint", responses = {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
-	@PostMapping
+	@PostMapping("/")
 	public ResponseEntity<OrderDto> createOrder(@RequestBody @Valid CreateOrderRequest createOrderRequest) {
+		System.out.println(createOrderRequest.getBillingName());
 		OrderDto order = this.orderService.createOrder(createOrderRequest);
 		return new ResponseEntity<>(order, HttpStatus.CREATED);
 	}
@@ -51,7 +52,7 @@ public class OrderController {
 	@Operation(summary = "Update Order EndPoint", responses = {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
-	@PutMapping("{orderId}")
+	@PutMapping("/{orderId}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<OrderDto> updateOrder(@RequestBody @Valid UpdateOrder req, @PathVariable String orderId) {
 		OrderDto order = this.orderService.updateOrder(req, orderId);
