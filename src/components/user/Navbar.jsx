@@ -33,7 +33,7 @@ const CustomNavbar = () => {
       <Container>
         <Navbar.Brand as={NavLink} to="/" className="text-cyan nav-link">
           <img src="/assest/Logo.jpeg" alt="logo" height={32} width={35}></img>
-          ElectronicStore
+          AapkiDukaan
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

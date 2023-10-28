@@ -120,7 +120,7 @@ const Login = () => {
                   ></img>
                 </div>
                 <h3 className="text-muted text-center">
-                  Electronic Store Login here
+                  AapkiDukaan Login here
                 </h3>
                 {/* {JSON.stringify(userContext)} */}
                 <Alert

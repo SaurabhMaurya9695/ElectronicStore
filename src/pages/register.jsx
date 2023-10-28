@@ -128,7 +128,7 @@ const Register = () => {
               <Card.Body>
               <div className="text-center mb-2"><img src="/assest/Logo.jpeg"  alt="logo" height={80} width={80}></img></div>
                 <h3 className="text-muted text-center">
-                  Electronic Store Signup here
+                  AapkiDukaan Signup here
                 </h3>
                 <Form noValidate onSubmit={submitForm}>
                   {/* Name Field */}
