@@ -39,10 +39,8 @@ const CartProvider = ({ children }) => {
   const removeItemsfromUserCartLocally = (cartItemsId) => {
     removeItemsfromUserCart(ID, cartItemsId)
       .then((resp) => {
-        console.log(resp);
-        const newCart = cart.cartItems.map(
-          (items) => items.cartItemsId !== cartItemsId
-        );
+        console.log("resp");
+        const newCart = cart.cartItems.filter((items) => items.cartItemId !== cartItemsId);
         // those items which's items id is not equal to current Removing cartID
         setCart({ ...cart, cartItems: newCart });
         toast.success("Successfully Removed From Cart");

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { getProductImage } from "../../service/helper.service";
+import CartContext from "../../context/cart.context";
 
 const SingleCartItemView = ({ items }) => {
   const styleImage = {
@@ -9,9 +10,12 @@ const SingleCartItemView = ({ items }) => {
     objectfit: "contain",
     marginBottom: "20px",
   };
+
+  const {removeItemsfromUserCartLocally} = useContext(CartContext);
+  
   return (
     <div>
-      <Card className="mt-2">
+      <Card className="mt-2 shadow-sm border-0">
         <Card.Body>
           <Row>
             <Col
@@ -82,7 +86,7 @@ const SingleCartItemView = ({ items }) => {
             >
               <div className="w-100">
                 <div className="d-grid">
-                  <Button variant="danger">Remove</Button>
+                  <Button variant="danger" onClick={(event) => removeItemsfromUserCartLocally(items.cartItemId)}>Remove</Button>
                 </div>
                 <div className="mt-2">
                   <Row>
