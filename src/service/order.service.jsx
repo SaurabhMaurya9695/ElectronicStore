@@ -19,8 +19,9 @@ export const updateOrder = async(orderId, orderData) => {
 };
 
 // createOrder
-export const createOrder = (data) => {
-  return privateAxios.post(`/order`, data).then((resp) => resp.data);
+export const createOrder = async(data) => {
+  let resp =  await privateAxios.post(`/order/`, data);
+  return resp.data;
 };
 
 // getOrderOfParticularUser

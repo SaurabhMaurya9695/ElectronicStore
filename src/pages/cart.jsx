@@ -5,11 +5,24 @@ import SingleCartItemView from "../components/user/SingleCartItemView";
 import CartContext from "../context/cart.context";
 import { Link } from "react-router-dom";
 import UserContext from "../context/user.context";
+import { toast } from "react-toastify";
+import { createOrder } from "../service/order.service";
+import  { toast  as Toast, Toaster} from 'react-hot-toast';
+
 
 function Cart() {
-  const { cart } = useContext(CartContext);
-  const { isLogin} = useContext(UserContext);
+  const { cart, setCart } = useContext(CartContext);
+  const { isLogin, userData} = useContext(UserContext);
   const [orderPlacedClicked , setOrderPlacedClicked] = useState(false);
+  const [orderDetails , setOrderDetails] = useState({
+      cartId: '',
+      userId: '',
+      orderStatus: '',
+      payementStatus: '',
+      billingAddress: '',
+      billingPhone: '',
+      billingName: ''
+  })
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -32,24 +45,102 @@ function Cart() {
     });
     return amount;
   };
+  const handleToast = (msg)=>{
+    toast.error(`${msg} Required!!..` , {pauseOnHover:true , position:"bottom-center" , closeOnClick:true})
+  }
 
+  const handleOrderUpdate = ()=>{
+    console.log(orderDetails);
+    if(orderDetails.billingName.trim() === undefined || orderDetails.billingName === ''){
+      handleToast("Billing Name");
+      return;
+    }
+    if(orderDetails.billingAddress.trim() === undefined || orderDetails.billingAddress === ''){
+      handleToast("billing Address");
+      return;
+    }
+    if(orderDetails.billingPhone.trim() === undefined || orderDetails.billingPhone === ''){
+      handleToast("Billing Phone Number");
+      return;
+    }else{
+      if(orderDetails.billingPhone.length !== 10){
+        toast.error('10 Digit Number Required!!');
+        return ;
+      }
+    }
+
+    //everything is correct till here
+    orderDetails.cartId = cart.cartId;
+    orderDetails.orderStatus = "PENDING";
+    orderDetails.payementStatus = "NOTPAID";
+    orderDetails.userId = userData.userDto.userId;
+    console.log(orderDetails);
+
+    // now we can create the order Now 
+    // createOrder(orderDetails).then((data)=>)
+    Toast.promise(createOrder(orderDetails), {
+      position:"bottom-center",
+      loading: 'Wait We are Creating Your Order!!..',
+      success: (data) => successfulOrderCreation(),
+      error: <><b>Error While Creating Order!!!</b></>,
+    },
+    {
+      style: {
+        minWidth: '250px',
+      },
+      success: {
+        duration: 2000,
+        icon: '🎉',
+      }
+    }
+    );
+  }
+
+  const successfulOrderCreation = ()=>{
+    setCart({
+      ...cart,
+      cartItems:[]
+    })
+    setOrderPlacedClicked(false);
+    return (<>
+      <div className="text-center">
+        <b>SuccessFully Created Order.. To complete Order Go for payement</b>
+        <Button variant="danger" size="sm">Payement</Button>
+      </div>
+    </>)
+  }
   const orderForm = () =>{
     return (<>
       <Form>
         <FormGroup className="mt-3">
           <FormLabel> Billing Name</FormLabel>
-          <FormControl type="text" placeholder="Enter Billing Name"></FormControl>
+          <FormControl type="text" placeholder="Enter Billing Name" value={orderDetails.billingName} onChange={(event)=>{
+            setOrderDetails({
+              ...orderDetails,
+              billingName:event.target.value
+            })
+          }}></FormControl>
         </FormGroup>
         <FormGroup className="mt-3">
           <FormLabel> Billing Phone Number</FormLabel>
-          <FormControl type="text" placeholder="Enter Billing Phone Number"></FormControl>
+          <FormControl type="number" placeholder="Enter Billing Phone Number" value={orderDetails.billingPhone} onChange={(event)=>{
+            setOrderDetails({
+              ...orderDetails,
+              billingPhone:event.target.value
+            })
+          }}></FormControl>
         </FormGroup>
         <FormGroup className="mt-3">
           <FormLabel> Billing Address</FormLabel>
-          <FormControl as={`textarea`} rows={5} placeholder="Enter Billing Address"></FormControl>
+          <FormControl as={`textarea`} rows={5} placeholder="Enter Billing Address"  value={orderDetails.billingAddress} onChange={(event)=>{
+            setOrderDetails({
+              ...orderDetails,
+              billingAddress:event.target.value
+            })
+          }}></FormControl>
         </FormGroup>
         <Container className="mt-3 text-center">
-          <Button variant="warning" size="sm">Create Order And Proceed To Payment</Button>
+          <Button variant="warning" size="sm" onClick={(event) => handleOrderUpdate()}>Create Order And Proceed To Payment</Button>
         </Container>
       </Form>
     </>)
@@ -174,7 +265,7 @@ function Cart() {
               <h2>Your Cart is empty.</h2>
               <p>Add Items to it now .</p>
               <div>
-                <Button variant="warning" as={Link} to={`/users/store`} > Shop Now</Button>
+                <Button variant="warning" as={Link} to={`/store`} > Shop Now</Button>
               </div>
             </div>
           </Card.Body>
@@ -203,6 +294,7 @@ function Cart() {
           </Row>
         </Container>
       </div>
+      <Toaster duration="1000" />
     </>
   );
 }
