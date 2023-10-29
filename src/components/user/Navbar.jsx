@@ -66,10 +66,17 @@ const CustomNavbar = () => {
             {userContext.isLogin ? (
               <>
                 ({userContext.AdminUser ? 
-                  (<><Nav.Link as={NavLink} to="/admin/home">
+                  (<>
+                  <Nav.Link as={NavLink} to="/store">
+                    Store
+                  </Nav.Link>
+                <Nav.Link as={NavLink} to="/admin/home">
                     AdminHome
                   </Nav.Link></>) :''
                 })
+                <Nav.Link as={NavLink} to="/store">
+                    Store
+                  </Nav.Link>
                 <Nav.Link  as={NavLink} to={`/users/profile/${userContext?.userData?.userDto?.userId}`}>
                   {userContext?.userData?.userDto?.name}
                 </Nav.Link>

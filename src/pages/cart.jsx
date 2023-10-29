@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import SingleCartItemView from "../components/user/SingleCartItemView";
@@ -9,6 +9,7 @@ import UserContext from "../context/user.context";
 function Cart() {
   const { cart } = useContext(CartContext);
   const { isLogin} = useContext(UserContext);
+  const [orderPlacedClicked , setOrderPlacedClicked] = useState(false);
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -42,11 +43,11 @@ function Cart() {
                 <h5 className="text-muted text-center">AapkiDukaan</h5>
                 {cart.cartItems.map((items) => {
                   return (
-                    <SingleCartItemView items={items} key={items.cartItemId} />
+                    <SingleCartItemView items={items} key={items.cartItemId} orderPlacedClicked={orderPlacedClicked}/>
                   );
                 })}
               </Col>
-              <Col md={3}>
+              <Col md={orderPlacedClicked ? 4 : 3} className="mt-2">
                 <Card className="border-0 shadow-lg">
                   <CardHeader className="text-muted">
                     <h6>Price Details</h6>
@@ -120,7 +121,9 @@ function Cart() {
           </Card.Body>
           <Card.Footer>
             <Container className="mt-2 sticky-bottom text-end shadow-0">
-              <Button variant="warning" size="lg">
+              <Button variant="warning" size="lg" onClick={(event) =>{
+                setOrderPlacedClicked(true);
+              }}>
                 Place Order
               </Button>
             </Container>
@@ -156,9 +159,16 @@ function Cart() {
   return (
     <>
       <div className="">
-        <Container>
+        <Container fluid>
           <Row>
-            <Col>{cart && (cart.cartItems.length > 0 ? cartView() : emptyCartView())}</Col>
+            <Col md={orderPlacedClicked ? 9 : 12}>{cart && (cart.cartItems.length > 0 ? cartView() : emptyCartView())}</Col>
+            {
+              orderPlacedClicked && <>
+                <Col >
+                <h1>This is order placed</h1>
+                </Col>
+              </>
+            }
           </Row>
         </Container>
       </div>

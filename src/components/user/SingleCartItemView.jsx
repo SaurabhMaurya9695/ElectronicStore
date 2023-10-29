@@ -5,10 +5,16 @@ import CartContext from "../../context/cart.context";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-const SingleCartItemView = ({ items }) => {
+const SingleCartItemView = ({ items , orderPlacedClicked }) => {
   const styleImage = {
     width: "100px",
     height: "120px",
+    objectfit: "contain",
+    marginBottom: "20px",
+  };
+  const styleImage2 = {
+    width: "90px",
+    height: "110px",
     objectfit: "contain",
     marginBottom: "20px",
   };
@@ -57,7 +63,7 @@ const SingleCartItemView = ({ items }) => {
             >
               {/* image */}
               <img
-                style={styleImage}
+                style={orderPlacedClicked ? styleImage2: styleImage}
                 src={
                   items.product?.productImageName
                     ? getProductImage(items.product.pId)
@@ -81,7 +87,7 @@ const SingleCartItemView = ({ items }) => {
                     <b>Price : </b> ₹{items.product.price}
                   </Col>
                   <Col>
-                    <b>Total Price : </b>
+                    <b>Total : </b>
                     {items.quantity * items.product.price}{" "}
                   </Col>
                 </Row>
@@ -114,12 +120,12 @@ const SingleCartItemView = ({ items }) => {
               </span>
             </Col>
             <Col
-              md={2}
+              md={orderPlacedClicked ? 3 : 2}
               className="d-flex align-items-center justify-content-center"
             >
               <div className="w-100">
                 <div className="d-grid">
-                  <Button variant="danger" onClick={(event) =>handleRemove(items.cartItemId)}>Remove</Button>
+                  <Button variant="danger" size={orderPlacedClicked ? "sm" : 'lg'} onClick={(event) =>handleRemove(items.cartItemId)}>Remove</Button>
                 </div>
                 <div className="mt-2">
                   <Row>
