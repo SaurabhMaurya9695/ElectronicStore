@@ -30,9 +30,9 @@ const ProductView = () => {
       });
   };
 
-  const handleToCart = (quantity, productId)=>{
-    console.log(quantity , productId);
-    addItemToCartLocally(quantity , productId);
+  const handleToCart = (quantity, productId , title)=>{
+    console.log(quantity , productId ,title);
+    addItemToCartLocally(quantity , productId, title);
   }
   const userProductView = () => {
     return (
@@ -62,7 +62,7 @@ const ProductView = () => {
                     alt=""
                   ></img>
                   <div className="mt-3 text-center">
-                  <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId)}> <BsCartPlusFill/> Add To Cart </Button>
+                  <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
                   <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                   </div>
                     </Card.Body>
@@ -94,7 +94,7 @@ const ProductView = () => {
                           <ShowHtmlParse  htmltext={product.discription}/>
                         </div>
                         <div className="mt-3 text-center">
-                          <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId)}> <BsCartPlusFill/> Add To Cart </Button>
+                          <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
                           <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                         </div>
                       </div>

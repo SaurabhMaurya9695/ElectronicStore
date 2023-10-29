@@ -23,12 +23,15 @@ const CartProvider = ({ children }) => {
     }
   }, [isLogin]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const addItemToCartLocally = async (quantity, productId) => {
+  const addItemToCartLocally = async (quantity, productId , title) => {
     try {
       console.log(ID + " " +  quantity + " " +  productId)
       let data = await addItemsToCart(ID, quantity, productId);
       console.log(data);
       setCart({ ...data });
+      if(quantity === 1){
+        toast.success(`${title} Added To cart with ${quantity} Quantity ` ,{position:"bottom-center" , closeOnClick:true})
+      }
     } catch (error) {
       console.log(error);
       toast.error("Error In Adding Items To Cart");

@@ -3,9 +3,12 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import SingleCartItemView from "../components/user/SingleCartItemView";
 import CartContext from "../context/cart.context";
+import { Link } from "react-router-dom";
+import UserContext from "../context/user.context";
 
 function Cart() {
   const { cart } = useContext(CartContext);
+  const { isLogin} = useContext(UserContext);
 
   const getTotalCartAmount = () => {
     let amount = 0;
@@ -127,12 +130,35 @@ function Cart() {
     );
   };
 
+  const emptyCartView = () =>{
+    return isLogin && (<>
+        <Card  className="text-center shadow-sm border-0 mt-3">
+          <Card.Body>
+          <h5 className="text-muted text-center mb-5">AapkiDukaan</h5>
+            <div  className="text-center">
+              <div className="mt-2 text-center">
+                <img src="/assest/cartEmpty.png" alt="cartEmpty"  style={{
+                  width:"30%",
+                  objectFit:"contain"
+                }}></img>
+              </div>
+              <h2>Your Cart is empty.</h2>
+              <p>Add Items to it now .</p>
+              <div>
+                <Button variant="warning" as={Link} to={`/users/store`} > Shop Now</Button>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+    </>)
+  }
+
   return (
     <>
       <div className="">
         <Container>
           <Row>
-            <Col>{cart && cartView()}</Col>
+            <Col>{cart && (cart.cartItems.length > 0 ? cartView() : emptyCartView())}</Col>
           </Row>
         </Container>
       </div>

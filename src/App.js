@@ -40,7 +40,6 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/about" element={<About />} />
-            <Route path="/cart" element={<Cart />} />
             <Route path="/store" element={<Store />} />
             <Route path="/service" element={<Service />} />
             <Route path="/contact" element={<Contact />} />
@@ -52,6 +51,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="store" element={<StorePage />} />
               <Route path="store/product/:pId" element={<ProductView />} />
+              <Route path="cart" element={<Cart />} />
               <Route
                 path="store/:categoryId/:title"
                 element={<CategoryViewUser />}

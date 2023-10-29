@@ -3,6 +3,7 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { getProductImage } from "../../service/helper.service";
 import CartContext from "../../context/cart.context";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const SingleCartItemView = ({ items }) => {
   const styleImage = {
@@ -14,6 +15,37 @@ const SingleCartItemView = ({ items }) => {
 
   const {removeItemsfromUserCartLocally , addItemToCartLocally} = useContext(CartContext);
   
+
+  const handleRemove = (CartId) => {
+    Swal.fire({
+      width: 600,
+      padding: '3em',
+      color: '#716add',
+      background: '#fff',
+      backdrop: `
+        rgba(0,0,123,0.4)
+        url("/images/nyan-cat.gif")
+        left top
+        no-repeat
+      `,
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Remove item!',
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+        removeItemsfromUserCartLocally(CartId);
+    }})
+  }
+
   return (
     <div>
       <Card className="mt-2 shadow-sm border-0">
@@ -87,7 +119,7 @@ const SingleCartItemView = ({ items }) => {
             >
               <div className="w-100">
                 <div className="d-grid">
-                  <Button variant="danger" onClick={(event) => removeItemsfromUserCartLocally(items.cartItemId)}>Remove</Button>
+                  <Button variant="danger" onClick={(event) =>handleRemove(items.cartItemId)}>Remove</Button>
                 </div>
                 <div className="mt-2">
                   <Row>
@@ -95,11 +127,11 @@ const SingleCartItemView = ({ items }) => {
                       <Button size="sm" variant="info" onClick={(event) => {
                         let decreaseQuantity = items.quantity - 1;
                         if(decreaseQuantity <= 0){
-                          toast.warning("Quantity can't be less than 1");
+                          toast.warning("Quantity can't be less than 1" , {position:"bottom-center" , closeOnClick:true});
                           return ;
                         }else{
                           toast.info('Quantity Decreased' ,{position:"bottom-center" , closeOnClick:true});
-                          addItemToCartLocally(decreaseQuantity , items.product.pId );
+                          addItemToCartLocally(decreaseQuantity , items.product.pId, items.product.title );
                         }
                       }}>
                         {" "}
@@ -110,11 +142,11 @@ const SingleCartItemView = ({ items }) => {
                       <Button size="sm" variant="warning" onClick={(event) => {
                         let increaseQuantity = items.quantity + 1;
                         if(increaseQuantity >= 5){
-                          toast.info("Can't order more than 5");
+                          toast.info("Can't order more than 5" ,{position:"bottom-center" , closeOnClick:true});
                           return ;
                         }else{
                           toast.info('Quantity Increased' ,{position:"bottom-center" , closeOnClick:true});
-                          addItemToCartLocally(increaseQuantity , items.product.pId );
+                          addItemToCartLocally(increaseQuantity , items.product.pId ,items.product.title );
                         }
                       }}>
                         {" "}
