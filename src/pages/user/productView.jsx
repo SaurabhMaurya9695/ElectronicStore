@@ -32,6 +32,7 @@ const ProductView = () => {
 
   const handleToCart = (quantity, productId , title)=>{
     console.log(quantity , productId ,title);
+    // before handle we need to check whether product is in stock or not
     addItemToCartLocally(quantity , productId, title);
   }
   const userProductView = () => {
@@ -62,7 +63,7 @@ const ProductView = () => {
                     alt=""
                   ></img>
                   <div className="mt-3 text-center">
-                  <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
+                  <Button variant="danger"  size="sm" disabled={!product.stock} onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
                   <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                   </div>
                     </Card.Body>
@@ -94,7 +95,7 @@ const ProductView = () => {
                           <ShowHtmlParse  htmltext={product.discription}/>
                         </div>
                         <div className="mt-3 text-center">
-                          <Button variant="danger"  size="sm" onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
+                          <Button variant="danger"  size="sm" disabled={!product.stock} onClick={(event) => handleToCart(1 , product.pId , product.title)}> <BsCartPlusFill/> Add To Cart </Button>
                           <Button className="ms-2" variant="info" size="sm"> <MdOutlineFlashOn/> Buy Now </Button>
                         </div>
                       </div>
@@ -108,7 +109,11 @@ const ProductView = () => {
       </>
     );
   };
-  return product && userProductView();
+  return (<>
+  {
+    product && userProductView()
+  }
+  </>);
 };
 
 export default ProductView;
