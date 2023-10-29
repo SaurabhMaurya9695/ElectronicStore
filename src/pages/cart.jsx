@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Form, FormControl, FormGroup, FormLabel, Row } from "react-bootstrap";
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import SingleCartItemView from "../components/user/SingleCartItemView";
 import CartContext from "../context/cart.context";
@@ -33,6 +33,28 @@ function Cart() {
     return amount;
   };
 
+  const orderForm = () =>{
+    return (<>
+      <Form>
+        <FormGroup className="mt-3">
+          <FormLabel> Billing Name</FormLabel>
+          <FormControl type="text" placeholder="Enter Billing Name"></FormControl>
+        </FormGroup>
+        <FormGroup className="mt-3">
+          <FormLabel> Billing Phone Number</FormLabel>
+          <FormControl type="text" placeholder="Enter Billing Phone Number"></FormControl>
+        </FormGroup>
+        <FormGroup className="mt-3">
+          <FormLabel> Billing Address</FormLabel>
+          <FormControl as={`textarea`} rows={5} placeholder="Enter Billing Address"></FormControl>
+        </FormGroup>
+        <Container className="mt-3 text-center">
+          <Button variant="warning" size="sm">Create Order And Proceed To Payment</Button>
+        </Container>
+      </Form>
+    </>)
+  }
+
   const cartView = () => {
     return (
       <>
@@ -47,24 +69,24 @@ function Cart() {
                   );
                 })}
               </Col>
-              <Col md={orderPlacedClicked ? 4 : 3} className="mt-2">
+              <Col md={orderPlacedClicked ? 3 : 3} className="mt-2">
                 <Card className="border-0 shadow-lg">
                   <CardHeader className="text-muted">
                     <h6>Price Details</h6>
                   </CardHeader>
                   <Card.Body>
                     <Row>
-                      <Col>
+                      <Col md={orderPlacedClicked ? 6 : 8}>
                         <p>Price : (items {cart.cartItems?.length}) </p>
                       </Col>
-                      <Col md={5}>₹{getTotalCartAmount()}</Col>
+                      <Col className="text-end" >₹{getTotalCartAmount()}</Col>
                     </Row>
                     <Row>
                       <Col>
                         <p>Discount</p>
                       </Col>
                       <Col
-                        md={5}
+                        className="text-end"
                         style={{ color: "#388e3c", fontWeight: "600" }}
                       >
                         -₹{getDiscountedCartAmount()}
@@ -74,7 +96,7 @@ function Cart() {
                       <Col>
                         <p>Delivery Charges</p>
                       </Col>
-                      <Col md={5} className="me-1">
+                      <Col  className="me-1 text-end">
                         <s> ₹40 </s>{" "}
                         <span
                           className="ms-2"
@@ -112,7 +134,11 @@ function Cart() {
                       </Col>
                     </Row>
                     <Container className="mt-2 sticky-bottom text-end">
-                      <Button variant="warning">Place Order</Button>
+                    {!orderPlacedClicked ?<Button className="mt-2" variant="warning" size="sm" onClick={(event) =>{
+                      setOrderPlacedClicked(true);
+                    }}>
+                      Place Order
+                    </Button> : <Button className="mt-2" variant="info" size="sm">Create Order And Proceed To Payment</Button>}
                     </Container>
                   </Card.Body>
                 </Card>
@@ -121,11 +147,11 @@ function Cart() {
           </Card.Body>
           <Card.Footer>
             <Container className="mt-2 sticky-bottom text-end shadow-0">
-              <Button variant="warning" size="lg" onClick={(event) =>{
+              {!orderPlacedClicked ?<Button variant="warning" size="lg" onClick={(event) =>{
                 setOrderPlacedClicked(true);
               }}>
                 Place Order
-              </Button>
+              </Button> : ''}
             </Container>
           </Card.Footer>
         </Card>
@@ -159,13 +185,18 @@ function Cart() {
   return (
     <>
       <div className="">
-        <Container fluid>
+        <Container fluid={orderPlacedClicked} className="px-4" >
           <Row>
-            <Col md={orderPlacedClicked ? 9 : 12}>{cart && (cart.cartItems.length > 0 ? cartView() : emptyCartView())}</Col>
+            <Col md={orderPlacedClicked ? 9 : 12} className="animation">{cart && (cart.cartItems.length > 0 ? cartView() : emptyCartView())}</Col>
             {
               orderPlacedClicked && <>
-                <Col >
-                <h1>This is order placed</h1>
+                <Col className="mt-2">
+                  <Card className="shadow-lg border-0" style={{background :"#fff"}}>
+                    <Card.Header><h5>Fill The form To complete Order</h5></Card.Header>
+                    <Card.Body>
+                    {orderForm()}
+                    </Card.Body>
+                  </Card>
                 </Col>
               </>
             }

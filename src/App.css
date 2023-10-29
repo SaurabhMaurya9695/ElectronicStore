@@ -42,3 +42,8 @@
   color:black!important;
   border: none!important;
 }
+
+
+.animation{
+  transition: all 1000ms linear !important;
+}
