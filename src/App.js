@@ -4,6 +4,7 @@ import About from "./pages/about";
 import Cart from "./pages/cart";
 import Service from "./pages/service";
 import Store from "./pages/store";
+import Order from "./pages/user/order";
 import Contact from "./pages/contact";
 import "./App.css";
 import Dashboards from "./pages/user/dashboards";
@@ -52,6 +53,7 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="home" element={<Home />} />
               <Route path="cart" element={<Cart />} />
+              <Route path="orders" element={<Order/>} />
               <Route
                 path="store/:categoryId/:title"
                 element={<CategoryViewUser />}

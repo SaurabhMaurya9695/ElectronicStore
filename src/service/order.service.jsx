@@ -25,6 +25,6 @@ export const createOrder = async(data) => {
 };
 
 // getOrderOfParticularUser
-export const getUsersOrder = (userId) => {
-  return privateAxios.get(`/order/orders/${userId}`).then((resp) => resp.data);
+export const getOrderOfUser = (userId) => {
+  return privateAxios.get(`/order/users/${userId}`).then((resp) => resp.data);
 };

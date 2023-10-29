@@ -1,7 +1,10 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import UserContext from "../../context/user.context";
+import { useContext } from "react";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
+    const {AdminUser} = useContext(UserContext);
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const formatDate = (time) =>{
@@ -92,9 +95,14 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
                     <Button onClick={(event)=>{
                         openOrderViewModel(event,order)
                     }} size="sm" variant="info">Order Details</Button>
-                    <Button className="ms-2" onClick={(event)=>{
-                        openEditOrderModel(event,order)
-                    }} size="sm" variant="warning">Update Order</Button>
+                    { AdminUser && 
+                        <Button className="ms-2" onClick={(event)=>{
+                            openEditOrderModel(event,order)
+                        }} size="sm" variant="warning">Update Order</Button>
+                    }
+                    { order.payementStatus !=='PAID' && 
+                        <Button className="ms-2" size="sm" variant="warning">Pay Now </Button>
+                    }
                 </Container>
             </Card.Body>
         </Card>
