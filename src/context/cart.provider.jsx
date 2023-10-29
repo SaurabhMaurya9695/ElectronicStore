@@ -11,6 +11,7 @@ import {
   removeItemsfromUserCart,
 } from "../service/cart.service";
 import UserContext from "./user.context";
+import Swal from "sweetalert2";
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState(null);
   const { isLogin, userData } = useContext(UserContext);
@@ -25,6 +26,13 @@ const CartProvider = ({ children }) => {
 
   const addItemToCartLocally = async (quantity, productId , title) => {
     try {
+      if(!isLogin){
+        Swal.fire({
+          icon: 'error',
+          text: 'You Are Not LoggedIn !',
+          footer: `<a href="/login">Login Here</a>`
+        })
+      }
       console.log(ID + " " +  quantity + " " +  productId)
       let data = await addItemsToCart(ID, quantity, productId);
       console.log(data);
