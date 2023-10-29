@@ -39,7 +39,7 @@ const AdminHome = () => {
 
   const getAllOrdersLocal = async () => {
     try {
-      const resp = await getAllOrders(0, 10000, "name", "asc");
+      const resp = await getAllOrders(0, 10000, "orderedDate", "asc");
       setTotalOrder(resp.content.length);
     } catch (e) {
       console.log(e);
