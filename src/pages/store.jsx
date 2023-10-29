@@ -1,10 +1,8 @@
-import Base from "../components/user/Base";
+import StorePage from "../pages/user/storePage"
 
 function Store(){
     return (
-        <Base>
-            <div>This is store inside base</div>
-        </Base>
+        <StorePage/>
     );
 }
 

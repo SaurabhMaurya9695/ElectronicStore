@@ -76,12 +76,12 @@ const CustomNavbar = () => {
                 <Nav.Link as={NavLink} to="/logout" >
                   Logout
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/users/store">
-                  Store
-                </Nav.Link>
               </>
             ) : (
               <>
+                <Nav.Link as={NavLink} to="/store">
+                  Store
+                </Nav.Link>
                 <Nav.Link as={NavLink} to="/login">
                   Login
                 </Nav.Link>

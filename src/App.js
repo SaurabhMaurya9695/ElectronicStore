@@ -45,12 +45,12 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/store" element={<StorePage />} />
+            <Route path="store/product/:pId" element={<ProductView />} />
             <Route path="/users" element={<Dashboards />}>
               <Route path="profile/:userId" element={<Profile />} />
               <Route path="about" element={<About />} />
               <Route path="home" element={<Home />} />
-              <Route path="store" element={<StorePage />} />
-              <Route path="store/product/:pId" element={<ProductView />} />
               <Route path="cart" element={<Cart />} />
               <Route
                 path="store/:categoryId/:title"

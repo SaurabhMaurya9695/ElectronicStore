@@ -45,7 +45,7 @@ const SingleProductCard = ({ product }) => {
           </strong>
         </Container>
         <Container className="d-grid mt-2">
-          <Button variant="info" className="" size="sm" as={Link} to={`/users/store/product/${product.pId}`}>
+          <Button variant="info" className="" size="sm" as={Link} to={`/store/product/${product.pId}`}>
             View product
           </Button>
         </Container>
