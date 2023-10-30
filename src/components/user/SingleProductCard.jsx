@@ -36,12 +36,12 @@ const SingleProductCard = ({ product }) => {
         </Badge>
         <Container className="text-end">
           <b>
-            <span className="h4 text-muted">
+            <span className="h6 text-muted">
               <s>₹{product.price}</s>
             </span>
           </b>
           <strong>
-            <span className="h4 ms-2">₹{product.discounted_price}</span>
+            <span className="h4 ms-2"><b>₹{product.discounted_price}</b></span>
           </strong>
         </Container>
         <Container className="d-grid mt-2">

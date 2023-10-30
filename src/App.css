@@ -51,3 +51,15 @@
 .go2072408551{
   margin-top: 45%;
 }
+
+body{
+  background-color: #e2e2e2 !important;
+}
+
+[data-bs-theme=dark] .carousel .carousel-indicators [data-bs-target], [data-bs-theme=dark].carousel .carousel-indicators [data-bs-target]{
+  background-color: white !important;
+}
+
+.carousel-indicators{
+  bottom: -19px !important;
+}
