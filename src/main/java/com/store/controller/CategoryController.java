@@ -186,7 +186,6 @@ public class CategoryController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token"), })
 	@GetMapping("/{categoryId}/products")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<PageableResponse<ProductDto>> getAllProductsOfCategory(@PathVariable String categoryId,
 			@RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
 			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
