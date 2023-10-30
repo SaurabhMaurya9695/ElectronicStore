@@ -8,12 +8,13 @@ import UserContext from "../context/user.context";
 import { toast } from "react-toastify";
 import { createOrder } from "../service/order.service";
 import  { toast  as Toast, Toaster} from 'react-hot-toast';
-
+import {useNavigate} from "react-router-dom"
 
 function Cart() {
   const { cart, setCart } = useContext(CartContext);
   const { isLogin, userData} = useContext(UserContext);
   const [orderPlacedClicked , setOrderPlacedClicked] = useState(false);
+  const navigate = useNavigate()
   const [orderDetails , setOrderDetails] = useState({
       cartId: '',
       userId: '',
@@ -97,16 +98,17 @@ function Cart() {
     );
   }
 
-  const successfulOrderCreation = ()=>{
+  const successfulOrderCreation = (data)=>{
     setCart({
       ...cart,
       cartItems:[]
     })
     setOrderPlacedClicked(false);
+    navigate("/users/orders");
     return (<>
       <div className="text-center">
         <b>SuccessFully Created Order.. To complete Order Go for payement</b>
-        <Button variant="danger" size="sm">Payement</Button>
+        <Button variant="danger" size="sm" as= {Link} to={`/users/orders`}>Payement</Button>
       </div>
     </>)
   }

@@ -2,9 +2,16 @@ import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import UserContext from "../../context/user.context";
 import { useContext } from "react";
+import { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
     const {AdminUser} = useContext(UserContext);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const formatDate = (time) =>{
@@ -12,6 +19,72 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
         return today.toLocaleDateString("hi-IN", options)
     }
 
+    const openModalPay =()=> {
+        return (
+          <>
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title className="text-muted h5">Pay Here For Your Order </Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <div>
+                <Card className="border-0 shadow-lg">
+                  <CardHeader className="text-muted">
+                    <h6>Price Details</h6>
+                  </CardHeader>
+                  <Card.Body>
+                    <Row>
+                      <Col >
+                        <p>Price : (items) </p>
+                      </Col>
+                      <Col className="text-end" >₹{order.orderAmount}</Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        <p>Delivery Charges</p>
+                      </Col>
+                      <Col  className="me-1 text-end">
+                        <span
+                          className="ms-2"
+                          style={{ color: "#388e3c", fontWeight: "600" }}
+                        >
+                          {" "}
+                          Free
+                        </span>
+                      </Col>
+                    </Row>
+                    <Row
+                      className="mt-2"
+                      style={{ borderTop: "1px dashed #e0e0e0" }}
+                    >
+                      <Col>
+                        <p>
+                          <b>Total Price</b>
+                        </p>
+                      </Col>
+                      <Col className="text-end">
+                        <p>
+                          <b>₹{order.orderAmount}</b>
+                        </p>
+                      </Col>
+                    </Row>
+                    
+                  </Card.Body>
+                </Card>
+                </div>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Pay Later
+                </Button>
+                <Button variant="primary" onClick={handleClose}>
+                  Pay Now !!
+                </Button>
+              </Modal.Footer>
+            </Modal>
+          </>
+        );
+    }
     return (<>
         <Card className="border border-o shadow-sm mb-3 mx-2">
             <Card.Body >
@@ -101,11 +174,14 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
                         }} size="sm" variant="warning">Update Order</Button>
                     }
                     { order.payementStatus !=='PAID' && 
-                        <Button className="ms-2" size="sm" variant="warning">Pay Now </Button>
+                        <Button className="ms-2" size="sm" variant="warning" onClick={handleShow}> Pay Now </Button>
                     }
                 </Container>
             </Card.Body>
         </Card>
+        {
+            openModalPay()
+        }
     </>)
 }
 
