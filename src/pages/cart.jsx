@@ -24,24 +24,25 @@ function Cart() {
       billingName: ''
   })
 
-  const getTotalCartAmount = () => {
+  const getTotalItemsAmount = () => {
     let amount = 0;
     cart.cartItems.forEach((p) => {
-      amount += p.product.price;
+      amount += p.product.price * p.quantity;
     });
     return amount;
   };
+
   const getDiscountedCartAmount = () => {
     let amount = 0;
     cart.cartItems.forEach((p) => {
-      amount += p.product.price - p.product.discounted_price;
+      amount += (p.product.price * p.quantity) -  (p.product.discounted_price * p.quantity);
     });
     return amount;
   };
   const totalAmountOfCart = () => {
     let amount = 0;
     cart.cartItems.forEach((p) => {
-      amount += p.totalPrice;
+      amount += (p.product.discounted_price * p.quantity);
     });
     return amount;
   };
@@ -170,7 +171,7 @@ function Cart() {
                       <Col md={orderPlacedClicked ? 6 : 8}>
                         <p>Price : (items {cart.cartItems?.length}) </p>
                       </Col>
-                      <Col className="text-end" >₹{getTotalCartAmount()}</Col>
+                      <Col className="text-end" >₹{getTotalItemsAmount()}</Col>
                     </Row>
                     <Row>
                       <Col>
@@ -209,7 +210,7 @@ function Cart() {
                       </Col>
                       <Col md={5}>
                         <p>
-                          <b>₹{totalAmountOfCart()}</b>
+                          <b>₹{totalAmountOfCart() - 40}</b>
                         </p>
                       </Col>
                     </Row>
@@ -219,7 +220,7 @@ function Cart() {
                     >
                       <Col>
                         <span style={{ color: "#388e3c", fontWeight: "600" }}>
-                          You Will Save ₹{getDiscountedCartAmount() - 40} on
+                          You Will Save ₹{getDiscountedCartAmount()} on
                           This Order
                         </span>
                       </Col>

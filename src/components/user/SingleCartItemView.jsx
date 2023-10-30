@@ -84,11 +84,11 @@ const SingleCartItemView = ({ items , orderPlacedClicked }) => {
                     <b>Quanity : </b> {items.quantity}
                   </Col>
                   <Col>
-                    <b>Price : </b> ₹{items.product.price}
+                    <b>Price : </b> ₹{items.product.discounted_price}
                   </Col>
                   <Col>
                     <b>Total : </b>
-                    {items.quantity * items.product.price}{" "}
+                    {items.quantity * items.product.discounted_price}
                   </Col>
                 </Row>
               </div>
@@ -97,7 +97,7 @@ const SingleCartItemView = ({ items , orderPlacedClicked }) => {
                   className="h6 text-muted"
                   style={{ color: "#878787", textDecoration: "line-through" }}
                 >
-                  <s>₹{items.product.price}</s>
+                  <s>₹{items.product.price * items.quantity}</s>
                 </span>
               </b>
               <strong>
@@ -109,7 +109,7 @@ const SingleCartItemView = ({ items , orderPlacedClicked }) => {
                     color: "#212121",
                   }}
                 >
-                  ₹{items.product.discounted_price}
+                  ₹{items.quantity * items.product.discounted_price}
                 </span>
               </strong>
               <span
