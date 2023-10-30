@@ -10,7 +10,7 @@ import { getAllCategory } from "../../service/category.service";
 const CustomNavbar = () => {
   const userContext = useContext(UserContext);
   const {cart } = useContext(CartContext);
-  const [totalCategories, setTotalCategories] = useState(null);
+  const [ setTotalCategories] = useState(null);
 
   const getAllCategoryLocal = (pageNumber, pageSize) => {
     return getAllCategory(pageNumber, pageSize)

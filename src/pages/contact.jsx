@@ -9,7 +9,6 @@ import {
   FormLabel,
   Row,
 } from "react-bootstrap";
-import Base from "../components/user/Base";
 
 const Contact = () => {
   const contactView = () => {
