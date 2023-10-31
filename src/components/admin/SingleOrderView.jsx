@@ -5,18 +5,42 @@ import { useContext } from "react";
 import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import CardHeader from "react-bootstrap/esm/CardHeader";
+import { startPayement } from "../../service/payment";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
-    const {AdminUser} = useContext(UserContext);
+    const {AdminUser , userData} = useContext(UserContext);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const payData = {
+      orderId : '' ,
+      amount : '' ,
+      userId : ''
+    };
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     var today  = new Date();
     const formatDate = (time) =>{
         // let todaydate =  new Date(time).toLocaleDateString();
         return today.toLocaleDateString("hi-IN", options)
+    }
+
+    const startPayementLocally = (id , price)=>{
+      console.log("ok")
+      payData.orderId = id
+      payData.amount = price
+      payData.userId = userData.userDto.userId
+      console.log(payData);
+      startPayement(payData).then((resp)=>{
+        console.log(resp);
+        //we have a payment link now ;
+        if(resp.payment_url !== ''){
+          // window.open(resp.payment_url, "_blank");
+          window.location.href = resp.payment_url
+        }
+      }).catch((error)=>{
+        console.log(error);
+      })
     }
 
     const openModalPay =()=> {
@@ -77,7 +101,7 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
                 <Button variant="secondary" onClick={handleClose}>
                   Pay Later
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
+                <Button variant="primary" onClick={(event) => startPayementLocally(order.orderId , order.orderAmount)}>
                   Pay Now !!
                 </Button>
               </Modal.Footer>
