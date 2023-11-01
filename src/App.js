@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import Home from "./pages/user/Home";
+import PaymentSuccess from "./pages/user/paymentSuccess";
 import UserProvider from "./context/user.provider";
 import AdminDashboard from "./pages/admin/admin.dashboard";
 import AddProduct from "./pages/admin/add.product";
@@ -54,6 +55,7 @@ function App() {
               <Route path="home" element={<Home />} />
               <Route path="cart" element={<Cart />} />
               <Route path="orders" element={<Order/>} />
+              <Route path="payment-success/:orderId" element={<PaymentSuccess/>} />
               <Route
                 path="store/:categoryId/:title"
                 element={<CategoryViewUser />}
