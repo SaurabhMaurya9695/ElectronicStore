@@ -297,7 +297,7 @@ function Cart() {
           </Row>
         </Container>
       </div>
-      <Toaster duration="1000" />
+      <Toaster duration="5000" style={{width:"600px"}} />
     </>
   );
 }

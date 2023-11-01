@@ -1,5 +1,6 @@
+import { useState } from "react";
 import {
-    Button,
+  Button,
   Card,
   Col,
   Container,
@@ -9,11 +10,70 @@ import {
   FormLabel,
   Row,
 } from "react-bootstrap";
+import { provideFeedback } from "../service/payment";
+import toast, { Toaster } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const Contact = () => {
+  const [feedback, setFeedback] = useState({
+    subject: "",
+    message: "",
+    email: "",
+    name: "",
+  });
+
+  const sendFeedback = () => {
+    console.log(feedback);
+
+    // validations
+    if (feedback.email.trim() === "" || feedback.email === undefined) {
+      toast.error("Email Required", { position: "bottom-center" });
+      return;
+    }
+
+    if (feedback.message.trim() === "" || feedback.message === undefined) {
+      toast.error("Write some Feedback for us!!", {
+        position: "bottom-center",
+      });
+      return;
+    }
+
+    if (feedback.name.trim() === "" || feedback.name === undefined) {
+      toast.error("Name is required!!", { position: "bottom-center" });
+      return;
+    }
+    Swal.fire({
+      title: "Do you want to Send the Feedback !!",
+      showDenyButton: true,
+      confirmButtonText: "Send",
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        provideFeedback(feedback)
+          .then((resp) => {
+            console.log(resp);
+            Swal.fire("Thanks for Sending your Valuable Feedback!!");
+            setFeedback({
+              subject: "",
+              message: "",
+              email: "",
+              name: "",
+            })
+            return ;
+          })
+          .catch((error) => {
+            console.log(error);
+            Swal.fire(error.response?.data?.message );
+          });
+      }
+    });
+  };
+
   const contactView = () => {
     return (
       <>
+        <Toaster duration="5000" />
         <Container>
           <div className="ms-2 mt-3">
             <h5 style={{ fontSize: "18px" }}>
@@ -57,13 +117,27 @@ const Contact = () => {
                       <FormControl
                         type="text"
                         placeholder="Write Your Name Here !!"
+                        value={feedback.name}
+                        onChange={(event) => {
+                          setFeedback({
+                            ...feedback,
+                            name: event.target.value,
+                          });
+                        }}
                       ></FormControl>
                     </FormGroup>
                     <FormGroup>
                       <FormLabel>Your email </FormLabel>
                       <FormControl
                         type="email"
-                        placeholder="Write Your email Here !!"
+                        placeholder="Write Your Correct Email In Order To Connect With Us!!"
+                        value={feedback.email}
+                        onChange={(event) => {
+                          setFeedback({
+                            ...feedback,
+                            email: event.target.value,
+                          });
+                        }}
                       ></FormControl>
                     </FormGroup>
                     <FormGroup>
@@ -72,11 +146,23 @@ const Contact = () => {
                         as={`textarea`}
                         rows={4}
                         placeholder="Write Your msg Here !!"
+                        value={feedback.message}
+                        onChange={(event) => {
+                          setFeedback({
+                            ...feedback,
+                            message: event.target.value,
+                          });
+                        }}
                       ></FormControl>
                     </FormGroup>
                   </Form>
                   <Container className="text-center mt-2">
-                    <Button variant="danger">Send Your Feedback</Button>
+                    <Button
+                      variant="danger"
+                      onClick={(event) => sendFeedback()}
+                    >
+                      Send Your Feedback
+                    </Button>
                   </Container>
                 </Card.Body>
               </Card>

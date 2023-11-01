@@ -11,3 +11,9 @@ export const successfulPayment = (payment_id, orderId) => {
     )
     .then((resp) => resp.data);
 };
+
+
+export const provideFeedback = (data)=>{
+  console.log(data);
+  return privateAxios.post(`/mail/sendMail` , data).then(resp => resp.data);
+}
