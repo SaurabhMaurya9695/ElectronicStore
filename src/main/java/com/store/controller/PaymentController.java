@@ -133,7 +133,7 @@ public class PaymentController {
 		RazorpayClient razorpay = new RazorpayClient(RZP_KEY_ID, RZP_KEY_SECRET);
 		
 		Payment payment = razorpay.payments.fetch(payment_Id);
-		if(payment.get("Status").equals("capture")) {
+		if(payment.get("Status").equals("captured")) {
 			order.setOrderStatus("DISPATCHED");
 			order.setPayementStatus("PAID");
 			this.orderRepository.save(order);
