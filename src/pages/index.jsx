@@ -4,6 +4,7 @@ import Base from "../components/user/Base";
 import { useEffect, useState } from "react";
 import { getAllproduct, searchProducts } from "../service/product.service";
 import SingleProductCard from "../components/user/SingleProductCard";
+import Contact from "./contact";
 
 function Index() {
   const [products, setProducts] = useState([]);
@@ -145,6 +146,9 @@ function Index() {
         </Row>
         <Row>
           <Col>{bestPhones()}</Col>
+        </Row>
+        <Row>
+          <Col className="mb-5">{<Contact />}</Col>
         </Row>
       </Container>
     </Base>

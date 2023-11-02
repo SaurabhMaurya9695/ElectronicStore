@@ -109,10 +109,10 @@ const Contact = () => {
                 offset: 3,
               }}
             >
-              <Card className="shadow-sm border-0">
+              <Card className="shadow-sm border-0 mt-5">
                 <Card.Body>
                   <Form>
-                    <FormGroup>
+                    <FormGroup  className="mt-3">
                       <FormLabel>Your Name </FormLabel>
                       <FormControl
                         type="text"
@@ -125,8 +125,8 @@ const Contact = () => {
                           });
                         }}
                       ></FormControl>
-                    </FormGroup>
-                    <FormGroup>
+                    </FormGroup >
+                    <FormGroup className="mt-3">
                       <FormLabel>Your email </FormLabel>
                       <FormControl
                         type="email"
@@ -140,7 +140,7 @@ const Contact = () => {
                         }}
                       ></FormControl>
                     </FormGroup>
-                    <FormGroup>
+                    <FormGroup className="mt-3">
                       <FormLabel>Your Feedback </FormLabel>
                       <FormControl
                         as={`textarea`}

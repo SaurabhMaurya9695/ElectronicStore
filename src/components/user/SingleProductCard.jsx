@@ -12,7 +12,7 @@ const SingleProductCard = ({ product }) => {
   };
 
   return (
-    <Card className="m-1 shadow-sm border-0">
+    <Card className="m-1 shadow-lg border-0 ">
       <Card.Body>
         <Container className="text-center">
           <img
