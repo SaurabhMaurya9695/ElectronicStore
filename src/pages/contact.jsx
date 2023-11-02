@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 
 const Contact = () => {
   const [feedback, setFeedback] = useState({
-    subject: "",
+    subject: "Feedback From",
     message: "",
     email: "",
     name: "",

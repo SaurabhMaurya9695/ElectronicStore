@@ -49,3 +49,16 @@ export const searchUser = (keyWord) => {
 export const searchUserWithEmail = (email) => {
   return privateAxios.get(`/users/email/${email}`).then((resp) => resp.data);
 };
+
+
+export const sendForgetPasswordOtp = (email) =>{
+  return publicAxios.post(`/forget/send-otp?email=${email}`).then(resp => resp.data);
+}
+
+export const verifyOtpServerSide = (otp) =>{
+  return publicAxios.post(`/forget/verify-otp?otp=${otp}`).then(resp => resp.data);
+}
+
+export const resetPasswordServerSide = (password) =>{
+  return publicAxios.put(`/forget/reset-password?key=${password}` , password).then(resp => resp.data);
+}

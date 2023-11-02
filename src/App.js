@@ -29,6 +29,9 @@ import StorePage from "./pages/user/storePage";
 import ProductView from "./pages/user/productView";
 import CategoryViewUser from "./pages/user/categoryView";
 import CartProvider from "./context/cart.provider";
+import ForgetPassword from "./pages/forgetPassword";
+import VerifyPassword from "./pages/verifyPassword";
+import ResetPassword from "./pages/resetPassword";
 
 function App() {
   return (
@@ -46,6 +49,9 @@ function App() {
             <Route path="/service" element={<Service />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/forget" element={<ForgetPassword />} />
+            <Route path="/verify-otp" element={<VerifyPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="store/product/:pId" element={<ProductView />} />
