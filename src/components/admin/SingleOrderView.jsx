@@ -8,7 +8,7 @@ import CardHeader from "react-bootstrap/esm/CardHeader";
 import { startPayement } from "../../service/payment";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
-    const {AdminUser , userData} = useContext(UserContext);
+    const { userData} = useContext(UserContext);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

@@ -32,11 +32,12 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const imageName =
-    user.image === undefined || user.image === null || IMAGE == null
-      ? user.gender === "Male"
-        ? "/assest/MaleImage.png"
-        : "/assest/FemaleImage.jpeg"
-      : IMAGE;
+  user.image.startsWith("https") ? user.image : (user.image === undefined || user.image === null || IMAGE == null
+    ? (user.gender === "Male"
+      ? "/assest/MaleImage.png"
+      : "/assest/FemaleImage.jpeg")
+    : IMAGE);
+    
   return (
     <>
       <Card className="shadow-lg border-0">
