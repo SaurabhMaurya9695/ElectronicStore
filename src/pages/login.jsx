@@ -12,13 +12,15 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Base from "../components/user/Base";
-import { LoginUser } from "../service/user.service";
-import UserContext from "../context/user.context"
-const Login = () => {
+import { LoginUser, loginWithGoogle } from "../service/user.service";
+import UserContext from "../context/user.context";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
+const Login = () => {
   const userContext = useContext(UserContext);
 
-  const redirect =useNavigate();
+  const redirect = useNavigate();
   let [data, setdata] = useState({
     email: "",
     password: "",
@@ -93,11 +95,37 @@ const Login = () => {
       });
   };
 
-  let styleButton ={
+  let styleButton = {
     backgroundColor: "#0B0C10 !important",
     borderColor: "#66fcf1 !important",
-    color : "#C5C6C7 !important",
-}
+    color: "#C5C6C7 !important",
+  };
+
+  const LoginWithGoogle = (data) => {
+    loginWithGoogle(data)
+      .then((resp) => {
+        console.log(resp);
+        setLoading(true);
+        toast.success("Logged in Successfully");
+        setError({
+          errorData: null,
+          isError: false,
+        });
+        userContext.login(resp);
+        redirect("/users/home");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data.message);
+        setError({
+          errorData: error,
+          isError: true,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
   let loginPage = () => {
     return (
       <Container>
@@ -171,6 +199,33 @@ const Login = () => {
                       {errorData.errorData?.response?.data?.password}
                     </Form.Control.Feedback> */}
                   </Form.Group>
+                  <div className="mb-4 ">
+                    <GoogleOAuthProvider
+                      style={{ marginLeft: "10px!important" }}
+                      clientId="528720129241-c7b28ovlnh0767rcnuvjhvfm6eel98si.apps.googleusercontent.com"
+                    >
+                      <GoogleLogin
+                        size={"large"}
+                        text="continue_with"
+                        logo_alignment="center"
+                        onSuccess={(credentialResponse) => {
+                          let x = jwtDecode(credentialResponse.credential);
+                          console.log(x);
+                          const data = {
+                            credential: credentialResponse.credential,
+                            name: x.name,
+                            photoUrl: x.picture,
+                          };
+                          console.log(data);
+                          // start
+                          LoginWithGoogle(data);
+                        }}
+                        onError={() => {
+                          console.log("Login Failed");
+                        }}
+                      />
+                    </GoogleOAuthProvider>
+                  </div>
                   <Container className="text-center">
                     <p>
                       Create Account !!{" "}
@@ -183,9 +238,14 @@ const Login = () => {
                   </Container>
                   <Container className="text-center">
                     <Button style={styleButton} type="submit">
-                    <Spinner animation="grow" size="sm" className="me-2" hidden={!loading}/>
-                      <span hidden={loading} >Login Here</span>
-                      <span hidden={!loading} >Wait..</span>
+                      <Spinner
+                        animation="grow"
+                        size="sm"
+                        className="me-2"
+                        hidden={!loading}
+                      />
+                      <span hidden={loading}>Login Here</span>
+                      <span hidden={!loading}>Wait..</span>
                     </Button>
                     <Button
                       style={styleButton}

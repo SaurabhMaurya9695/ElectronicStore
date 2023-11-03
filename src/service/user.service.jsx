@@ -13,6 +13,15 @@ export const LoginUser = (userData) => {
 };
 
 
+export const loginWithGoogle = (userData) => {
+  return publicAxios
+    .post(`/auth/google`, userData)
+    .then((response) => response.data);
+};
+
+
+
+
 export const getSingleUserData = (userId) =>{
   return publicAxios.get(`/users/${userId}`).then((response) => response.data);
 }
@@ -62,3 +71,5 @@ export const verifyOtpServerSide = (otp) =>{
 export const resetPasswordServerSide = (password) =>{
   return publicAxios.put(`/forget/reset-password?key=${password}` , password).then(resp => resp.data);
 }
+
+
