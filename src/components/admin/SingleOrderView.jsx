@@ -192,10 +192,10 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
                     <Button onClick={(event)=>{
                         openOrderViewModel(event,order)
                     }} size="sm" variant="info">Order Details</Button>
-                    { AdminUser && 
+                    { openEditOrderModel !== null  ? 
                         <Button className="ms-2" onClick={(event)=>{
                             openEditOrderModel(event,order)
-                        }} size="sm" variant="warning">Update Order</Button>
+                        }} size="sm" variant="warning">Update Order</Button> : ''
                     }
                     { order.payementStatus !=='PAID' && 
                         <Button className="ms-2" size="sm" variant="warning" onClick={handleShow}> Pay Now </Button>

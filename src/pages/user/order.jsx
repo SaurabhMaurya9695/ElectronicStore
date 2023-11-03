@@ -194,7 +194,7 @@ const Order = () => {
             {
                 ordersData?.map((e)=>{
                     return (
-                        <SingleOrderView key={e.orderId} order={e} openOrderViewModel = {openOrderViewModel}/>
+                        <SingleOrderView key={e.orderId} order={e} openOrderViewModel = {openOrderViewModel} openEditOrderModel ={null}/>
                     )
                     
                 })
@@ -235,7 +235,7 @@ const Order = () => {
             offset:2
           }}>
             {orderView()}
-            {selectedOrdersData ?  showOrders() : emptyCartView()}
+            {ordersData ?  showOrders() : emptyCartView()}
           </Col>
         </Row>
       </Container>

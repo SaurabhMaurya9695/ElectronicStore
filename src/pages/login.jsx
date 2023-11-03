@@ -130,6 +130,12 @@ const Login = () => {
                       errorData: null,
                     })
                   }
+                  style={{
+                    width: "100%",
+                    height: "58px",
+                    fontSize: "15px",
+                    fontWeight: "10px",
+                  }}
                   dismissible
                   variant="danger"
                   show={error.isError}
