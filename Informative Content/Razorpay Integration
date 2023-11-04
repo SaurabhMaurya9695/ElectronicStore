@@ -1,0 +1,4 @@
+1 - whatever we wrote the code for razorpay integration before that one is valid when we have the developers key's .. that 
+method is not good for testing purpose .. but before in previous method user can receive sms on their gmail with proper link ..
+that one is good for production 
+2 - current method is good for both testing and production .. but in  this we are not receiving any mail
