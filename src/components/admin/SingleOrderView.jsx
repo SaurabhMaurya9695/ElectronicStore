@@ -1,5 +1,5 @@
 import { Button, Card, Col, Container, Row, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../context/user.context";
 import { useContext } from "react";
 import { useState } from 'react';
@@ -12,10 +12,11 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const redirect = useNavigate();
     const payData = {
-      orderId : '' ,
-      amount : '' ,
-      userId : ''
+      orderId : "" ,
+      amount : "" ,
+      userId : ""
     };
 
     var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -34,11 +35,41 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
       startPayement(payData).then((resp)=>{
         console.log(resp);
         //we have a payment link now ;
-        if(resp.payment_url !== ''){
-          window.open(resp.payment_url, "_blank" );
-          // window.location.href = resp.payment_url
+        if (resp.status === "created") {
+          const options = {
+            key: "rzp_test_9q3lfQjjyHNFa8", // Enter the Key ID generated from the Dashboard
+            amount: resp.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "Aapki Dukkan",
+            description: "This is for Testing The Transaction",
+            order_id: resp.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: function (response) {
+              redirect(
+                `/users/payment-success/${payData.orderId}?razorpay_payment_id=${response.razorpay_payment_id}&razorpay_order_id=${response.razorpay_order_id}&razorpay_signature=${response.razorpay_signature}`
+              );
+            },
+            prefill: {
+              name: "",
+              email: "",
+              contact: "",
+            },
+            notes: {
+              address: "Aapki Dukkan Office",
+            },
+            theme: {
+              color: "#121212",
+            },
+          };
+
+          var rzp1 = new window.Razorpay(options);
+
+          rzp1.on("payment.failed", function (response) {
+            redirect('/users/payment-failed')
+          });
+          rzp1.open();
         }
-      }).catch((error)=>{
+      })
+      .catch((error) => {
         console.log(error);
       })
     }

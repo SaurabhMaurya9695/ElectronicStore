@@ -1,28 +1,69 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { successfulPayment } from "../../service/payment";
 import { Button, Container } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
+  const [showLoader  , setShowLoader] = useState(false);
   const obj = useParams();
   console.log(obj);
-  const payment_Id = searchParams.get("razorpay_payment_id");
-  const orderId = obj.orderId;
+  const RZP_PAYMENT_ID = searchParams.get("razorpay_payment_id");
+  const RZP_SIGNATURE_ID = searchParams.get("razorpay_signature");
+  const RZP_ORDER_ID = searchParams.get("razorpay_order_id");
+  const User_ORDERID = obj.orderId;
 
   useEffect(() => {
-    getPaymentLocal(payment_Id, orderId);
+    getPaymentLocal(
+      RZP_PAYMENT_ID,
+      RZP_SIGNATURE_ID,
+      RZP_ORDER_ID,
+      User_ORDERID
+    );
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const getPaymentLocal = (payment_Id, orderId) => {
-    successfulPayment(payment_Id, orderId)
-      .then((resp) => {
-        console.log("order details Updated");
-        return;
-      })
-      .catch((error) => {
-        console.log("some error occured");
-      });
+  const getPaymentLocal = (
+    RZP_PAYMENT_ID,
+    RZP_SIGNATURE_ID,
+    RZP_ORDER_ID,
+    User_ORDERID
+  ) => {
+    let timerInterval;
+    Swal.fire({
+      title: "Please Hold On We Are verifying Your Payment",
+      html: " We are redirecting you in <b></b> milliseconds.",
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector("b");
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        successfulPayment(
+          RZP_PAYMENT_ID,
+          RZP_SIGNATURE_ID,
+          RZP_ORDER_ID,
+          User_ORDERID
+        )
+          .then((resp) => {
+            setShowLoader(true);
+            return;
+          })
+          .catch((error) => {
+            Swal.fire("OOPS!!!!", "Payment Verification Failed", "success");
+            return;
+          });
+      }
+    });
   };
 
   const loader = () => {
@@ -58,13 +99,7 @@ const PaymentSuccess = () => {
     );
   };
 
-  return (
-    <div>
-      <h1>{searchParams.get("razorpay_payment_id")}</h1>
-      <h1>{obj.orderId}</h1>
-      {loader()}
-    </div>
-  );
+  return <div>{showLoader ? loader() : ''}</div>;
 };
 
 export default PaymentSuccess;

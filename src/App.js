@@ -32,6 +32,7 @@ import CartProvider from "./context/cart.provider";
 import ForgetPassword from "./pages/forgetPassword";
 import VerifyPassword from "./pages/verifyPassword";
 import ResetPassword from "./pages/resetPassword";
+import PaymentFailed from "./pages/user/paymentFailed";
 
 function App() {
   return (
@@ -66,6 +67,7 @@ function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="orders" element={<Order/>} />
               <Route path="payment-success/:orderId" element={<PaymentSuccess/>} />
+              <Route path="payment-failed" element={<PaymentFailed/>} />
               
             </Route>
             <Route path="/admin" element={<AdminDashboard />}>
