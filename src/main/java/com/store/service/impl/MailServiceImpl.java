@@ -37,6 +37,7 @@ public class MailServiceImpl implements MailService {
 		String msg = "<h2>" + mailData.getMessage() + "<h2>" ;
 		message.setText(msg, true);
 		message.setTo(mailData.getEmail());
+		message.setCc(From);
 		javaMailSender.send(mimeMessage);
 
 		ApiResponseMessage responseMessage = new ApiResponseMessage("Mail Send Successfully", true, HttpStatus.OK);
