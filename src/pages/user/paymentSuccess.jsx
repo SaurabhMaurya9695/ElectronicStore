@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { successfulPayment } from "../../service/payment";
 import { Button, Container } from "react-bootstrap";
 import Swal from "sweetalert2";
@@ -8,6 +8,7 @@ const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const [showLoader  , setShowLoader] = useState(false);
   const obj = useParams();
+  const redirect = useNavigate();
   console.log(obj);
   const RZP_PAYMENT_ID = searchParams.get("razorpay_payment_id");
   const RZP_SIGNATURE_ID = searchParams.get("razorpay_signature");
@@ -59,7 +60,8 @@ const PaymentSuccess = () => {
             return;
           })
           .catch((error) => {
-            Swal.fire("OOPS!!!!", "Payment Verification Failed", "success");
+            Swal.fire("OOPS!!!!", "Payment Verification Failed", "error");
+            redirect('/users/payment-failed')
             return;
           });
       }

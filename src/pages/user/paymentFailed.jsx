@@ -17,7 +17,7 @@ const PaymentFailed = () => {
                   <h6>We will reach out to you..</h6>
                   <strong>Thanks</strong>
                   <Container className="text-center mt-2">
-                    <Button variant="warning" as={Link} to={`/users/orders`}>
+                    <Button variant="warning" as={Link} to={`/users/orders`} size="sm">
                       Orders
                     </Button>
                     <Button

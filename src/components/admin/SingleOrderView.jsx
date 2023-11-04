@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import { startPayement } from "../../service/payment";
+import { toast } from "react-toastify";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
     const { userData} = useContext(UserContext);
@@ -32,6 +33,8 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
       payData.amount = price
       payData.userId = userData.userDto.userId
       console.log(payData);
+      toast.info("in UPI section use success@razorpay to make the transaction successfull" ,{position:"top-right" , draggable:true});
+      toast.info("Sended Information on the mail" ,{position:"top-left" , closeOnClick:true})
       startPayement(payData).then((resp)=>{
         console.log(resp);
         //we have a payment link now ;

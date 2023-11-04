@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 
 const Contact = () => {
   const [feedback, setFeedback] = useState({
-    subject: "Feedback From",
+    subject: "",
     message: "",
     email: "",
     name: "",
@@ -42,6 +42,7 @@ const Contact = () => {
       toast.error("Name is required!!", { position: "bottom-center" });
       return;
     }
+    feedback.subject="Feedback From";
     Swal.fire({
       title: "Do you want to Send the Feedback !!",
       showDenyButton: true,
