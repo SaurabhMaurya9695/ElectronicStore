@@ -35,8 +35,8 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
         console.log(resp);
         //we have a payment link now ;
         if(resp.payment_url !== ''){
-          // window.open(resp.payment_url, "_blank");
-          window.location.href = resp.payment_url
+          window.open(resp.payment_url, "_blank" );
+          // window.location.href = resp.payment_url
         }
       }).catch((error)=>{
         console.log(error);

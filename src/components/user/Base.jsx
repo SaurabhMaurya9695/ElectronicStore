@@ -5,7 +5,7 @@ import Footer from "./Footer"
 
 const Base =({title ="title" , discription = "this is desc" , children 
             , buttonEnable =false , buttonText = "Shop Now" , buttonType = "btn-color" 
-            , buttonLink = buttonLink
+            , buttonLink 
 })=>{
     let StyleBase = {
         background:"#0B0C10",

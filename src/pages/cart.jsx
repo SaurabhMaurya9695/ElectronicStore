@@ -91,7 +91,7 @@ function Cart() {
         minWidth: '250px',
       },
       success: {
-        duration: 2000,
+        duration: 5000,
         icon: '🎉',
       }
     }
