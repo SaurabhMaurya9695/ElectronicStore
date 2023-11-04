@@ -159,7 +159,7 @@ public class AuthController {
 	public ResponseEntity<JwtResponse> loginWithGoogle(@RequestBody Map<String, Object> data) throws IOException {
 
 		// 1 : get the idToken from request ;
-		String idToken = data.get("idToken").toString();
+		String idToken = data.get("credential").toString();
 
 		// 2 : now we have to verify with the google
 		NetHttpTransport netHttpTransport = new NetHttpTransport();

@@ -33,8 +33,8 @@ public class MailServiceImpl implements MailService {
 
 //		SimpleMailMessage message = new SimpleMailMessage() ; // this is for simple email without html msg
 		message.setFrom(From);
-		message.setSubject(mailData.getSubject() + mailData.getName());
-		String msg = "<h2>" + mailData.getMessage() + "<h2>";
+		message.setSubject(mailData.getSubject() + (mailData.getName() == null ? "" :mailData.getName() ));
+		String msg = "<h2>" + mailData.getMessage() + "<h2>" ;
 		message.setText(msg, true);
 		message.setTo(mailData.getEmail());
 		javaMailSender.send(mimeMessage);

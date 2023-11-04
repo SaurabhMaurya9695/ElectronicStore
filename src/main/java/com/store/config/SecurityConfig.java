@@ -149,7 +149,11 @@ public class SecurityConfig {
 				    "/v3/api-docs/**",
 				    "/swagger-ui/**",
 				    "/api/v1/auth/**",
-				    "/test"
+				    "/test",
+				    "/forget/send-otp",
+				    "/forget/verify-otp",
+				    "/forget/reset-password",
+				    "/mail/sendMail"
 				)
 			.permitAll()
 			.requestMatchers("/auth/login")
