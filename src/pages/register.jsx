@@ -257,7 +257,7 @@ const Register = () => {
     <Base
       title="This is Register Page "
       discription="If you have already account then click here"
-      btnlink="/login"
+      buttonLink="/login"
       buttonText="Login Here!!"
       buttonType="btn-color1"
       buttonEnable="true"

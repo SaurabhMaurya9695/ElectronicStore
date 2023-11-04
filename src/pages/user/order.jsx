@@ -228,14 +228,14 @@ const Order = () => {
 
   return ordersData && (
     <div>
-      <Container className='mt-2'>
+      <Container fluid className='mt-2'>
         <Row>
           <Col md={{
             span:8,
             offset:2
           }}>
-            {orderView()}
-            {ordersData ?  showOrders() : emptyCartView()}
+            {ordersData.length !== 0 ? orderView() : emptyCartView()}
+            {ordersData.length !== 0 ?  showOrders() : ''}
           </Col>
         </Row>
       </Container>

@@ -16,6 +16,7 @@ import { LoginUser, loginWithGoogle } from "../service/user.service";
 import UserContext from "../context/user.context";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const userContext = useContext(UserContext);
@@ -102,29 +103,52 @@ const Login = () => {
   };
 
   const LoginWithGoogle = (data) => {
-    loginWithGoogle(data)
-      .then((resp) => {
-        console.log(resp);
-        setLoading(true);
-        toast.success("Logged in Successfully");
-        setError({
-          errorData: null,
-          isError: false,
-        });
-        userContext.login(resp);
-        redirect("/users/home");
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error.response.data.message);
-        setError({
-          errorData: error,
-          isError: true,
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+
+    let timerInterval;
+    Swal.fire({
+      title: "Hold On..",
+      html: "We are redirecting you to Next Page in <b></b> milliseconds. It Might take time Please Wait",
+      timer: 5000,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+        const b = Swal.getHtmlContainer().querySelector("b");
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft();
+        }, 100);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      },
+    }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        loginWithGoogle(data)
+          .then((resp) => {
+            console.log(resp);
+            setLoading(true);
+            toast.success("Logged in Successfully" , {position:"bottom-center" , closeOnClick:true});
+            setError({
+              errorData: null,
+              isError: false,
+            });
+            userContext.login(resp);
+            redirect("/users/home");
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error(error.response.data.message , {position:"bottom-center" , closeOnClick:true});
+            setError({
+              errorData: error,
+              isError: true,
+            });
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      }
+    });
+
   };
   let loginPage = () => {
     return (
@@ -268,7 +292,7 @@ const Login = () => {
     <Base
       title="This is Login Page "
       discription="For create Account click here"
-      btnlink="/register"
+      buttonLink="/register"
       buttonText="Register Here!!"
       buttonType="btn-color1"
       buttonEnable="true"

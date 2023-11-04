@@ -133,7 +133,7 @@ function Index() {
     Click on Button for Shop"
       buttonEnable="true"
       buttonText="Go For Shop"
-      buttonLink="/"
+      buttonLink="/store"
     >
       <Container fluid>
         <Row>

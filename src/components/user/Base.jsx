@@ -5,7 +5,7 @@ import Footer from "./Footer"
 
 const Base =({title ="title" , discription = "this is desc" , children 
             , buttonEnable =false , buttonText = "Shop Now" , buttonType = "btn-color" 
-            , btnlink ="buttonlink"
+            , buttonLink = buttonLink
 })=>{
     let StyleBase = {
         background:"#0B0C10",
@@ -31,7 +31,7 @@ const Base =({title ="title" , discription = "this is desc" , children
                 <div>
                     <h3 className="text-center" style={styleTitle}>{title}</h3>
                     <p className="text-center text-desc" >{discription && discription}</p>
-                    {buttonEnable && <Button as={NavLink} to="/" style={styleButton}>{buttonText}</Button>}
+                    {buttonEnable && <Button as={NavLink} to={`${buttonLink}`} style={styleButton}>{buttonText}</Button>}
                 </div>
             </Container>
             {children}

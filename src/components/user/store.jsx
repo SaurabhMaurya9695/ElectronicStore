@@ -108,7 +108,7 @@ const Store = () => {
             {totalCategories.content.map((c) => {
               return (
                 <>
-                  <ListGroupItem as={Link} to={`/users/store/${c.categoryId}/${c.title}`} key={c.categoryId} defaultValue="">
+                  <ListGroupItem as={Link} to={`/store/${c.categoryId}/${c.title}`} key={c.categoryId} defaultValue="">
                     <img
                       src={
                         c.coverImage

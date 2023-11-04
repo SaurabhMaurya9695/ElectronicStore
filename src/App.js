@@ -55,6 +55,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="store/product/:pId" element={<ProductView />} />
+            <Route
+                path="store/:categoryId/:title"
+                element={<CategoryViewUser />}
+              />
             <Route path="/users" element={<Dashboards />}>
               <Route path="profile/:userId" element={<Profile />} />
               <Route path="about" element={<About />} />
@@ -62,10 +66,7 @@ function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="orders" element={<Order/>} />
               <Route path="payment-success/:orderId" element={<PaymentSuccess/>} />
-              <Route
-                path="store/:categoryId/:title"
-                element={<CategoryViewUser />}
-              />
+              
             </Route>
             <Route path="/admin" element={<AdminDashboard />}>
               <Route path="add-product" element={<AddProduct />} />

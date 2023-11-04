@@ -91,7 +91,7 @@ function CategoryViewUser() {
           <Card className="shadow-sm border-0">
             <Card.Body>
               <h5>Oops .. No Product Found In this Category !! </h5>
-              <Button variant="info" size="sm" as={Link} to={`/users/store`}>
+              <Button variant="info" size="sm" as={Link} to={`/store`}>
                 Go Back To Store
               </Button>
             </Card.Body>
