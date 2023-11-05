@@ -108,7 +108,7 @@ const Login = () => {
     Swal.fire({
       title: "Hold On..",
       html: "We are redirecting you to Next Page in <b></b> milliseconds. It Might take time Please Wait",
-      timer: 5000,
+      timer: 2000,
       timerProgressBar: true,
       didOpen: () => {
         Swal.showLoading();
