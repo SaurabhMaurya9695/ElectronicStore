@@ -24,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.store.dto.MailDto;
 import com.store.dto.PageableResponse;
 import com.store.dto.UserDto;
 import com.store.responsemsg.ApiResponseMessage;
 import com.store.responsemsg.ImageResponse;
 import com.store.service.FileService;
+import com.store.service.MailService;
 import com.store.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
@@ -50,6 +53,9 @@ public class UserController {
 
 	@Value("${user.profile.image.path}")
 	private String imageUploadPath;
+	
+	@Autowired
+	private MailService mailService;
 
 	static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -62,9 +68,16 @@ public class UserController {
 			@ApiResponse(responseCode = "403", description = "Unauthorized / Invalid Token") })
 
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto data) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto data) throws MessagingException {
 		logger.error("data is {}", data.getName());
 		UserDto userDto = this.userService.createUser(data);
+		
+		MailDto dto = new MailDto();
+		dto.setEmail(userDto.getEmail());
+		dto.setName(userDto.getName());
+		ApiResponseMessage x = mailService.sendMailFunAfterLogin(dto);
+		logger.info("{}",x.getMessage());
+		
 		return new ResponseEntity<UserDto>(userDto, HttpStatus.CREATED);
 	}
 

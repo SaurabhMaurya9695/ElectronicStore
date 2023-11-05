@@ -96,24 +96,18 @@ public class AuthController {
 			}
 	)
 	@PostMapping("/login")
-	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) throws MessagingException {
+	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
 		// now we have username and password here from jwtrequest;
 		this.doAuthenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
 
 //		if no exception came till now then now generate the token 
 		UserDetails details = userDetailsService.loadUserByUsername(jwtRequest.getEmail());
-		UserDto user = userService.getUserByEmail(jwtRequest.getEmail());
 		String token = this.jwtHelper.generateToken(details);
 
 		JwtResponse jwtResponse = new JwtResponse();
 		jwtResponse.setJwttoken(token);
 		jwtResponse.setUserDto(modelMapper.map(details, UserDto.class));
 		
-		MailDto dto = new MailDto();
-		dto.setEmail(jwtRequest.getEmail());
-		dto.setName(user.getName());
-		ApiResponseMessage x = mailService.sendMailFunAfterLogin(dto);
-		log.info("Login Sucessfully {}",x.getMessage());
 
 		return new ResponseEntity<JwtResponse>(jwtResponse, HttpStatus.OK);
 
@@ -201,6 +195,12 @@ public class AuthController {
 			log.info("Creating new User because user is null");
 			//save user
 			user = this.saveUser(userEmail ,  data.get("name").toString() , data.get("photoUrl").toString());
+			// if user is creating account then we have to send mail .
+			MailDto dto = new MailDto();
+			dto.setEmail(userEmail);
+			dto.setName(data.get("name").toString());
+			ApiResponseMessage resp= mailService.sendMailFunAfterLogin(dto);
+			log.info("{}",resp.getMessage());
 			
 		}
 		else {
