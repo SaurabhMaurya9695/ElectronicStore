@@ -180,3 +180,39 @@ body{
   padding: 0;
   margin-left: 17% !important;
 }
+
+
+
+.main {
+  color: #fff;
+  text-align: center;
+  margin-top: 0px;
+  animation: fade-in 0.4s 0.1s backwards;
+  
+}
+
+.heading {
+  color:#353535;
+  font-size: 50px;
+  font-weight : 700;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 25px;
+  line-height: 0.9;
+}
+.text {
+  color: #055970;
+  max-width: 630px;
+  font-size: 25px;
+  line-height: 1.4;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.7;
+  
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #0773cb;
+}
