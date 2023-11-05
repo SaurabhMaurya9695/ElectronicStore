@@ -33,8 +33,64 @@ import ForgetPassword from "./pages/forgetPassword";
 import VerifyPassword from "./pages/verifyPassword";
 import ResetPassword from "./pages/resetPassword";
 import PaymentFailed from "./pages/user/paymentFailed";
+import Loader from "./pages/loader";
+import { useEffect, useState } from "react";
+import { privateAxios, publicAxios } from "./service/axios.service";
+import LinearIndeterminate from "./components/LinearIndeterminate";
+
 
 function App() {
+
+  const [showLoader , setShowLoader] = useState(false);
+
+  useEffect(()=>{
+    // we have to show before every request and disable after every request end
+    // for request
+    privateAxios.interceptors.request.use(
+      (config)=>{
+        setShowLoader(true);
+        return config;
+      },
+      (error)=>{
+        return Promise.reject(error);
+      }
+    );
+
+    // for response
+    privateAxios.interceptors.response.use(
+      (config)=>{
+        setShowLoader(false);
+        return config;
+      },
+      (error)=>{
+        return Promise.reject(error);
+      }
+    );
+
+
+    // ````````````````````````````````````````````````````````````````
+    publicAxios.interceptors.request.use(
+      (config)=>{
+        setShowLoader(true);
+        return config;
+      },
+      (error)=>{
+        return Promise.reject(error);
+      }
+    );
+
+    // for response
+    publicAxios.interceptors.response.use(
+      (config)=>{
+        setShowLoader(false);
+        return config;
+      },
+      (error)=>{
+        return Promise.reject(error);
+      }
+    );
+  },[])
+
   return (
     <UserProvider>
       {/* below this all are the childrens of userprovider */}
@@ -42,6 +98,8 @@ function App() {
         <BrowserRouter>
           <ToastContainer />
           <CustomNavbar />
+          <LinearIndeterminate show={showLoader} />
+          <Loader show={showLoader}/>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/logout" element={<Logout />} />
