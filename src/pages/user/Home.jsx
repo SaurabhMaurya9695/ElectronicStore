@@ -4,10 +4,6 @@ import {
   Button,
   Col,
   Container,
-  Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
   Row,
 } from "react-bootstrap";
 import WelcomePage from "../../components/WelcomePage";
