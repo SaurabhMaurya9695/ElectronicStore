@@ -31,15 +31,19 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.store.dto.JwtRequest;
 import com.store.dto.JwtResponse;
+import com.store.dto.MailDto;
 import com.store.dto.UserDto;
 import com.store.entities.User;
 import com.store.exceptions.BadApiRequestException;
+import com.store.responsemsg.ApiResponseMessage;
 import com.store.security.JwtHelper;
+import com.store.service.MailService;
 import com.store.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.mail.MessagingException;
 
 @RestController
 @RequestMapping("/auth")
@@ -51,6 +55,9 @@ public class AuthController {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private MailService mailService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -89,17 +96,24 @@ public class AuthController {
 			}
 	)
 	@PostMapping("/login")
-	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
+	public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) throws MessagingException {
 		// now we have username and password here from jwtrequest;
 		this.doAuthenticate(jwtRequest.getEmail(), jwtRequest.getPassword());
 
 //		if no exception came till now then now generate the token 
 		UserDetails details = userDetailsService.loadUserByUsername(jwtRequest.getEmail());
+		UserDto user = userService.getUserByEmail(jwtRequest.getEmail());
 		String token = this.jwtHelper.generateToken(details);
 
 		JwtResponse jwtResponse = new JwtResponse();
 		jwtResponse.setJwttoken(token);
 		jwtResponse.setUserDto(modelMapper.map(details, UserDto.class));
+		
+		MailDto dto = new MailDto();
+		dto.setEmail(jwtRequest.getEmail());
+		dto.setName(user.getName());
+		ApiResponseMessage x = mailService.sendMailFunAfterLogin(dto);
+		log.info("Login Sucessfully {}",x.getMessage());
 
 		return new ResponseEntity<JwtResponse>(jwtResponse, HttpStatus.OK);
 
@@ -156,7 +170,7 @@ public class AuthController {
 			}
 	)
 	@PostMapping("/google")
-	public ResponseEntity<JwtResponse> loginWithGoogle(@RequestBody Map<String, Object> data) throws IOException {
+	public ResponseEntity<JwtResponse> loginWithGoogle(@RequestBody Map<String, Object> data) throws IOException, MessagingException {
 
 		// 1 : get the idToken from request ;
 		String idToken = data.get("credential").toString();

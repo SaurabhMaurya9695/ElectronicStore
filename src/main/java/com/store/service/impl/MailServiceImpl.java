@@ -34,7 +34,42 @@ public class MailServiceImpl implements MailService {
 //		SimpleMailMessage message = new SimpleMailMessage() ; // this is for simple email without html msg
 		message.setFrom(From);
 		message.setSubject(mailData.getSubject() + (mailData.getName() == null ? "" :mailData.getName() ));
-		String msg = "<h2>" + mailData.getMessage() + "<h2>" ;
+		String msg ="<h2>" + mailData.getMessage() + "<h2>" ;
+		message.setText(msg, true);
+		message.setTo(mailData.getEmail());
+		message.setCc(From);
+		javaMailSender.send(mimeMessage);
+
+		ApiResponseMessage responseMessage = new ApiResponseMessage("Mail Send Successfully", true, HttpStatus.OK);
+		return responseMessage;
+
+	}
+	
+	@Override
+	public ApiResponseMessage sendMailFunAfterLogin(MailDto mailData) throws MessagingException {
+
+		// add 2 lines below for html msg
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "utf-8");
+
+//		SimpleMailMessage message = new SimpleMailMessage() ; // this is for simple email without html msg
+		message.setFrom(From);
+		message.setSubject("Welcome to Aapki Dukaan");
+		String x = "We are excited to have to here.Thank you for joining."+"<br/>"
+				+ "If you feel any doubts , don't hesitate to reach out to us .";
+		String name = "Hi " +  mailData.getName();
+		String msg = " <div style='max-width:500px; margin:auto;'> " + 
+						"<h2>" + name + "</h2>" + 
+						"<p>" + x  + "<br/>"+
+							"<div style='margin-top:20px; margin-left:8rem;'> " +
+								"<a href='/contact' target=''>"+
+								"<button>" + "Contact Us!!" + "</button>" + 
+								"</a>" +
+							"</div>" +								
+						"</p>" +
+						"<b>" + "Cheers ," + "<br/>" + "Thanks" + "</b>" +
+					"</div>";	
+				;
 		message.setText(msg, true);
 		message.setTo(mailData.getEmail());
 		message.setCc(From);
