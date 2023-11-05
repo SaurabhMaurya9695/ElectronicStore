@@ -8,8 +8,9 @@ export const getAllOrders = async (pageNumber , pageSize , sortBy , sortDir) => 
 };
 
 // deleteOrder
-export const deleteOrder = (orderId) => {
-  return privateAxios.delete(`/order/${orderId}`).then((resp) => resp.data);
+export const deleteOrder = async(orderId) => {
+  let response = await privateAxios.delete(`/order/${orderId}`);
+  return response.data;
 };
 
 // UpdateOrder

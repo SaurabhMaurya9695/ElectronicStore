@@ -7,9 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 import CardHeader from "react-bootstrap/esm/CardHeader";
 import { startPayement } from "../../service/payment";
 import { toast } from "react-toastify";
+import { deleteOrder } from "../../service/order.service";
 
 const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
-    const { userData} = useContext(UserContext);
+    const { userData , AdminUser} = useContext(UserContext);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -143,18 +144,36 @@ const SingleOrderView =({order , openOrderViewModel , openEditOrderModel})=>{
           </>
         );
     }
+
+    const deleteSingleOrder = async(OID) =>{
+      try{
+        let resp = await deleteOrder(OID);
+        console.log(resp);
+        window.location.reload();
+        return ;
+      }
+      catch(error){
+        console.log(error);
+        return ;
+      }
+    }
     return (<>
         <Card className="border border-o shadow-sm mb-3 mx-2">
             <Card.Body >
                 <Row>
-                    <Col>
+                    <Col md={{span:5}}>
                         <b>Order id : </b> {order.orderId}
                     </Col>
-                    <Col >
+                    <Col md={{span:5}}>
                         <b>Ordered By : </b> <Link style={{
                             textDecoration: "none",
                             color: "grey"
                         }} to={`/users/profile/${order.user.userId}`}>{order.user.name}</Link>
+                    </Col>
+                    <Col>
+                    <Button variant="danger" size="sm" hidden={!AdminUser}
+                    onClick={(event => deleteSingleOrder(order.orderId))}> Delete
+                    </Button>
                     </Col>
                 </Row>
                 <Row className="mt-4">
