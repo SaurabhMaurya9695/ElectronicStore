@@ -52,6 +52,13 @@ const SingleCartItemView = ({ items , orderPlacedClicked }) => {
     }})
   }
 
+  const getDiscount = () =>{
+    let price = items.product.price * items.quantity ;
+    let disc = items.quantity * items.product.discounted_price;
+    let x = (disc / price) * 100;
+    return Math.round(x) ;
+  }
+
   return (
     <div>
       <Card className="mt-2 shadow-sm border-0">
@@ -116,7 +123,7 @@ const SingleCartItemView = ({ items , orderPlacedClicked }) => {
                 className="ms-2"
                 style={{ fontWeight: "800", color: "#388e3c" }}
               >
-                28% Off 6 offers applied
+                {getDiscount()} % Off 6 offers applied
               </span>
             </Col>
             <Col
