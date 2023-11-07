@@ -83,11 +83,11 @@ const ProductView = () => {
                           <span className="text-muted ms-2">2,445 ratings and 510 reviews</span>
                         </div>
                         <p className="mt-3">
-                          <b>Bank Offer10% off on Kotak Bank Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C </b>
+                          <b>Bank Offer 10% off on Kotak Bank Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C </b>
                           <br/>
-                          <b>Bank Offer10% off on RBL Bank Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C</b>
+                          <b>Bank Offer 10% off on RBL Bank Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C</b>
                           <br/>
-                          <b>Bank Offer10% off on SBI Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C</b>
+                          <b>Bank Offer 10% off on SBI Credit Card, up to ₹1250 on orders of ₹5,000 and above T&C</b>
                           <br/>
                         </p>      
                         <p className="text-muted">Delivery by After 5 days of Order |<strong>Free <s>₹40</s></strong></p>

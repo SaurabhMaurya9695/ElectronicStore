@@ -69,26 +69,26 @@ function App() {
 
 
     // ````````````````````````````````````````````````````````````````
-    publicAxios.interceptors.request.use(
-      (config)=>{
-        setShowLoader(true);
-        return config;
-      },
-      (error)=>{
-        return Promise.reject(error);
-      }
-    );
+    // publicAxios.interceptors.request.use(
+    //   (config)=>{
+    //     setShowLoader(true);
+    //     return config;
+    //   },
+    //   (error)=>{
+    //     return Promise.reject(error);
+    //   }
+    // );
 
-    // for response
-    publicAxios.interceptors.response.use(
-      (config)=>{
-        setShowLoader(false);
-        return config;
-      },
-      (error)=>{
-        return Promise.reject(error);
-      }
-    );
+    // // for response
+    // publicAxios.interceptors.response.use(
+    //   (config)=>{
+    //     setShowLoader(false);
+    //     return config;
+    //   },
+    //   (error)=>{
+    //     return Promise.reject(error);
+    //   }
+    // );
   },[])
 
   return (
@@ -99,7 +99,7 @@ function App() {
           <ToastContainer />
           <CustomNavbar />
           <LinearIndeterminate show={showLoader} />
-          <Loader show={showLoader}/>
+          {/* <Loader show={showLoader}/> */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/logout" element={<Logout />} />

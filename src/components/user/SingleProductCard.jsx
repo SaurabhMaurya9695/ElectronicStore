@@ -6,13 +6,13 @@ import { getProductImage } from "../../service/helper.service";
 const SingleProductCard = ({ product }) => {
   const styleImage = {
     width: "150px",
-    height: "200px",
+    height: "180px",
     objectfit: "contain",
     marginBottom: "20px",
   };
 
   return (
-    <Card className="m-1 shadow-lg border-0 ">
+    <Card className="m-1 shadow-sm border-0 ">
       <Card.Body>
         <Container className="text-center">
           <img

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 
 const LinearIndeterminate = ({ show }) => {
-  return (
+  return show && (
     <div>
       <Box sx={{ width: "100%" }}>
         <LinearProgress hidden={!show} />
