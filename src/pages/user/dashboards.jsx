@@ -2,11 +2,12 @@ import { useContext } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { NavLink, Outlet } from "react-router-dom";
 import userContext from '../../context/user.context'
+import useIsJwtExpired from "../../hooks/useIsJwtExpired";
 
 const Dashboards = () => {
 
   const context = useContext(userContext);
-
+  useIsJwtExpired();
   
   const dashboardView = () => {
     return (<div>

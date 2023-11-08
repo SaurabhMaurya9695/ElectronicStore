@@ -35,7 +35,7 @@ import ResetPassword from "./pages/resetPassword";
 import PaymentFailed from "./pages/user/paymentFailed";
 import LinearIndeterminate from "./components/LinearIndeterminate";
 import useLoader from "./hooks/useLoader";
-
+import Loader from "./pages/loader"
 
 function App() {
 
@@ -49,7 +49,7 @@ function App() {
           <ToastContainer />
           <CustomNavbar />
           <LinearIndeterminate show={showLoader} />
-          {/* <Loader show={showLoader}/> */}
+          <Loader show={showLoader}/>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/logout" element={<Logout />} />

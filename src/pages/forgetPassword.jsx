@@ -23,10 +23,8 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
   const [color, setColor] = useState(null);
-
-  const EMAIL_REGEX = new RegExp(
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,6}))$/
-  );
+// eslint-disable-line react-hooks/exhaustive-deps
+  const EMAIL_REGEX = new RegExp(/^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$/); 
 
   const sendOtp = () => {
     console.log(forgetEmail);

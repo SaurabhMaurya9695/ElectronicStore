@@ -2,8 +2,10 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import { NavLink, Outlet } from "react-router-dom";
 import { isAdminUser } from "../../auth/helper.auth";
 import SideMenu from "../../components/admin/SideMenu";
+import useIsJwtExpired from "../../hooks/useIsJwtExpired";
 
 const AdminDashboard = () => {
+  useIsJwtExpired();
   const dashView = () => {
     return (
       <div>
