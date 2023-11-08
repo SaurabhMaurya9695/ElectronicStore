@@ -32,6 +32,7 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const imageName =
+  // console.log(user.image);
   user.image.startsWith("https") ? user.image : (user.image === undefined || user.image === null || IMAGE == null
     ? (user.gender === "Male"
       ? "/assest/MaleImage.png"
@@ -43,7 +44,7 @@ const UserProfileView = ({ user = null, handleShowModel }) => {
       <Card className="shadow-lg border-0">
         <Card.Body className=" text-center fw-bold text-primary ">
           <Container className="mb-3">
-            <img src={imageName} alt="Profile" style={profileStyle}></img>
+            <img src={imageName} alt="/assest/defaultProfile.jpeg" style={profileStyle}></img>
           </Container>
           <h2 className="text-uppercase">{user.name}</h2>
           <div className="mt-3">

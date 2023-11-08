@@ -42,26 +42,26 @@ const CustomNavbar = () => {
             </Nav.Link> */}
           </Nav>
           <Nav>
-            <Nav.Link as={NavLink} to="/users/cart">
-              Cart {userContext.isLogin  && '('+(cart && cart.cartItems?.length)+')'}
-            </Nav.Link>
-            <Nav.Link as={NavLink} to="/contact" className="text-end">
-              Contact Us
-            </Nav.Link>
             {userContext.isLogin ? (
               <>
+              <Nav.Link as={NavLink} to="/users/cart">
+                Cart {userContext.isLogin  && '('+(cart && cart.cartItems?.length)+')'}
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/contact" className="text-end">
+                Contact Us
+              </Nav.Link>
                 <Nav.Link as={NavLink} to="/users/orders">
                     Orders
                 </Nav.Link>
                 <Nav.Link as={NavLink} to="/store">
                     Store
                 </Nav.Link>
-                ({userContext.AdminUser ? 
-                  (<>
+                {userContext.AdminUser ? 
+                  <>
                 <Nav.Link as={NavLink} to="/admin/home">
                     AdminHome
-                  </Nav.Link></>) : undefined
-                })
+                  </Nav.Link></> : undefined
+                }
                 <Nav.Link  as={NavLink} to={`/users/profile/${userContext?.userData?.userDto?.userId}`}>
                   {userContext?.userData?.userDto?.name}
                 </Nav.Link>
@@ -71,6 +71,12 @@ const CustomNavbar = () => {
               </>
             ) : (
               <>
+              <Nav.Link as={NavLink} to="/users/cart">
+                Cart {userContext.isLogin  && '('+(cart && cart.cartItems?.length)+')'}
+              </Nav.Link>
+              <Nav.Link as={NavLink} to="/contact" className="text-end">
+                Contact Us
+              </Nav.Link>
                 <Nav.Link as={NavLink} to="/users/orders">
                     Orders
                 </Nav.Link>

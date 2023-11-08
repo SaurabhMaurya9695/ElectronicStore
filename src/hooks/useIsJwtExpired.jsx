@@ -12,16 +12,20 @@ const useIsJwtExpired = () => {
 
   try {
     useEffect(() => {
-      if (isJwtExpired(token)) {
-        // token exipred
-        setExpired(true);
-        console.log("Token Expired !!");
-        toast.warning("Session Expired !! .. Login Again");
-        logout();
-        navigate("/logout");
-        return;
-      } else {
-        console.log("Token Expired Soon ");
+      try {
+        if (isJwtExpired(token)) {
+          // token exipred
+          setExpired(true);
+          console.log("Token Expired !!");
+          toast.warning("Session Expired !! .. Login Again");
+          logout();
+          navigate("/logout");
+          return;
+        } else {
+          console.log("Token Expired Soon ");
+        }
+      } catch (error) {
+        console.log(error);
       }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
   } catch (error) {
