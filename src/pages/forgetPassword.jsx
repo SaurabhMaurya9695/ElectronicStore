@@ -12,6 +12,7 @@ import {
 } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import { sendForgetPasswordOtp } from "../service/user.service";
+import * as EmailValidator from 'email-validator';
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
@@ -58,6 +59,10 @@ const ForgetPassword = () => {
     }).then((result) => {
       /* Read more about handling dismissals below */
       if (result.dismiss === Swal.DismissReason.timer) {
+        if(EmailValidator.validate(forgetEmail.email) === false){
+          Swal.fire("OOPS!!" , "Email not valid!!.." , 'error');
+          return;
+        }
         sendForgetPasswordOtp(forgetEmail.email)
           .then((resp) => {
             console.log(resp);

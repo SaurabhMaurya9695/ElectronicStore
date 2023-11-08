@@ -13,6 +13,7 @@ import {
 import { provideFeedback } from "../service/payment";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
+import * as EmailValidator from 'email-validator';
 
 const Contact = () => {
   const [feedback, setFeedback] = useState({
@@ -51,6 +52,11 @@ const Contact = () => {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
+        console.log(EmailValidator.validate(feedback.email)) // true
+        if(EmailValidator.validate(feedback.email) === false){
+          Swal.fire("OOPS!!" , "Email not valid!!.." , 'error');
+          return;
+        }
         provideFeedback(feedback)
           .then((resp) => {
             console.log(resp);
