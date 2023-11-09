@@ -49,7 +49,7 @@ function App() {
           <ToastContainer />
           <CustomNavbar />
           <LinearIndeterminate show={showLoader} />
-          <Loader show={showLoader}/>
+          {/* <Loader show={showLoader}/> */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/logout" element={<Logout />} />
