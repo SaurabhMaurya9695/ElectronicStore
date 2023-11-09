@@ -1,0 +1,31 @@
+Deploy spring boot application with react/angular 
+1- create an account on AWS 
+2 - create a ec2 instance of Ubuntu
+3 - generate elastic ip 
+4 - connect with your ec2 instance 
+5 - run these commands
+    5.1 - apt update 
+    5.2 - apt install mysql 
+    5.3 - search Java in Ubuntu 
+             Then install special
+             version that youwant .
+   5.4 - if Java installed correctly then create a jar of your spring boot application from file zilla
+   5.5 - before sending jar make sure you created a db with full authority
+      A - create user 'nameofuser'@'%' identified by 'yourPassword'
+      B - 2 - grant all privileges  on *.* to 'aapkiDukaanuser'@'%'  with grant option
+       C - 3 : flush privileges ;
+
+5.6 - connect your local mysqlworkbench with this db 
+5.7 then Deploy jar
+5.8 - execute command for jar with --spirng.profile.active = prod/ dev
+5.9 - your project is up and running check in chrome 
+Make sure you added this in security bound rules
+6.0 - deploy your react app..now
+6.1 - npm run build to deploy the app
+6.2 - all the files except node folder in dist send files on Ubuntu via filezilla 
+6.3 - then create a server.js file to start the application
+6.4 - before installing run npm I express
+6.5 then npm start 
+6.6 then install pm2 which helps us to run automatically
+6.7 make sure before all options give all the folder full authority
+chmod  777 -R *
