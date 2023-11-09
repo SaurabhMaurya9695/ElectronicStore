@@ -35,7 +35,7 @@ import ResetPassword from "./pages/resetPassword";
 import PaymentFailed from "./pages/user/paymentFailed";
 import LinearIndeterminate from "./components/LinearIndeterminate";
 import useLoader from "./hooks/useLoader";
-import Loader from "./pages/loader"
+
 
 function App() {
 
