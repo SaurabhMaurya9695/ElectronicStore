@@ -28,6 +28,9 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 	
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder ;
 	
 	@Autowired
 	private UserRepository userRepository ;
@@ -67,7 +70,7 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 			user.setGender("Male");
 			user.setImage("x.png");
 			user.setName("Saurabh Maurya");
-			user.setPassword("263396e9-a95e-4fc7-a2f1-1b7f3d9c4880");
+			user.setPassword(passwordEncoder.encode("Saurabh"));
 			user.setRoles(Set.of(admin_role ,normal_role));
 			user.setUserId(UUID.randomUUID().toString());
 			
@@ -77,7 +80,7 @@ public class ElectronicStoreApplication implements CommandLineRunner{
 			user1.setGender("Male");
 			user1.setImage("x.png");
 			user1.setName("Yash Maurya");
-			user1.setPassword("53e3f852-5fa5-4cb2-8369-c77352a9e86a");
+			user1.setPassword(passwordEncoder.encode("Yash"));
 			user1.setRoles(Set.of(normal_role));
 			user1.setUserId(UUID.randomUUID().toString());
 			

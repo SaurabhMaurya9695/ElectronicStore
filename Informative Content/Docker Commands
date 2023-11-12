@@ -21,16 +21,33 @@ information of the container
 15 : "docker build -t "Imagename" to build the imgae
 
 
-------------------------------------
-1 : docker run -d --name mysqldb -p 3308:3306 -e MYSQL_ROOT_PASSWORD=Saurabh@123 -e MYSQL_DATABASE=electronicStore mysql
+------------------------------------------------------------------------------------------------------------
+1 : docker run -d --name mysqldb -p 3308:3306 --net bootApp  -e MYSQL_ROOT_PASSWORD=Saurabh@123 -e MYSQL_DATABASE=electronicStore mysql
+
 2 : jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/electronicStore 
+
 3 : step 2 defines passing data from env varibles
-docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 electronic PORT=3306 electronic   
+docker run -it --name store -p 2024:2023 --net bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 -e MYSQL_PASSWORD=Saurabh@123  saurabh1211 
+store is the your container name
+2024 : your current hosting port of backend app
+2023 : your locally hosting port of backend app
+--net bootApp : your network name
+mysqldb : your mysql container name 
+3306 : your locally mysql port 
+Saurabh@123 : your db password for mysql container
+saurabh1211 : your image name 
+
+
+4 : check your network whether both mysql container and spring boot container is connected or not 
+
+
+
 
 //first build the project then generate the image 
 // using docker build imageName .
 // then push this image into container 
-with this docker run -it --name store -p 2024:9093 --network=bootApp -e MYSQL_HOST=mysqldb -e MYSQL_PORT=3306 ImageName PORT=3306 ImageName
+with this 
+
 
 
 

@@ -62,7 +62,7 @@ public class MailServiceImpl implements MailService {
 						"<h2>" + name + "</h2>" + 
 						"<p>" + x  + "<br/>"+
 							"<div style='margin-top:20px; margin-left:8rem;'> " +
-								"<a href='/contact' target=''>"+
+								"<a href='http://13.50.228.33:3000/contact' target=''>"+
 								"<button>" + "Contact Us!!" + "</button>" + 
 								"</a>" +
 							"</div>" +								
