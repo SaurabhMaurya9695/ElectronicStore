@@ -25,11 +25,11 @@ const Home = () => {
         <Container className="text-center mt-5 p-4">
           <Row>
             <Col md={{ span: 6, offset: 3 }}>
-              <main class="main">
-                <h1 class="heading">
+              <main className="main">
+                <h1 className="heading">
                   Find and order your product from anywhere
                 </h1>
-                <p class="text">
+                <p className="text">
                   Search through hundreds of category to find your next product.
                   Get your product now.
                 </p>

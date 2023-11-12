@@ -1,31 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
 import CartContext from "../../context/cart.context";
 import UserContext from "../../context/user.context";
-import { getAllCategory } from "../../service/category.service";
 
 const CustomNavbar = () => {
   const userContext = useContext(UserContext);
   const {cart } = useContext(CartContext);
-  const [ setTotalCategories] = useState(null);
 
-  const getAllCategoryLocal = (pageNumber, pageSize) => {
-    return getAllCategory(pageNumber, pageSize)
-      .then((resp) => {
-        // console.log(resp);
-        setTotalCategories({ ...resp });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  useEffect(() => {
-    getAllCategoryLocal(0, 100000);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-navbar-color">

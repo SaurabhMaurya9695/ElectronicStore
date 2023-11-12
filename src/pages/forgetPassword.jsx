@@ -24,19 +24,10 @@ const ForgetPassword = () => {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
   const [color, setColor] = useState(null);
-// eslint-disable-line react-hooks/exhaustive-deps
-  const EMAIL_REGEX = new RegExp(/^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$/); 
+
 
   const sendOtp = () => {
     console.log(forgetEmail);
-    if (EMAIL_REGEX.test(forgetEmail.email) === false) {
-      toast.error("Invalid Email Addresss !!", {
-        position: "bottom-center",
-        duration: 5000,
-      });
-      return;
-    }
-
     setClicked(true);
     // email validation done
 

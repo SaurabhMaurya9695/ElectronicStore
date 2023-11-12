@@ -80,13 +80,14 @@ const CartProvider = ({ children }) => {
       console.log(resp);
       setCart({ ...resp });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
       setCart({ cartItems: [] });
-      toast.error("cart Not Found");
+      toast.success("Creating a cart For User");
+      return ;
     }
   };
 
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   return (
     <CartContext.Provider
