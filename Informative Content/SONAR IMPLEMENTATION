@@ -1,8 +1,8 @@
 <!-- 1 - download it from chrome 
 2 - add the jdk 17 or jdk 11 path in your env variable with name SONAR_JAVA_PATH;
-3 - then run the ./sonar.sh to show to ui 
+3 - then run (where sonardownload is present > bin> mac ) the ./sonar.sh to show to ui  
 4 - go to browser and check localhost:9000 
-5 - insert the username & password "admin" "admin"
+5 - insert the username & password "admin" "Saurabh@1234"
 6 - then add dependency of sonar and jacoco in your pom file 
 <plugin>
         <groupId>org.sonarsource.scanner.maven</groupId>
